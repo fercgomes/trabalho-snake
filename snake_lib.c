@@ -44,6 +44,10 @@
 #define X_ANCHOR 6 /* pos x da primeira opcao do menu */
 #define Y_OFFSET 3 /* espacamento das opcoes  do menu */
 
+/* MAPAS */
+#define MAPA_LINHAS 24
+#define MAPA_COLUNAS 80
+
 /* ESTRUTURAS */
 typedef struct{
   int x;

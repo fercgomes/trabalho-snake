@@ -6,7 +6,7 @@
 */
 int cria_log(char msg[]){
   FILE *log;
-  log = fopen("log.txt", "a");
+  log = fopen("log/log.txt", "a");
   fprintf(log, msg);
   fclose(log);
   return 1;

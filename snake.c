@@ -10,23 +10,36 @@
 #include "menu_creditos.c"
 #include "menu_opcoes.c"
 #include "debugger.c"
+#include "carrega-mapa.c"
 
 int main(){
-  JOGADOR jogador;
-  OPCOES opcoes;
+  JOGADOR jogador;      /* Informacoes sobre jogador */
+  OPCOES opcoes;        /* Opcoes de jogo */
+
+  int
+      nivel,          /* Nivel do jogo */
+      fim_jogo;       /* Sinalizador de estado para o fim do jogo */
+      /*
+          0 - ESC
+          1 - GANHOU
+          2 - PERDEU
+      */
+
+  /* MAPAS - 24 x 80 */
+  char                      /* Coluna extra para o \0 */
+        nivel_1[MAPA_LINHAS][MAPA_COLUNAS];
 
   strcpy(jogador.nome, "FCG");
   jogador.pontuacao = 0;
 
-  opcoes.velocidade_inicial = 5;
-  opcoes.tamanho_maximo = 50;
-  opcoes.itens_maximos = 5;
+  //carrega_opcoes(&opcoes);      /* carrega a estrutura OPCOES salva em opcoes.bin para a variavel opcoes */
+  //menu_principal(&opcoes);      /* carrega o menu principal */
 
-  carrega_opcoes(&opcoes);
-  menu_principal(&opcoes);
+  if(!carrega_mapa(nivel_1)){
+    converte_mapa(nivel_1);
+    imprime_mapa(nivel_1);
+  }
 
-  //menu_opcoes();
-
-  //debug_opcoes();
+  getch();
   return 0;
 }
