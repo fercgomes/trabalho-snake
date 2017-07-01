@@ -48,6 +48,15 @@
 #define MAPA_LINHAS 24
 #define MAPA_COLUNAS 80
 
+/*
+    Os mapas representados na matriz de string tem indices de 0-23 (Y - 24 LINHAS) e
+    0-80 (X - 81 LINHAS). Graficamente (na funcao putchxy) eles tem indices de 2 - 25 (Y)
+    e 1 - 81 (X).
+        X OFFSET -> discrepancia do eixo X
+        Y OFFSET -> discrepancia do eixo Y    */
+#define MAPA_XOFFSET 1
+#define MAPA_YOFFSET 2
+
 /* ESTRUTURAS */
 typedef struct{
   int x;
@@ -74,9 +83,10 @@ typedef struct{
 /* atributos associados a cada tipo de item do jogo
   cada tipo de item tem que ser inicializado junto com o programa */
 typedef struct{
-  int altera_pontos,
+  int altera_basepontos,
       altera_velocidade,
-      altera_nivel;
+      altera_nivel,
+      altera_tamanho;
   char corpo;
 } ATRIBUTOS;
 
