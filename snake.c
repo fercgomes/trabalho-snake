@@ -21,7 +21,7 @@ int main(){
 
   int
       nivel,          /* Nivel do jogo */
-      fim_jogo;       /* Sinalizador de estado para o fim do jogo */
+      status;       /* Sinalizador de estado para o fim do jogo */
       /*
           0 - ESC
           1 - GANHOU
@@ -69,6 +69,6 @@ int main(){
     cria_jogador(&jogador);       /* insere o nome do jogador */
     jogador.pontuacao = 0;        /* zera pontuacao */
   }
-  
+
   return 0;
 }
