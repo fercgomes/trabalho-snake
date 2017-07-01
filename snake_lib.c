@@ -162,8 +162,7 @@ char espera_tecla(int x, int y){
     carrega_opcoes:
     Carrega as opcoes o arquvo opcoes.bin para o programa.
     Retorna 1 em caso de erro na abertura do arquivo.
-    Retorna 0 em caso de sucesso na abertura do arquivo.
-*/
+    Retorna 0 em caso de sucesso na abertura do arquivo   */
 int carrega_opcoes(OPCOES *opcoes){
   FILE *arquivo;
   OPCOES buffer;
@@ -190,8 +189,7 @@ int carrega_opcoes(OPCOES *opcoes){
     salva_opcoes:
     Salva as opcoes alteradas no menu.
     Retorna 1 em caso de erro na execucao.
-    Retorna 0 em caso de sucessona execucao.
-*/
+    Retorna 0 em caso de sucessona execucao   */
 int salva_opcoes(OPCOES opcoes){
   FILE *arquivo;
   if(!(arquivo = fopen("opcoes.bin", "wb"))){
@@ -214,8 +212,7 @@ int salva_opcoes(OPCOES opcoes){
 
 /*
   opcoes_reset:
-  Reseta as opcoes do programa e salva no arquivo.
-*/
+  Reseta as opcoes do programa e salva no arquivo.    */
 int opcoes_reset(OPCOES *opcoes){
   FILE *arquivo;
   OPCOES buffer;
