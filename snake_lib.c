@@ -67,7 +67,7 @@ typedef struct{
   COORDENADA pos[MAX_SEGMENTOS];
   int direcao,
       tamanho_atual,
-      velociade_atual;
+      velocidade_atual;
   char corpo;
 } COBRA;
 
