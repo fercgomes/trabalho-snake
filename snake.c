@@ -29,6 +29,10 @@ int main(){
   JOGADOR ranking[MAX_HIGHSCORES];    /* Arranjo com os 10 High Scores que vao ser salvos no arquivo */
   OPCOES opcoes;                       /* Opcoes de jogo */
 
+  COBRA cobra;
+  TUNEL tuneis[MAX_TUNEIS];
+  ITEM itens[MAX_ITEMS];
+
   int
       nivel,          /* Nivel do jogo */
       status;       /* Sinalizador de estado para o fim do jogo */
