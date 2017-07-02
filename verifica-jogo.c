@@ -16,6 +16,10 @@
         -> continua_jogo
 */
 
+int salva_novo_ranking(JOGADOR ranking[]){
+  
+}
+
 /*
     verifica_jogo:
       Gerencia o final do jogo, quando o jogador apertou esc, ganhou ou perdeu.

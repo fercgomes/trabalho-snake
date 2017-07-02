@@ -12,6 +12,82 @@
     Enter: seleciona e ativa o modo editor
       UP DOWN: alteram valor
       Enter: salvam valor nas opcoes internas e  no arquivo
+
+    Tratamento de erros:
+      Caso o arquivo não exista, um novo é criado com valores padrao. */
+
+/*
+            OPCOES - ARQUIVOS
+*/
+
+/*
+  opcoes_reset:
+  Reseta as opcoes do programa e salva no arquivo.    */
+int opcoes_reset(OPCOES *opcoes){
+  FILE *arquivo;
+  OPCOES buffer;
+  buffer.velocidade_inicial = 1;
+  buffer.tamanho_maximo = 10;
+  buffer.itens_maximos = 1;
+  arquivo = fopen("opcoes.bin", "wb");
+  fwrite(&buffer, sizeof(OPCOES), 1, arquivo);
+  *opcoes = buffer;
+  fclose(arquivo);
+  return 0;
+}
+
+/*
+    carrega_opcoes:
+    Carrega as opcoes o arquvo opcoes.bin para o programa.
+    Retorna 1 em caso de erro na abertura do arquivo.
+    Retorna 0 em caso de sucesso na abertura do arquivo   */
+int carrega_opcoes(OPCOES *opcoes){
+  FILE *arquivo;
+  OPCOES buffer;
+  if(!(arquivo = fopen("opcoes.bin", "rb"))){
+    printf("Erro ao abrir o arquivo opcoes.bin\nO jogo sera fechado, pressione qualquer tecla para continuar...");
+    espera_tecla(1, 3);
+    opcoes_reset(opcoes);
+    return 1; /* retorna erro para main */
+  }
+  else{
+    if(!(fread(&buffer, sizeof(OPCOES), 1, arquivo))){
+      printf("Erro ao ler o arquivo opcoes.bin\nO jogo sera fechado, pressione qualquer tecla para continuar...");
+      espera_tecla(1, 3);
+      opcoes_reset(opcoes);
+      return 1; /* retorna erro para main */
+    }
+    else *opcoes = buffer;
+  }
+  fclose(arquivo);
+  return 0; /* retorna sucesso para main */
+}
+
+/*
+    salva_opcoes:
+    Salva as opcoes alteradas no menu.
+    Retorna 1 em caso de erro na execucao.
+    Retorna 0 em caso de sucessona execucao   */
+int salva_opcoes(OPCOES opcoes){
+  FILE *arquivo;
+  if(!(arquivo = fopen("opcoes.bin", "wb"))){
+    printf("Erro ao abrir o arquivo opcoes.bin\nO jogo sera fechado, pressione qualquer tecla para continuar...");
+    espera_tecla(1, 3);
+    return 1;
+  }
+  else{
+    if(!(fwrite(&opcoes, sizeof(OPCOES), 1, arquivo))){
+      printf("Erro ao escrever no arquivo opcoes.bin\nO jogo sera fechado, pressione qualquer tecla para continuar...");
+      espera_tecla(1, 3);
+      return 1;
+    }
+  }
+  fclose(arquivo);
+  return 0;
+}
+
+/*
+              OPCOES - INTERACAO
 */
 
 /*
@@ -84,7 +160,7 @@ void imprime_cursor_OP(int cursor, int selecionado){
     opcoes_editor:
     Seleciona uma opcao do menu de opcoes, altera o valor e o salva.
 */
-int opcoes_editor(OPCOES *opcoes, int cursor){
+void opcoes_editor(OPCOES *opcoes, int cursor){
   int valor, escolhendo = 1;
   char tecla;
   imprime_valor_OP(*opcoes, cursor, 1);
@@ -131,12 +207,13 @@ int opcoes_editor(OPCOES *opcoes, int cursor){
       escolhendo = 0;
     }
   }
-  return 1;
 }
 
 /*
     menu_opcoes:
-    Retorna 1 se houve sucesso na execucao do programa.
+    Retorna
+      0 = sucesso na execucao
+      1 = erro
 */
 int menu_opcoes(OPCOES *opcoes){
   int cursor = 1,
@@ -166,9 +243,10 @@ int menu_opcoes(OPCOES *opcoes){
     else if(cursor != 4)
       opcoes_editor(opcoes, cursor);
       else{
-        escolhendo = 0;
-        salva_opcoes(*opcoes);
+        if(!salva_opcoes(*opcoes))
+          escolhendo = 0;
+        else return 1; /* envia erro de execucao para menu principal */
       }
   }
-  return 1;
+  return 0; /* envia sucesso de execucao para menu principal */
 }

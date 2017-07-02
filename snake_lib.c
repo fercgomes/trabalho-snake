@@ -139,7 +139,7 @@ void escreve_int_cor(int cor, int fundo, int n, int x, int y){
     Retorna a tecla apertada.
     Mostra animacao de barras na pos (x, y) indicada.
 */
-char espera_tecla(int x, int y){
+void espera_tecla(int x, int y){
   char retorno;
   char icone[4] = {'|', '\\', '-', '/'};
   int segue = 1, i = 0;
@@ -156,112 +156,4 @@ char espera_tecla(int x, int y){
     }
     Sleep(100);
   }
-}
-
-/*
-    carrega_opcoes:
-    Carrega as opcoes o arquvo opcoes.bin para o programa.
-    Retorna 1 em caso de erro na abertura do arquivo.
-    Retorna 0 em caso de sucesso na abertura do arquivo   */
-int carrega_opcoes(OPCOES *opcoes){
-  FILE *arquivo;
-  OPCOES buffer;
-  if(!(arquivo = fopen("opcoes.bin", "rb"))){
-    printf("Erro ao abrir o arquivo opcoes.bin\nPressione qualquer tecla para continuar...");
-    cria_log("Erro ao abrir o arquivo opcoes.bin\n");
-    espera_tecla(1, 3);
-    return 1;
-  }
-  else{
-    if(!(fread(&buffer, sizeof(OPCOES), 1, arquivo))){
-      printf("Erro ao ler o arquivo opcoes.bin\nPressione qualquer tecla para continuar...");
-      cria_log("Erro ao ler o arquivo opcoes.bin\n");
-      espera_tecla(1, 3);
-      return 1;
-    }
-    else *opcoes = buffer;
-  }
-  fclose(arquivo);
-  cria_log("opcoes.bin carregado com sucesso\n");
-}
-
-/*
-    salva_opcoes:
-    Salva as opcoes alteradas no menu.
-    Retorna 1 em caso de erro na execucao.
-    Retorna 0 em caso de sucessona execucao   */
-int salva_opcoes(OPCOES opcoes){
-  FILE *arquivo;
-  if(!(arquivo = fopen("opcoes.bin", "wb"))){
-    printf("Erro ao abrir o arquivo opcoes.bin\nPressione qualquer tecla para continuar...");
-    cria_log("Erro ao abrir o arquivo opcoes.bin\n");
-    espera_tecla(1, 3);
-    return 1;
-  }
-  else{
-    if(!(fwrite(&opcoes, sizeof(OPCOES), 1, arquivo))){
-      printf("Erro ao escrever no arquivo opcoes.bin\nPressione qualquer tecla para continuar...");
-      cria_log("Erro ao escrever no arquivo opcoes.bin\n");
-      espera_tecla(1, 3);
-      return 1;
-    }
-  }
-  fclose(arquivo);
-  return 0;
-}
-
-/*
-  opcoes_reset:
-  Reseta as opcoes do programa e salva no arquivo.    */
-int opcoes_reset(OPCOES *opcoes){
-  FILE *arquivo;
-  OPCOES buffer;
-  buffer.velocidade_inicial = 0;
-  buffer.tamanho_maximo = 0;
-  buffer.itens_maximos = 0;
-  if(!(arquivo = fopen("opcoes.bin", "rb"))){
-    printf("Erro ao abrir o arquivo opcoes.bin\nPressione qualquer tecla para continuar...");
-    cria_log("Erro ao abrir o arquivo opcoes.bin\n");
-    espera_tecla(1, 3);
-    return 1;
-  }
-  else{
-    if(!(fwrite(&buffer, sizeof(OPCOES), 1, arquivo))){
-      printf("Erro ao resetar o arquivo opcoes.bin\nPressione qualquer tecla para continuar...");
-      cria_log("Erro ao resetar o arquivo opcoes.bin\n");
-      espera_tecla(1, 3);
-      return 1;
-    }
-    else *opcoes = buffer;
-  }
-  fclose(arquivo);
-  return 0;
-  cria_log("opcoes.bin resetado com sucesso\n");
-}
-
-/*
-    DEBBUGING
-*/
-/*
-void debug_opcoes(){
-  clrscr();
-  FILE *arq;
-  OPCOES buffer;
-  arq = fopen("opcoes.bin", "rb");
-  fread(&buffer, sizeof(OPCOES), 1, arq);
-  printf("velocidade:%d\ntamanho maximo: %d\nitens maximos: %d", buffer.velocidade_inicial, buffer.tamanho_maximo, buffer.itens_maximos);
-}
-
-void cria_opcoes(){
-  FILE *arq;
-  OPCOES buffer;
-  buffer.velocidade_inicial = 0;
-  buffer.tamanho_maximo = 0;
-  buffer.itens_maximos = 0;
-  arq = fopen("opcoes.bin", "wb");
-  fwrite(&buffer, sizeof(OPCOES), 1, arq);
-}
-*/
-void mostra_opcoes(OPCOES opcoes){
-  printf("velocidade:%d\ntamanho maximo: %d\nitens maximos: %d", opcoes.velocidade_inicial, opcoes.tamanho_maximo, opcoes.itens_maximos);
 }

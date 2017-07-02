@@ -80,7 +80,10 @@ void imprime_cursor_MP(int cursor, int selecionado){
 /*
     menu_principal:
     Interface do menu principal do jogo
-    Retorna 1 para indicar inicio do jogo e 0 para sair do programa */
+    Retorna:
+      1 -  para indicar inicio do jogo
+      0 -  para sair do programa
+       */
 int menu_principal(OPCOES *opcoes){
   int cursor = 1,
       cursor_aux = 0,
@@ -90,6 +93,8 @@ int menu_principal(OPCOES *opcoes){
       i;
   do{
     clrscr();
+    arte_menuprincipal_1();
+    arte_menuprincipal_2();
     escolhendo = 1;
     no_menu = 1;
     /* imprime as opcoes */
@@ -116,8 +121,9 @@ int menu_principal(OPCOES *opcoes){
             escolhendo = 0;
             break;
           case 3: /* opcoes */
-            menu_opcoes(opcoes);
-            escolhendo = 0;
+            if(!menu_opcoes(opcoes))
+              escolhendo = 0; /* segue programa */
+            else return 0; /* envia sinal para terminar programa para main */
             break;
           case 4: /* creditos */
             menu_creditos();

@@ -1,3 +1,12 @@
+/*
+    ARQUIVO principal
+
+    Padrao de retorno de funcao:
+      Funcoes que tratam arquivos:
+        Retornam 0 para indicar sucesso e não-zero para indicar erro.
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +22,7 @@
 #include "carrega-mapa.c"
 #include "verifica-jogo.c"
 #include "cria-jogador.c"
+#include "arte.c"
 
 int main(){
   JOGADOR jogador;                    /* Informacoes sobre jogador atual */
@@ -64,11 +74,11 @@ int main(){
   skip.altera_tamanho = 1;
   skip.corpo = '0';
 
-  carrega_opcoes(&opcoes);        /* carrega a estrutura OPCOES salva em opcoes.bin para a variavel opcoes */
-  if(menu_principal(&opcoes)){    /* carrega o menu principal */
-    cria_jogador(&jogador);       /* insere o nome do jogador */
-    jogador.pontuacao = 0;        /* zera pontuacao */
-  }
-
+  if(!carrega_opcoes(&opcoes))        /* carrega a estrutura OPCOES salva em opcoes.bin para a variavel opcoes */
+    if(menu_principal(&opcoes)){    /* carrega o menu principal */
+      cria_jogador(&jogador);       /* insere o nome do jogador */
+      jogador.pontuacao = 0;        /* zera pontuacao */
+    }
+  debug(opcoes, jogador, ranking, nivel, status);
   return 0;
 }
