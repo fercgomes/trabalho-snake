@@ -84,7 +84,7 @@ void imprime_cursor_MP(int cursor, int selecionado){
       1 -  para indicar inicio do jogo
       0 -  para sair do programa
        */
-int menu_principal(OPCOES *opcoes){
+int menu_principal(OPCOES *opcoes, JOGADOR ranking[]){
   int cursor = 1,
       cursor_aux = 0,
       escolhendo,
@@ -117,8 +117,9 @@ int menu_principal(OPCOES *opcoes){
             status = 1;
             break;
           case 2: /* high scores */
-            menu_highscores(); /* montar retorno de erro */
-            escolhendo = 0;
+            if(!menu_highscores(ranking)) /* montar retorno de erro */
+              escolhendo = 0;
+            else return 0;
             break;
           case 3: /* opcoes */
             if(!menu_opcoes(opcoes))

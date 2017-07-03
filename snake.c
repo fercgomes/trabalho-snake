@@ -96,18 +96,24 @@ int main(){
   jogo_ativo = 1;       /* ativa o jogo */
   nivel_ativo = 1;      /* ativa os niveis */
   nivel = 1;            /* inicializa primeiro nivel */
-  cobra_vida = 1;       /* inicializa vida da cobra */
+  cobra_vida = 0;       /* inicializa vida da cobra */
   base_pontos = 0;      /* inicializa base de pontos */
+  tutorial = 0;         /* */
 
 
   if(!carrega_opcoes(&opcoes))          /* carrega a estrutura OPCOES salva em opcoes.bin para a variavel opcoes */
     /* LOOP 0 - MENU PRINCIPAL */
 
     do{
-      if(menu_principal(&opcoes)){      /* carrega o menu principal */
+      if(menu_principal(&opcoes, ranking)){      /* carrega o menu principal */
         /* inicia jogo */
-        cria_jogador(&jogador);         /* insere o nome do jogador */
+        if(!tutorial){
+          cria_jogador(&jogador);         /* insere o nome do jogador */
+          tutorial = 1;
+        }
+        else clrscr();
         jogador.pontuacao = 0;          /* zera pontuacao */
+
         /* inicializa cobra */
         zeraPosCobra(&cobra);
         cobra.tamanho_atual = TAMANHO_INICIAL;
@@ -126,7 +132,7 @@ int main(){
           cobra.direcao = iniciaMovimento();
 
           /* LOOP 2 - ENGINE */
-          while(cobra_vida){
+          while(!cobra_vida){   /* rodar enquanto for 0 */
             /* funcionamento do jogo */
 
             moveCobra(&cobra);
@@ -134,7 +140,7 @@ int main(){
 
             if(pegaTecla(&cobra)){
               /* USUARIO APERTO ESC */
-              cobra_vida = 0;
+              cobra_vida = 1;   /* Sinaliza ESC para funcao de verificacao */
               nivel_ativo = 0;
               /* VERIFICA JOGO */
             }

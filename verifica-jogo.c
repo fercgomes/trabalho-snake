@@ -5,10 +5,13 @@
 
       Nome do jogador eh inserido no inicio de jogo. Pontuacao comeca zerada.
 
-      Precisa de uma variavel sinalizadora.
-      (0) ESC - verifica score e volta pro menu
-      (1) GANHOU - mostra mensagem, verifica score e verifica se volta pro menu ou termina
-      (2) PERDEU - mostra mensagem, veriica score e verifica se volta pro menu ou termina
+      Variave sinalizadora:
+        cobra_vida (main):
+      (0) EM JOGO
+
+      (1) ESC - verifica score e volta pro menu
+      (2) GANHOU - mostra mensagem, verifica score e verifica se volta pro menu ou termina
+      (3) PERDEU - mostra mensagem, veriica score e verifica se volta pro menu ou termina
 
       Funcoes necessarias:
         -> verifica_score
@@ -16,9 +19,23 @@
         -> continua_jogo
 */
 
-int salva_novo_ranking(JOGADOR ranking[]){
-  
-}
+/*
+    salva_novo_ranking:
+      Salva no arquivo scores.txt o novo arranjo do Ranking, com o novo score inserido */
+int salva_novo_ranking(JOGADOR ranking[]);
+
+/*
+    novo_highscore:
+      Coloca um novo score no arranjo ranking. */
+void novo_highscore(int novo_score, JOGADOR ranking[]);
+
+/*
+    verifica_score:
+      Verficia se um score deve entrar para o ranking.
+      Retorna:
+        1 - Insere novo score
+        2 - Nao insere novo score */
+int verifica_score(JOGADOR jogador);
 
 /*
     verifica_jogo:
@@ -26,13 +43,13 @@ int salva_novo_ranking(JOGADOR ranking[]){
       Retorna:
         1 indicando retorno para o Menu Principal.
         0 indicando fim do programa.   */
-int verifica_jogo(int estado){
+int verifica_jogo(int estado, JOGADOR jogador){
   switch(estado){
-    case 0:       /* Usuario apertou ESC */
+    case 1:       /* Usuario apertou ESC */
       break;
-    case 1:       /* Usuario ganhou o jogo */
+    case 2:       /* Usuario ganhou o jogo */
       break;
-    case 2:       /* Usuario perdeu o jogo */
+    case 3:       /* Usuario perdeu o jogo */
       break;
   }
 }
