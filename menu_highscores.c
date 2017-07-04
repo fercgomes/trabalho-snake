@@ -2,9 +2,9 @@
 /* mostra os 10 maiores scores registrados em ordem decrescente */
 
 /*
-  reseta_scores_arquivo:
+  MenuHighScores_ResetaArquivo:
   Em caso de erro na leitura do arquivo de scores, a funcao reseta o arquivo para os valores padrao */
-int reseta_scores_arquivo(){
+int MenuHighScores_ResetaArquivo(){
   FILE *arquivo;
   int i;
   arquivo = fopen("scores.txt", "w");
@@ -14,27 +14,27 @@ int reseta_scores_arquivo(){
 }
 
 /*
-    carrega_score:
+    MenuHighScores_CarregaArquivo:
       Carrega o arquivo scores.txt para o arranjo ranking[]
       Retorna:
         1 -> Erro na execucao
         0 -> Sucesso */
-int carrega_score(JOGADOR ranking[]){
+int MenuHighScores_CarregaArquivo(JOGADOR ranking[]){
   FILE *arquivo;
   char nome[MAX_NOME + 1];
   int pontos, i;
   if(!(arquivo = fopen("scores.txt", "r"))){
     printf("Erro ao abrir o arquivo scores.txt\nPressione qualquer tecla para voltar");
-    espera_tecla(1, 3);
-    reseta_scores_arquivo();
+    PegaTecla_Animacao(1, 3);
+    MenuHighScores_ResetaArquivo();
     return 1;
   }
   else{
     for(i = 0; i < MAX_HIGHSCORES; i++)
       if(!(fscanf(arquivo, "%d%s", &pontos, nome))){
         printf("Erro ao ler o arquivo scores.txt\nPressione qualquer tecla para voltar");
-        espera_tecla(1, 3);
-        reseta_scores_arquivo();
+        PegaTecla_Animacao(1, 3);
+        MenuHighScores_ResetaArquivo();
         return 1;
       }
       else{
@@ -46,9 +46,9 @@ int carrega_score(JOGADOR ranking[]){
   return 0;
 }
 
-/* imprime_score:
+/* MenuHighScores_ImprimeRanking:
   x e y: posicao do primeiro elemento da lista */
-int imprime_score(int x, int y, JOGADOR ranking[]){
+int MenuHighScores_ImprimeRanking(int x, int y, JOGADOR ranking[]){
     char nome[MAX_NOME + 1];
     int pontos, i;
     gotoxy(x, y);
@@ -61,14 +61,14 @@ int imprime_score(int x, int y, JOGADOR ranking[]){
 
 /* menu_highscores:
   retorna 1 indicando sucesso, e 0 em caso de falha de execucao */
-int menu_highscores(JOGADOR ranking[]){
+int MenuHighScores(JOGADOR ranking[]){
   clrscr();
-  if(!carrega_score(ranking)){
-    imprime_score(5, 5, ranking);
-    escreve_cor(BLACK, WHITE, "HIGH SCORES", 9, 3);
-    escreve_cor(BLACK, WHITE, "Pressione qualquer", 45, 12);
-    escreve_cor(BLACK, WHITE, "tecla para voltar...", 45, 13);
-    espera_tecla(45, 15);
+  if(!MenuHighScores_CarregaArquivo(ranking)){
+    MenuHighScores_ImprimeRanking(5, 5, ranking);
+    ImprimeCor_String(BLACK, WHITE, "HIGH SCORES", 9, 3);
+    ImprimeCor_String(BLACK, WHITE, "Pressione qualquer", 45, 12);
+    ImprimeCor_String(BLACK, WHITE, "tecla para voltar...", 45, 13);
+    PegaTecla_Animacao(45, 15);
   }
   else return 1; /* envia erro */
   return 0;

@@ -109,10 +109,10 @@ typedef struct{
 } OPCOES;
 
 /*
-    escreve_cor:
+    ImprimeCor_String:
     Escreve uma string na tela na cor de texto e fundo indicada, na posicao indicada
 */
-void escreve_cor(int cor, int fundo, char texto[], int x, int y){
+void ImprimeCor_String(int cor, int fundo, char texto[], int x, int y){
   textcolor(cor);
   textbackground(fundo);
   gotoxy(x, y);
@@ -122,10 +122,10 @@ void escreve_cor(int cor, int fundo, char texto[], int x, int y){
 }
 
 /*
-    escreve_cor:
+    ImprimeCor_String:
     Escreve uma string na tela na cor de texto e fundo indicada, na posicao indicada
 */
-void escreve_int_cor(int cor, int fundo, int n, int x, int y){
+void ImprimeCor_Int(int cor, int fundo, int n, int x, int y){
   textcolor(cor);
   textbackground(fundo);
   gotoxy(x, y);
@@ -135,11 +135,11 @@ void escreve_int_cor(int cor, int fundo, int n, int x, int y){
 }
 
 /*
-    espera_tecla:
+    PegaTecla_Animacao:
     Retorna a tecla apertada.
     Mostra animacao de barras na pos (x, y) indicada.
 */
-void espera_tecla(int x, int y){
+void PegaTecla_Animacao(int x, int y){
   char retorno;
   char icone[4] = {'|', '\\', '-', '/'};
   int segue = 1, i = 0;
@@ -156,4 +156,33 @@ void espera_tecla(int x, int y){
     }
     Sleep(100);
   }
+}
+
+/*  SetaCursor:
+    Atualiza a posicao do cursor.
+    Os limites de posicao sao informados via parametro.
+    ENTER: -1
+    ESC: -2     */
+int SetaCursor(int cursor, int op_min, int op_max){
+  int novo_cursor = cursor;
+  char tecla;
+  tecla = getch();
+  if(tecla == -32)
+    tecla = getch();
+  switch(tecla){
+    case ASCII_UP:
+      if(cursor > op_min)
+        novo_cursor--;
+        break;
+    case ASCII_DOWN:
+      if(cursor < op_max)
+        novo_cursor++;
+        break;
+    case ASCII_ENTER:
+      novo_cursor = -1;
+      break;
+    case ASCII_ESC:
+      novo_cursor = -2;
+  }
+  return novo_cursor;
 }

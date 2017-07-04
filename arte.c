@@ -1,4 +1,4 @@
-int arte_menuprincipal_1(){
+int Arte_MenuPrincipal_1(){
   int i, j;
   printf("\n\n\n");
   textcolor(MAGENTA);
@@ -26,7 +26,7 @@ int arte_menuprincipal_1(){
   return 0;
 }
 
-int arte_menuprincipal_2(){
+int Arte_MenuPrincipal_2(){
   gotoxy(1, 17);
   textcolor(RED);
   printf("                                             _        \n");

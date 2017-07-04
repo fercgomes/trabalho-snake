@@ -1,5 +1,5 @@
 
-void cria_jogador_setacursor(int cursor, int selecionado){
+void MenuFim_CriaJogador_SetaCursor(int cursor, int selecionado){
   /* Imprime cursor atual e apaga antigo*/
   switch(cursor){
     case 0:
@@ -34,20 +34,20 @@ void cria_jogador_setacursor(int cursor, int selecionado){
       break;
     case 3:
       if(selecionado){
-        escreve_cor(BLACK, WHITE, "<ENTER> PARA CONTINUAR", 28, 19);
-        escreve_cor(BLACK, WHITE, "<ESC> PARA VOLTAR", 30, 20);
+        ImprimeCor_String(BLACK, WHITE, "<ENTER> PARA CONTINUAR", 28, 19);
+        ImprimeCor_String(BLACK, WHITE, "<ESC> PARA VOLTAR", 30, 20);
       }
       else{
-        escreve_cor(BLACK, BLACK, "                      ", 28, 19);
-        escreve_cor(BLACK, BLACK, "                 ", 30, 20);
+        ImprimeCor_String(BLACK, BLACK, "                      ", 28, 19);
+        ImprimeCor_String(BLACK, BLACK, "                 ", 30, 20);
       }
   }
 }
 
 /*
-    cria_jogador:
+    MenuFim_CriaJogador:
       Cria a estrutura jogador a partir da entrada do usuario.    */
-void cria_jogador(JOGADOR *jogador){
+int MenuFim_CriaJogador(JOGADOR *jogador){
   char nome[MAX_NOME+1] = "AAA";
   char tecla;
   int cursor, cursor_aux, escolhendo;
@@ -60,9 +60,9 @@ void cria_jogador(JOGADOR *jogador){
   */
 
   clrscr();
-  escreve_cor(BLACK, WHITE, "NOME DO JOGADOR", 32, 3);
-  escreve_cor(BLACK, WHITE, "UTILIZE AS SETAS PARA ESCOLHER UM NOME", 20, 14);
-  escreve_cor(BLACK, WHITE, "PRESSIONE ENTER PARA CONFIRMAR", 24, 16);
+  ImprimeCor_String(BLACK, WHITE, "NOME DO JOGADOR", 32, 3);
+  ImprimeCor_String(BLACK, WHITE, "UTILIZE AS SETAS PARA ESCOLHER UM NOME", 20, 14);
+  ImprimeCor_String(BLACK, WHITE, "PRESSIONE ENTER PARA CONFIRMAR", 24, 16);
   escolhendo = 1;
   cursor = 0;
   while(escolhendo){
@@ -71,7 +71,7 @@ void cria_jogador(JOGADOR *jogador){
     putchxy(39, 7, nome[1]);
     putchxy(41, 7, nome[2]);
 
-    cria_jogador_setacursor(cursor, 1);
+    MenuFim_CriaJogador_SetaCursor(cursor, 1);
 
     /* Verifica tecla */
     tecla = getch();
@@ -88,32 +88,33 @@ void cria_jogador(JOGADOR *jogador){
         break;
       case ASCII_LEFT:
         if(cursor > 0){
-          cria_jogador_setacursor(cursor, 0);
+          MenuFim_CriaJogador_SetaCursor(cursor, 0);
           cursor--;
         }
         break;
       case ASCII_RIGHT:
         if(cursor < 2){
-          cria_jogador_setacursor(cursor, 0);
+          MenuFim_CriaJogador_SetaCursor(cursor, 0);
           cursor++;
         }
         break;
       case ASCII_ENTER:
         cursor_aux = cursor;
         cursor = 3;
-        cria_jogador_setacursor(cursor_aux, 0);
-        cria_jogador_setacursor(cursor, 1);
+        MenuFim_CriaJogador_SetaCursor(cursor_aux, 0);
+        MenuFim_CriaJogador_SetaCursor(cursor, 1);
         tecla = getch();
         while(tecla != ASCII_ENTER && tecla != ASCII_ESC)
           tecla = getch();
         if(tecla == ASCII_ENTER)
           escolhendo = 0;
         else if(tecla == ASCII_ESC){
-          cria_jogador_setacursor(cursor, 0);
+          MenuFim_CriaJogador_SetaCursor(cursor, 0);
           cursor = cursor_aux;
         }
     }
   }
   strcpy(jogador->nome, nome);
   clrscr(); /* PRECISA? */
+  return 0;
 }

@@ -100,66 +100,8 @@ int main(){
   base_pontos = 0;      /* inicializa base de pontos */
   tutorial = 0;         /* */
 
+  MenuPrincipal(&opcoes, ranking);
 
-  if(!carrega_opcoes(&opcoes))          /* carrega a estrutura OPCOES salva em opcoes.bin para a variavel opcoes */
-    /* LOOP 0 - MENU PRINCIPAL */
-
-    do{
-      if(menu_principal(&opcoes, ranking)){      /* carrega o menu principal */
-        /* inicia jogo */
-        if(!tutorial){
-          cria_jogador(&jogador);         /* insere o nome do jogador */
-          tutorial = 1;
-        }
-        else clrscr();
-        jogador.pontuacao = 0;          /* zera pontuacao */
-
-        /* inicializa cobra */
-        zeraPosCobra(&cobra);
-        cobra.tamanho_atual = TAMANHO_INICIAL;
-        cobra.corpo = 'X';
-        cobra.direcao = 4;
-        cobra.velocidade_atual = opcoes.velocidade_inicial;
-        /* reinicia estado do jogo */
-        nivel_ativo = 1;
-        cobra_vida = 1;
-        /* LOOP 1 - ATIVACAO DE NIVEL */
-        while(nivel_ativo){
-          /* funcoes para inicializar nivel */
-
-          /* inicializa a cobra */
-          inicializaCobra(&cobra, 40, 10);
-          cobra.direcao = iniciaMovimento();
-
-          /* LOOP 2 - ENGINE */
-          while(!cobra_vida){   /* rodar enquanto for 0 */
-            /* funcionamento do jogo */
-
-            moveCobra(&cobra);
-            /* VERIFICA PROXIMA POSICAO */
-
-            if(pegaTecla(&cobra)){
-              /* USUARIO APERTO ESC */
-              cobra_vida = 1;   /* Sinaliza ESC para funcao de verificacao */
-              nivel_ativo = 0;
-              /* VERIFICA JOGO */
-            }
-            else{
-              /* segue jogo */
-              taxa_atualizacao(cobra.velocidade_atual);
-            }
-
-          /* FIM DO LOOP 2 - ENGINE */
-          }
-        /* FIM DO LOOP 1 - ATIVACAO DE NIVEL */
-        }
-      }
-      else jogo_ativo = 0; /* Se MENU PRINCIPAL retornar 0, sinaliza fim de jogo */
-
-    /* FIM DO LOOP 0 - MENU PRINCIPAL */
-    }while(jogo_ativo);
-
-  debug(opcoes, jogador, ranking, nivel, cobra_vida, jogo_ativo, nivel_ativo, base_pontos, tutorial);
   return 0;
 }
 
