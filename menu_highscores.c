@@ -59,10 +59,17 @@ int MenuHighScores_ImprimeRanking(int x, int y, JOGADOR ranking[]){
     return 0;
 }
 
+/* Desenha os detalhes gráficos do menu */
+void MenuHighScores_Arte(){
+  DesenhaCaixa(3, 1, 25, 25, '#', BLACK, WHITE); // Caixa dos HighScores
+  DesenhaCaixa(40, 10, 71, 17, '#', BLACK, WHITE); // Caixa de instrucoes
+}
+
 /* menu_highscores:
   retorna 1 indicando sucesso, e 0 em caso de falha de execucao */
 int MenuHighScores(JOGADOR ranking[]){
   clrscr();
+  MenuHighScores_Arte();
   MenuHighScores_ImprimeRanking(5, 5, ranking);
   ImprimeCor_String(BLACK, WHITE, "HIGH SCORES", 9, 3);
   ImprimeCor_String(BLACK, WHITE, "Pressione qualquer", 45, 12);

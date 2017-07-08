@@ -33,6 +33,10 @@ void InicializaJogo(){
         nivel_2[MAPA_LINHAS][MAPA_COLUNAS+1],     /* Nivel 2 */
         nivel_3[MAPA_LINHAS][MAPA_COLUNAS+1];     /* Nivel 3 */
 
+  int
+      Resultado_Jogo = 1;
+
+
 
   /* Atributos dos itens */
   /* Os atributos sao unicos para cada item. */
@@ -43,7 +47,7 @@ void InicializaJogo(){
     if(!Opcoes_CarregaArquivo(&opcoes)){
       /* so inicia jogo se opcoes e HS foram carregados com sucesso */
       MenuPrincipal(&opcoes, ranking);
-      MenuFim_VerificaJogo(JOGADOR_GANHOU, &jogador, ranking);
+      MenuFim_VerificaJogo(Resultado_Jogo, &jogador, ranking);
     }
 }
 

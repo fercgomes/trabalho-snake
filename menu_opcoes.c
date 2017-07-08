@@ -243,6 +243,7 @@ void MenuOpcoes_InicializaOpcoes(OPCOES opcoes, int cursor){
 
 void MenuOpcoes_Arte(){
   DesenhaCaixa(4, 3, 30, 22, '#', BLACK, WHITE);
+  DesenhaCaixa(41, 10, 73, 15, '#', BLACK, WHITE);
 }
 
 /*
