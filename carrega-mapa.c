@@ -3,6 +3,19 @@
       Tamanho fixo da linha. 80 caracteres por linha. 24 caracteres por coluna.
 */
 
+/* MAPAS - CONSTANTES */
+#define MAPA_LINHAS 24
+#define MAPA_COLUNAS 80
+
+/*
+    Os mapas representados na matriz de string tem indices de 0-23 (Y - 24 LINHAS) e
+    0-80 (X - 81 LINHAS). Graficamente (na funcao putchxy) eles tem indices de 2 - 25 (Y)
+    e 1 - 81 (X).
+        X OFFSET -> discrepancia do eixo X
+        Y OFFSET -> discrepancia do eixo Y    */
+#define MAPA_XOFFSET 1
+#define MAPA_YOFFSET 2
+
 /*
     Mapa_Carrega:
     Carrega os arquivos txt dos mapas para as 3 matrizes de string do programa principal.

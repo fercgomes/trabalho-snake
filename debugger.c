@@ -20,15 +20,6 @@ void debug_ranking(JOGADOR ranking[]){
   printf("\n--------------------------------------------------------------------------------\n");
 }
 
-void debug_var(int nivel, int cobra_vida, int jogo_ativo, int nivel_ativo, int base_pontos, int tutorial){
-  printf("nivel: %d\ncobra_vida: %d\n", nivel, cobra_vida);
-  printf("jogo_ativo: %d\n", jogo_ativo);
-  printf("nivel_ativo: %d\n", nivel_ativo);
-  printf("base_pontos: %d\n", base_pontos);
-  printf("tutorial: %d\n", tutorial);
-  printf("\n--------------------------------------------------------------------------------\n");
-}
-
 /* ARQUIVOS */
 
 void debug_file_opcoes(){
@@ -59,12 +50,12 @@ void debug_file_scores(){
   printf("\n--------------------------------------------------------------------------------\n");
 }
 
-void debug(OPCOES opcoes, JOGADOR jogador, JOGADOR ranking[], int nivel, int cobra_vida, int jogo_ativo, int nivel_ativo, int base_pontos, int tutorial){
+void debug(OPCOES opcoes, JOGADOR jogador, JOGADOR ranking[]){
+  clrscr();
   printf("VARIAVEIS DO JOGO:\n\n");
   debug_mostrajogador(jogador);
   debug_mostraopcoes(opcoes);
   debug_ranking(ranking);
-  debug_var(nivel, cobra_vida, jogo_ativo, nivel_ativo, base_pontos, tutorial);
 
   printf("ARQUIVOS:\n\n");
   debug_file_opcoes();

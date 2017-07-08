@@ -15,6 +15,23 @@
 
 */
 
+void MenuFim_JogadorGanhou(){
+  clrscr();
+  printf("Voce ganhou!\nPressione qualquer tecla para continuar...");
+  PegaTecla_Animacao(1, 3);
+}
+
+void MenuFim_JogadorPerdeu(){
+  clrscr();
+  printf("Voce perdeu!\nPressione qualquer tecla para continuar...");
+  PegaTecla_Animacao(1, 3);
+}
+
+void InsereJogador(JOGADOR jogador, JOGADOR ranking[], int i){
+  ranking[i].pontuacao = jogador.pontuacao;
+  strcpy(ranking[i].nome, jogador.nome);
+}
+
 /*
     MenuFim_NovoHighScore_SalvaArquivo:
       Salva no arquivo scores.txt o novo arranjo do Ranking, com o novo score inserido */
@@ -29,7 +46,7 @@ int MenuFim_NovoHighScore_SalvaArquivo(JOGADOR ranking[]){
   }
   else{
     for(i = 0; i < MAX_HIGHSCORES; i++){
-      if(fprintf(arquivo, "%d %s", ranking[i].pontuacao, ranking[i].nome)){
+      if(!fprintf(arquivo, "%d %s\n", ranking[i].pontuacao, ranking[i].nome)){
         printf("Erro ao escrever no arquivo scores.txt\nPressione qualquer tecla para voltar");
         PegaTecla_Animacao(1, 3);
         MenuHighScores_ResetaArquivo();
@@ -46,9 +63,11 @@ int MenuFim_NovoHighScore_SalvaArquivo(JOGADOR ranking[]){
       Coloca um novo score no arranjo ranking. */
 void MenuFim_SetaNovoHighScore(JOGADOR jogador, JOGADOR ranking[], int indice){
   int i;
-  for(i = MAX_HIGHSCORES - 1; i > indice; i--)
-    ranking[i] = ranking[i - 1];
-  ranking[indice] = jogador;
+  for(i = MAX_HIGHSCORES - 1; i > indice; i--){
+    ranking[i].pontuacao = ranking[i - 1].pontuacao;
+    strcpy(ranking[i].nome, ranking[i - 1].nome);
+  }
+  InsereJogador(jogador, ranking, indice);
 }
 
 /*
@@ -57,16 +76,13 @@ void MenuFim_SetaNovoHighScore(JOGADOR jogador, JOGADOR ranking[], int indice){
       Retorna:
         ??? */
 int MenuFim_VerificaScore(JOGADOR jogador, JOGADOR ranking[]){
-  int i, achou = 0;
-  while(jogador.pontuacao < ranking[i].pontuacao && i < MAX_HIGHSCORES){
-    if(jogador.pontuacao < ranking[i].pontuacao)
-      i++;
-    else achou = 1;
-  }
-  if(achou)
-    return i;
-  else
-    return -1;
+  int i = 0, achou = 0;
+
+  while(jogador.pontuacao < ranking[i].pontuacao && i < MAX_HIGHSCORES)
+    i++;
+  if(i == MAX_HIGHSCORES) /* chegou no ultimo elemento */
+    return -1; /* nao tem lugar no ranking */
+  else return i; /* pertence a alguma posicao da lista */
 }
 
 /*  MenuFim_VerificaJogo:
@@ -75,18 +91,21 @@ int MenuFim_VerificaScore(JOGADOR jogador, JOGADOR ranking[]){
         1 indicando retorno para o Menu Principal.
         0 indicando fim do programa.   */
 int MenuFim_VerificaJogo(int estado, JOGADOR *jogador, JOGADOR ranking[]){
+
   switch(estado){
-    case 1:       /* Usuario apertou ESC */
-      if(MenuFim_VerificaScore(*jogador, ranking) != -1){
-        MenuFim_CriaJogador(jogador);
-        MenuFim_SetaNovoHighScore(*jogador, ranking, MenuFim_VerificaScore(*jogador, ranking));
-      }
+    case 1:       /* Usuario ganhou o jogo */
+      MenuFim_JogadorGanhou();
       break;
-    case 2:       /* Usuario ganhou o jogo */
+    case 2:       /* Usuario perdeu o jogo */
+      MenuFim_JogadorPerdeu();
+      break;
+    default:
+      break;
+  }
 
-      break;
-    case 3:       /* Usuario perdeu o jogo */
-
-      break;
+  if(MenuFim_VerificaScore(*jogador, ranking) != -1){
+    MenuFim_CriaJogador(jogador);
+    MenuFim_SetaNovoHighScore(*jogador, ranking, MenuFim_VerificaScore(*jogador, ranking));
+    MenuFim_NovoHighScore_SalvaArquivo(ranking);
   }
 }

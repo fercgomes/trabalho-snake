@@ -63,13 +63,10 @@ int MenuHighScores_ImprimeRanking(int x, int y, JOGADOR ranking[]){
   retorna 1 indicando sucesso, e 0 em caso de falha de execucao */
 int MenuHighScores(JOGADOR ranking[]){
   clrscr();
-  if(!MenuHighScores_CarregaArquivo(ranking)){
-    MenuHighScores_ImprimeRanking(5, 5, ranking);
-    ImprimeCor_String(BLACK, WHITE, "HIGH SCORES", 9, 3);
-    ImprimeCor_String(BLACK, WHITE, "Pressione qualquer", 45, 12);
-    ImprimeCor_String(BLACK, WHITE, "tecla para voltar...", 45, 13);
-    PegaTecla_Animacao(45, 15);
-  }
-  else return 1; /* envia erro */
+  MenuHighScores_ImprimeRanking(5, 5, ranking);
+  ImprimeCor_String(BLACK, WHITE, "HIGH SCORES", 9, 3);
+  ImprimeCor_String(BLACK, WHITE, "Pressione qualquer", 45, 12);
+  ImprimeCor_String(BLACK, WHITE, "tecla para voltar...", 45, 13);
+  PegaTecla_Animacao(45, 15);
   return 0;
 }

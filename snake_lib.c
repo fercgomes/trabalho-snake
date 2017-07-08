@@ -10,6 +10,9 @@
 #define ASCII_ENTER 13
 #define ASCII_ESC 27
 
+#define CURSOR_ESC -2
+#define CURSOR_ENTER -1
+
 /* CONSTANTES PARA LIMITES */
 #define X_MIN 1
 #define X_MAX 80
@@ -24,13 +27,6 @@
 #define MAX_NOME 3
 #define MAX_HIGHSCORES 10
 
-#define VELOCIDADE_INICIAL_MIN 1
-#define VELOCIDADE_INICIAL_MAX 10
-#define TAMANHO_MAXIMO_MIN 10
-#define TAMANHO_MAXIMO_MAX 100
-#define ITENS_MAXIMOS_MIN 1
-#define ITENS_MAIMOS_MAX 10
-
 
 /* INICIALIZACOES */
 #define TAMANHO_INICIAL 5
@@ -39,23 +35,27 @@
 #define Y_INICIAL 15
 #define TAXA_ATUALIZACAO 100
 
-/* MENU */
-#define Y_ANCHOR 5 /* pos y da primeira opcao do menu */
-#define X_ANCHOR 6 /* pos x da primeira opcao do menu */
-#define Y_OFFSET 3 /* espacamento das opcoes  do menu */
+/* ATRIBUTOS */
+#define ATRIBUTOS_COMIDA_BASEPONTOS 2
+#define ATRIBUTOS_COMIDA_VELOCIDADE 0
+#define ATRIBUTOS_COMIDA_NIVEL 0
+#define ATRIBUTOS_COMIDA_TAMANHO 1
 
-/* MAPAS */
-#define MAPA_LINHAS 24
-#define MAPA_COLUNAS 80
+#define ATRIBUTOS_SLOWER_BASEPONTOS 1
+#define ATRIBUTOS_SLOWER_VELOCIDADE -1
+#define ATRIBUTOS_SLOWER_NIVEL 0
+#define ATRIBUTOS_SLOWER_TAMANHO 0
 
-/*
-    Os mapas representados na matriz de string tem indices de 0-23 (Y - 24 LINHAS) e
-    0-80 (X - 81 LINHAS). Graficamente (na funcao putchxy) eles tem indices de 2 - 25 (Y)
-    e 1 - 81 (X).
-        X OFFSET -> discrepancia do eixo X
-        Y OFFSET -> discrepancia do eixo Y    */
-#define MAPA_XOFFSET 1
-#define MAPA_YOFFSET 2
+#define ATRIBUTOS_FASTER_BASEPONTOS 3
+#define ATRIBUTOS_FASTER_VELOCIDADE 1
+#define ATRIBUTOS_FASTER_NIVEL 0
+#define ATRIBUTOS_FASTER_TAMANHO 0
+
+#define ATRIBUTOS_SKIP_BASEPONTOS 40
+#define ATRIBUTOS_SKIP_VELOCIDADE 0
+#define ATRIBUTOS_SKIP_NIVEL 1
+#define ATRIBUTOS_SKIP_TAMANHO 0
+
 
 /* ESTRUTURAS */
 typedef struct{
@@ -110,8 +110,7 @@ typedef struct{
 
 /*
     ImprimeCor_String:
-    Escreve uma string na tela na cor de texto e fundo indicada, na posicao indicada
-*/
+    Escreve uma string na tela na cor de texto e fundo indicada, na posicao indicada  */
 void ImprimeCor_String(int cor, int fundo, char texto[], int x, int y){
   textcolor(cor);
   textbackground(fundo);
@@ -123,8 +122,7 @@ void ImprimeCor_String(int cor, int fundo, char texto[], int x, int y){
 
 /*
     ImprimeCor_String:
-    Escreve uma string na tela na cor de texto e fundo indicada, na posicao indicada
-*/
+    Escreve uma string na tela na cor de texto e fundo indicada, na posicao indicada  */
 void ImprimeCor_Int(int cor, int fundo, int n, int x, int y){
   textcolor(cor);
   textbackground(fundo);
@@ -139,13 +137,12 @@ void ImprimeCor_Int(int cor, int fundo, int n, int x, int y){
     Retorna a tecla apertada.
     Mostra animacao de barras na pos (x, y) indicada.
 */
-void PegaTecla_Animacao(int x, int y){
-  char retorno;
+int PegaTecla_Animacao(int x, int y){
   char icone[4] = {'|', '\\', '-', '/'};
   int segue = 1, i = 0;
   while(segue){
     if(kbhit()){
-      retorno = getch();
+      getch();
       segue = 0;
     }
     else{
@@ -179,10 +176,37 @@ int SetaCursor(int cursor, int op_min, int op_max){
         novo_cursor++;
         break;
     case ASCII_ENTER:
-      novo_cursor = -1;
+      novo_cursor = CURSOR_ENTER;
       break;
     case ASCII_ESC:
-      novo_cursor = -2;
+      novo_cursor = CURSOR_ESC;
   }
   return novo_cursor;
+}
+
+void InicializaAtributos(ATRIBUTOS *comida, ATRIBUTOS *faster, ATRIBUTOS *slower, ATRIBUTOS *skip){
+  /* COMIDA */
+  comida->altera_basepontos = ATRIBUTOS_COMIDA_BASEPONTOS;
+  comida->altera_velocidade = ATRIBUTOS_COMIDA_VELOCIDADE;
+  comida->altera_nivel = ATRIBUTOS_COMIDA_NIVEL;
+  comida->altera_tamanho = ATRIBUTOS_COMIDA_TAMANHO;
+  comida->corpo = '0';
+  /* SLOWER */
+  slower->altera_basepontos = ATRIBUTOS_SLOWER_BASEPONTOS;
+  slower->altera_velocidade = ATRIBUTOS_SLOWER_VELOCIDADE;
+  slower->altera_nivel = ATRIBUTOS_SLOWER_NIVEL;
+  slower->altera_tamanho = ATRIBUTOS_SLOWER_TAMANHO;
+  slower->corpo = '0';
+  /* FASTER */
+  faster->altera_basepontos = ATRIBUTOS_FASTER_BASEPONTOS;
+  faster->altera_velocidade = ATRIBUTOS_FASTER_VELOCIDADE;
+  faster->altera_nivel = ATRIBUTOS_FASTER_NIVEL;
+  faster->altera_tamanho = ATRIBUTOS_FASTER_TAMANHO;
+  faster->corpo = '0';
+  /* SKIP */
+  skip->altera_basepontos = ATRIBUTOS_SKIP_BASEPONTOS;
+  skip->altera_velocidade = ATRIBUTOS_SKIP_VELOCIDADE;
+  skip->altera_nivel = ATRIBUTOS_SKIP_NIVEL;
+  skip->altera_tamanho = ATRIBUTOS_SKIP_TAMANHO;
+  skip->corpo = '0';
 }

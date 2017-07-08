@@ -16,6 +16,22 @@
     Tratamento de erros:
       Caso o arquivo não exista, um novo é criado com valores padrao. */
 
+#define VELOCIDADE_INICIAL_PADRAO 1
+#define TAMANHO_MAXIMO_PADRAO 10
+#define ITENS_MAXIMOS_PADRAO 1
+
+#define MENUOPCOES_CURSOR_VELOCIDADEINICIAL 1
+#define MENUOPCOES_CURSOR_TAMANHOMAXIMO 2
+#define MENUOPCOES_CURSOR_ITENSMAXIMOS 3
+#define MENUOPCOES_CURSOR_SAIR 4
+
+#define VELOCIDADE_INICIAL_MIN 1
+#define VELOCIDADE_INICIAL_MAX 10
+#define TAMANHO_MAXIMO_MIN 10
+#define TAMANHO_MAXIMO_MAX 100
+#define ITENS_MAXIMOS_MIN 1
+#define ITENS_MAXIMOS_MAX 10
+
 /*
             OPCOES - ARQUIVOS
 */
@@ -26,9 +42,9 @@
 int OpcoesReset(OPCOES *opcoes){
   FILE *arquivo;
   OPCOES buffer;
-  buffer.velocidade_inicial = 1;
-  buffer.tamanho_maximo = 10;
-  buffer.itens_maximos = 1;
+  buffer.velocidade_inicial = VELOCIDADE_INICIAL_PADRAO;
+  buffer.tamanho_maximo = TAMANHO_MAXIMO_PADRAO;
+  buffer.itens_maximos = ITENS_MAXIMOS_PADRAO;
   arquivo = fopen("opcoes.bin", "wb");
   fwrite(&buffer, sizeof(OPCOES), 1, arquivo);
   *opcoes = buffer;
@@ -92,23 +108,24 @@ int Opcoes_SalvaArquivo(OPCOES opcoes){
 
 /*
     MenuOpcoes_ImprimeValor:
-    Imprime as opcoes correspondentes ao valor do cursor.
-*/
+    Imprime as opcoes correspondentes ao valor do cursor.     */
 void MenuOpcoes_ImprimeValor(OPCOES opcoes, int cursor, int selecionado){
   switch(cursor){
-    case 1:
+    case MENUOPCOES_CURSOR_VELOCIDADEINICIAL:
       if(selecionado)
         ImprimeCor_Int(BLACK, WHITE, opcoes.velocidade_inicial, 15, 8);
       else
         ImprimeCor_Int(WHITE, BLACK, opcoes.velocidade_inicial, 15, 8);
       break;
-    case 2:
+
+    case MENUOPCOES_CURSOR_TAMANHOMAXIMO:
       if(selecionado)
         ImprimeCor_Int(BLACK, WHITE, opcoes.tamanho_maximo, 15, 14);
       else
         ImprimeCor_Int(WHITE, BLACK, opcoes.tamanho_maximo, 15, 14);
     break;
-    case 3:
+
+    case MENUOPCOES_CURSOR_ITENSMAXIMOS:
       if(selecionado)
         ImprimeCor_Int(BLACK, WHITE, opcoes.itens_maximos, 15, 20);
       else
@@ -129,25 +146,25 @@ void MenuOpcoes_ImprimeCursor(int cursor, int selecionado){
   char op4[] = "VOLTAR";
 
   switch(cursor){
-    case 1:
+    case MENUOPCOES_CURSOR_VELOCIDADEINICIAL:
       if(selecionado)
         ImprimeCor_String(BLACK, WHITE, op1, X_ANCHOR, Y_ANCHOR);
       else
         ImprimeCor_String(WHITE, BLACK, op1, X_ANCHOR, Y_ANCHOR);
       break;
-    case 2:
+    case MENUOPCOES_CURSOR_TAMANHOMAXIMO:
       if(selecionado)
         ImprimeCor_String(BLACK, WHITE, op2, X_ANCHOR, Y_ANCHOR + 6);
       else
         ImprimeCor_String(WHITE, BLACK, op2, X_ANCHOR, Y_ANCHOR + 6);
       break;
-    case 3:
+    case MENUOPCOES_CURSOR_ITENSMAXIMOS:
       if(selecionado)
         ImprimeCor_String(BLACK, WHITE, op3, X_ANCHOR, Y_ANCHOR + 12);
       else
         ImprimeCor_String(WHITE, BLACK, op3, X_ANCHOR, Y_ANCHOR + 12);
       break;
-    case 4:   /* VOLTAR */
+    case MENUOPCOES_CURSOR_SAIR:   /* VOLTAR */
       if(selecionado)
         ImprimeCor_String(BLACK, RED, op4, X_ANCHOR + 30, Y_ANCHOR + 18);
       else
@@ -158,19 +175,18 @@ void MenuOpcoes_ImprimeCursor(int cursor, int selecionado){
 
 /*
     MenuOpcoes_Editor:
-    Seleciona uma opcao do menu de opcoes, altera o valor e o salva.
-*/
+    Seleciona uma opcao do menu de opcoes, altera o valor e o salva.  */
 void MenuOpcoes_Editor(OPCOES *opcoes, int cursor){
-  int valor, escolhendo = 1;
+  int escolhendo = 1;
   char tecla;
-  MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
+  MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);  /* highlight no valor selecionado por ENTER */
   while(escolhendo){
     tecla = getch();
     if(tecla == -32)
           tecla = getch();
     if(tecla != ASCII_ENTER){
       switch(cursor){
-        case 1:
+        case MENUOPCOES_CURSOR_VELOCIDADEINICIAL:
           if(tecla == ASCII_UP && opcoes->velocidade_inicial < VELOCIDADE_INICIAL_MAX){
             (opcoes->velocidade_inicial)++;
             MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
@@ -180,7 +196,8 @@ void MenuOpcoes_Editor(OPCOES *opcoes, int cursor){
             MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
           }
           break;
-        case 2:
+
+        case MENUOPCOES_CURSOR_TAMANHOMAXIMO:
           if(tecla == ASCII_UP && opcoes->tamanho_maximo < TAMANHO_MAXIMO_MAX){
             (opcoes->tamanho_maximo)++;
             MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
@@ -190,8 +207,9 @@ void MenuOpcoes_Editor(OPCOES *opcoes, int cursor){
             MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
           }
           break;
-        case 3:
-          if(tecla == ASCII_UP && opcoes->itens_maximos < ITENS_MAIMOS_MAX){
+
+        case MENUOPCOES_CURSOR_ITENSMAXIMOS:
+          if(tecla == ASCII_UP && opcoes->itens_maximos < ITENS_MAXIMOS_MAX){
             (opcoes->itens_maximos)++;
             MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
           }
@@ -209,28 +227,30 @@ void MenuOpcoes_Editor(OPCOES *opcoes, int cursor){
   }
 }
 
-/*
-    MenuOpcoes:
-    Retorna
-      0 = sucesso na execucao
-      1 = erro
-*/
-int MenuOpcoes(OPCOES *opcoes){
-  int cursor = 1,
-      cursor_aux = 1,
-      escolhendo = 1,
-      editor = 0,
-      i;
-
+void MenuOpcoes_InicializaOpcoes(OPCOES opcoes, int cursor){
+  int i;
   clrscr();
   for(i = 1; i <= 4; i++){
     MenuOpcoes_ImprimeCursor(i, 0);
-    MenuOpcoes_ImprimeValor(*opcoes, i, 0);
+    MenuOpcoes_ImprimeValor(opcoes, i, 0);
   }
   MenuOpcoes_ImprimeCursor(cursor, 1); /* seleciona primeira opcao */
 
   ImprimeCor_String(BLACK, WHITE, "<ENTER>", 45, 12);
   ImprimeCor_String(BLACK, WHITE, "Altera a opcao selecionada", 45, 13);
+}
+
+/*
+    MenuOpcoes:
+    Retorna
+      0 = sucesso na execucao
+      1 = erro                  */
+int MenuOpcoes(OPCOES *opcoes){
+  int cursor = 1,
+      cursor_aux = 1,
+      escolhendo = 1;
+
+  MenuOpcoes_InicializaOpcoes(*opcoes, cursor);
 
   while(escolhendo){
     cursor_aux = SetaCursor(cursor, 1, 4);
@@ -240,7 +260,7 @@ int MenuOpcoes(OPCOES *opcoes){
       MenuOpcoes_ImprimeCursor(cursor_aux, 1);
       cursor = cursor_aux;
     }
-    else if(cursor != 4)
+    else if(cursor != MENUOPCOES_CURSOR_SAIR)
       MenuOpcoes_Editor(opcoes, cursor);
       else{
         if(!Opcoes_SalvaArquivo(*opcoes))
