@@ -15,6 +15,9 @@
 
 */
 
+#define JOGADOR_GANHOU 1
+#define JOGADOR_PERDEU 2
+
 void MenuFim_JogadorGanhou(){
   clrscr();
   printf("Voce ganhou!\nPressione qualquer tecla para continuar...");
@@ -93,10 +96,10 @@ int MenuFim_VerificaScore(JOGADOR jogador, JOGADOR ranking[]){
 int MenuFim_VerificaJogo(int estado, JOGADOR *jogador, JOGADOR ranking[]){
 
   switch(estado){
-    case 1:       /* Usuario ganhou o jogo */
+    case JOGADOR_GANHOU:       /* Usuario ganhou o jogo */
       MenuFim_JogadorGanhou();
       break;
-    case 2:       /* Usuario perdeu o jogo */
+    case JOGADOR_PERDEU:       /* Usuario perdeu o jogo */
       MenuFim_JogadorPerdeu();
       break;
     default:

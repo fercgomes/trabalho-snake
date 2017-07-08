@@ -56,6 +56,9 @@
 #define ATRIBUTOS_SKIP_NIVEL 1
 #define ATRIBUTOS_SKIP_TAMANHO 0
 
+#define SELECIONADO 1
+#define NAO_SELECIONADO 0
+
 
 /* ESTRUTURAS */
 typedef struct{

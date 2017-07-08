@@ -1,8 +1,5 @@
 /* CREDITOS */
-/*
-    menu_creditos:
-    Retorna 1 em caso de sucesso na execucao.
-*/
+/* Imprime os creditos do jogo */
 int MenuCreditos(){
   clrscr();
   ImprimeCor_String(BLACK, WHITE, "EQUIPE:", 10, 3);

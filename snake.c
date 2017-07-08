@@ -4,6 +4,7 @@
 #include <time.h>
 #include <windows.h>
 #include <conio2.h>
+#include "arte.c"
 #include "snake_lib.c"
 #include "menu_principal.c"
 #include "menu_highscores.c"
@@ -13,11 +14,11 @@
 #include "carrega-mapa.c"
 #include "verifica-jogo.c"
 #include "cria-jogador.c"
-#include "arte.c"
 #include "cobra-engine.c"
 
-int main(){
 
+
+void InicializaJogo(){
   JOGADOR jogador;                    /* Informacoes sobre jogador atual */
   JOGADOR ranking[MAX_HIGHSCORES];    /* Arranjo com os 10 High Scores que vao ser salvos no arquivo */
   OPCOES opcoes;                      /* Opcoes de jogo */
@@ -32,24 +33,22 @@ int main(){
         nivel_2[MAPA_LINHAS][MAPA_COLUNAS+1],     /* Nivel 2 */
         nivel_3[MAPA_LINHAS][MAPA_COLUNAS+1];     /* Nivel 3 */
 
-  ATRIBUTOS comida, faster, slower, skip;
+
   /* Atributos dos itens */
   /* Os atributos sao unicos para cada item. */
+  ATRIBUTOS comida, faster, slower, skip;
   InicializaAtributos(&comida, &faster, &slower, &skip);
 
   if(!MenuHighScores_CarregaArquivo(ranking))
-    if(!Opcoes_CarregaArquivo(&opcoes))
+    if(!Opcoes_CarregaArquivo(&opcoes)){
+      /* so inicia jogo se opcoes e HS foram carregados com sucesso */
       MenuPrincipal(&opcoes, ranking);
-    else return 0;
-  else return 0;
+      MenuFim_VerificaJogo(JOGADOR_GANHOU, &jogador, ranking);
+    }
+}
 
-  jogador.pontuacao = 90;
-
-  MenuFim_VerificaJogo(0, &jogador, ranking);
-
-  debug(opcoes, jogador, ranking);
-  getch();
-
+int main(){
+  InicializaJogo();
   return 0;
 }
 

@@ -8,6 +8,7 @@
     1 - Velocidade inicial
     2 - Tamanho maximo
     3 - Itens maximos
+    4 - Sair
 
     Enter: seleciona e ativa o modo editor
       UP DOWN: alteram valor
@@ -179,7 +180,7 @@ void MenuOpcoes_ImprimeCursor(int cursor, int selecionado){
 void MenuOpcoes_Editor(OPCOES *opcoes, int cursor){
   int escolhendo = 1;
   char tecla;
-  MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);  /* highlight no valor selecionado por ENTER */
+  MenuOpcoes_ImprimeValor(*opcoes, cursor, SELECIONADO);  /* highlight no valor selecionado por ENTER */
   while(escolhendo){
     tecla = getch();
     if(tecla == -32)
@@ -189,39 +190,39 @@ void MenuOpcoes_Editor(OPCOES *opcoes, int cursor){
         case MENUOPCOES_CURSOR_VELOCIDADEINICIAL:
           if(tecla == ASCII_UP && opcoes->velocidade_inicial < VELOCIDADE_INICIAL_MAX){
             (opcoes->velocidade_inicial)++;
-            MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
+            MenuOpcoes_ImprimeValor(*opcoes, cursor, SELECIONADO);
           }
           else if(tecla == ASCII_DOWN && opcoes->velocidade_inicial > VELOCIDADE_INICIAL_MIN){
             (opcoes->velocidade_inicial)--;
-            MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
+            MenuOpcoes_ImprimeValor(*opcoes, cursor, SELECIONADO);
           }
           break;
 
         case MENUOPCOES_CURSOR_TAMANHOMAXIMO:
           if(tecla == ASCII_UP && opcoes->tamanho_maximo < TAMANHO_MAXIMO_MAX){
             (opcoes->tamanho_maximo)++;
-            MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
+            MenuOpcoes_ImprimeValor(*opcoes, cursor, SELECIONADO);
           }
           else if(tecla == ASCII_DOWN && opcoes->tamanho_maximo > TAMANHO_MAXIMO_MIN){
             (opcoes->tamanho_maximo)--;
-            MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
+            MenuOpcoes_ImprimeValor(*opcoes, cursor, SELECIONADO);
           }
           break;
 
         case MENUOPCOES_CURSOR_ITENSMAXIMOS:
           if(tecla == ASCII_UP && opcoes->itens_maximos < ITENS_MAXIMOS_MAX){
             (opcoes->itens_maximos)++;
-            MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
+            MenuOpcoes_ImprimeValor(*opcoes, cursor, SELECIONADO);
           }
           else if(tecla == ASCII_DOWN && opcoes->itens_maximos > ITENS_MAXIMOS_MIN){
             (opcoes->itens_maximos)--;
-            MenuOpcoes_ImprimeValor(*opcoes, cursor, 1);
+            MenuOpcoes_ImprimeValor(*opcoes, cursor, SELECIONADO);
           }
           break;
       }
     }
     else{
-      MenuOpcoes_ImprimeValor(*opcoes, cursor, 0);
+      MenuOpcoes_ImprimeValor(*opcoes, cursor, NAO_SELECIONADO);
       escolhendo = 0;
     }
   }
@@ -231,13 +232,17 @@ void MenuOpcoes_InicializaOpcoes(OPCOES opcoes, int cursor){
   int i;
   clrscr();
   for(i = 1; i <= 4; i++){
-    MenuOpcoes_ImprimeCursor(i, 0);
-    MenuOpcoes_ImprimeValor(opcoes, i, 0);
+    MenuOpcoes_ImprimeCursor(i, NAO_SELECIONADO);
+    MenuOpcoes_ImprimeValor(opcoes, i, NAO_SELECIONADO);
   }
-  MenuOpcoes_ImprimeCursor(cursor, 1); /* seleciona primeira opcao */
+  MenuOpcoes_ImprimeCursor(cursor, SELECIONADO); /* seleciona primeira opcao */
 
   ImprimeCor_String(BLACK, WHITE, "<ENTER>", 45, 12);
   ImprimeCor_String(BLACK, WHITE, "Altera a opcao selecionada", 45, 13);
+}
+
+void MenuOpcoes_Arte(){
+  DesenhaCaixa(4, 3, 30, 22, '#', BLACK, WHITE);
 }
 
 /*
@@ -251,16 +256,17 @@ int MenuOpcoes(OPCOES *opcoes){
       escolhendo = 1;
 
   MenuOpcoes_InicializaOpcoes(*opcoes, cursor);
+  MenuOpcoes_Arte();
 
   while(escolhendo){
     cursor_aux = SetaCursor(cursor, 1, 4);
-    if(cursor_aux != -1){ /* usuario apertou alguma seta */
+    if(cursor_aux != CURSOR_ENTER && cursor_aux != CURSOR_ESC){ /* usuario apertou alguma seta */
       /* cursor_aux salva a tecla apertada e cursor a anterior */
-      MenuOpcoes_ImprimeCursor(cursor, 0);
-      MenuOpcoes_ImprimeCursor(cursor_aux, 1);
+      MenuOpcoes_ImprimeCursor(cursor, NAO_SELECIONADO);
+      MenuOpcoes_ImprimeCursor(cursor_aux, SELECIONADO);
       cursor = cursor_aux;
     }
-    else if(cursor != MENUOPCOES_CURSOR_SAIR)
+    else if(cursor != MENUOPCOES_CURSOR_SAIR && cursor_aux == CURSOR_ENTER)
       MenuOpcoes_Editor(opcoes, cursor);
       else{
         if(!Opcoes_SalvaArquivo(*opcoes))

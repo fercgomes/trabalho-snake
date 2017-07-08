@@ -11,9 +11,6 @@
 #define MENUPRINCIPAL_CURSOR_CREDITOS 4
 #define MENUPRINCIPAL_CURSOR_SAIR 5
 
-#define SELECIONADO 1
-#define NAO_SELECIONADO 0
-
 /*
     MenuPrincipal_ImprimeCursor
     Imprime as opcoes do menu principal.
@@ -146,6 +143,7 @@ void MenuPrincipal_Arte(){
   clrscr();
   Arte_MenuPrincipal_1();
   Arte_MenuPrincipal_2();
+  DesenhaCaixa(4, 3, 18, 19, '#', BLACK, WHITE);
 }
 
 /*  MenuPrincipal:
