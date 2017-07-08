@@ -1,8 +1,13 @@
+#define MENUJOGADOR_PRIMEIROCHAR 0
+#define MENUJOGADOR_SEGUNDOCHAR 1
+#define MENUJOGADOR_TERCEIROCHAR 2
+#define MENUJOGADOR_CONFIRMAR 3
 
-void cria_jogador_setacursor(int cursor, int selecionado){
+/* Imprime o cursor do menu de criar jogador */
+void MenuFim_CriaJogador_SetaCursor(int cursor, int selecionado){
   /* Imprime cursor atual e apaga antigo*/
   switch(cursor){
-    case 0:
+    case MENUJOGADOR_PRIMEIROCHAR:
       if(selecionado){
         putchxy(37, 6, '^');
         putchxy(37, 8, 'V');
@@ -12,7 +17,7 @@ void cria_jogador_setacursor(int cursor, int selecionado){
         putchxy(37, 8, ' ');
       }
       break;
-    case 1:
+    case MENUJOGADOR_SEGUNDOCHAR:
       if(selecionado){
         putchxy(39, 6, '^');
         putchxy(39, 8, 'V');
@@ -22,7 +27,7 @@ void cria_jogador_setacursor(int cursor, int selecionado){
         putchxy(39, 8, ' ');
       }
       break;
-    case 2:
+    case MENUJOGADOR_TERCEIROCHAR:
       if(selecionado){
         putchxy(41, 6, '^');
         putchxy(41, 8, 'V');
@@ -32,88 +37,104 @@ void cria_jogador_setacursor(int cursor, int selecionado){
         putchxy(41, 8, ' ');
       }
       break;
-    case 3:
+    case MENUJOGADOR_CONFIRMAR:
       if(selecionado){
-        escreve_cor(BLACK, WHITE, "<ENTER> PARA CONTINUAR", 28, 19);
-        escreve_cor(BLACK, WHITE, "<ESC> PARA VOLTAR", 30, 20);
+        ImprimeCor_String(BLACK, WHITE, "<ENTER> PARA CONTINUAR", 28, 19);
+        ImprimeCor_String(BLACK, WHITE, "<ESC> PARA VOLTAR", 30, 20);
       }
       else{
-        escreve_cor(BLACK, BLACK, "                      ", 28, 19);
-        escreve_cor(BLACK, BLACK, "                 ", 30, 20);
+        ImprimeCor_String(BLACK, BLACK, "                      ", 28, 19);
+        ImprimeCor_String(BLACK, BLACK, "                 ", 30, 20);
       }
   }
 }
 
+/* Imprime o texto do menu de criar jogador */
+ void MenuFim_InicializaOpcoes(){
+   clrscr();
+   ImprimeCor_String(BLACK, WHITE, "NOME DO JOGADOR", 32, 3);
+   ImprimeCor_String(BLACK, WHITE, "UTILIZE AS SETAS PARA ESCOLHER UM NOME", 20, 14);
+   ImprimeCor_String(BLACK, WHITE, "PRESSIONE ENTER PARA CONFIRMAR", 24, 16);
+ }
+
+/* Imprime o nome a ser salvo no ranking */
+ void MenuFim_ImprimeNome(char nome[MAX_NOME+1]){
+   putchxy(37, 7, nome[MENUJOGADOR_PRIMEIROCHAR]);
+   putchxy(39, 7, nome[MENUJOGADOR_SEGUNDOCHAR]);
+   putchxy(41, 7, nome[MENUJOGADOR_TERCEIROCHAR]);
+ }
+
+int MenuFim_ConfirmaEscolha(int *cursor, int cursor_aux){
+  char tecla;
+  tecla = getch();
+  while(tecla != ASCII_ENTER && tecla != ASCII_ESC)
+    tecla = getch();
+  if(tecla == ASCII_ENTER)
+    return 0;
+  else if(tecla == ASCII_ESC){
+    MenuFim_CriaJogador_SetaCursor(*cursor, NAO_SELECIONADO);
+    *cursor = cursor_aux;
+    return 1;
+  }
+}
+
+
+/* Altera o nome a ser salvo no ranking */
+int MenuFim_Escolhendo(int *cursor, int *cursor_aux, char nome[MAX_NOME+1]){
+   char tecla;
+   /* Verifica tecla */
+   tecla = getch();
+     if(tecla == -32)
+       tecla = getch();
+   switch(tecla){
+     case ASCII_UP:
+       if(nome[*cursor] < 'Z')
+         nome[*cursor]++;
+       return 1;
+     case ASCII_DOWN:
+       if(nome[*cursor] > 'A')
+         nome[*cursor]--;
+       return 1;
+     case ASCII_LEFT:
+       if(*cursor > MENUJOGADOR_PRIMEIROCHAR){
+         MenuFim_CriaJogador_SetaCursor(*cursor, NAO_SELECIONADO);
+         (*cursor)--;
+       }
+       return 1;
+     case ASCII_RIGHT:
+       if(*cursor < MENUJOGADOR_TERCEIROCHAR){
+         MenuFim_CriaJogador_SetaCursor(*cursor, NAO_SELECIONADO);
+         (*cursor)++;
+       }
+       return 1;
+     case ASCII_ENTER:
+       *cursor_aux = *cursor;
+       *cursor = MENUJOGADOR_CONFIRMAR;
+       MenuFim_CriaJogador_SetaCursor(*cursor_aux, NAO_SELECIONADO);
+       MenuFim_CriaJogador_SetaCursor(*cursor, SELECIONADO);
+       return MenuFim_ConfirmaEscolha(cursor, *cursor_aux);
+   }
+ }
+
 /*
-    cria_jogador:
+    MenuFim_CriaJogador:
       Cria a estrutura jogador a partir da entrada do usuario.    */
-void cria_jogador(JOGADOR *jogador){
+int MenuFim_CriaJogador(JOGADOR *jogador){
   char nome[MAX_NOME+1] = "AAA";
   char tecla;
   int cursor, cursor_aux, escolhendo;
-  /*
-      CURSOR:
-      0 -> Primeira posicao
-      1 -> Segunda posicao
-      2 -> Terceira posicao
-      3 -> ENTER
-  */
 
-  clrscr();
-  escreve_cor(BLACK, WHITE, "NOME DO JOGADOR", 32, 3);
-  escreve_cor(BLACK, WHITE, "UTILIZE AS SETAS PARA ESCOLHER UM NOME", 20, 14);
-  escreve_cor(BLACK, WHITE, "PRESSIONE ENTER PARA CONFIRMAR", 24, 16);
+  MenuFim_InicializaOpcoes();
+
   escolhendo = 1;
   cursor = 0;
   while(escolhendo){
     /* Imprime caracteres salvos */
-    putchxy(37, 7, nome[0]);
-    putchxy(39, 7, nome[1]);
-    putchxy(41, 7, nome[2]);
-
-    cria_jogador_setacursor(cursor, 1);
-
-    /* Verifica tecla */
-    tecla = getch();
-      if(tecla == -32)
-        tecla = getch();
-    switch(tecla){
-      case ASCII_UP:
-        if(nome[cursor] < 'Z')
-          nome[cursor]++;
-        break;
-      case ASCII_DOWN:
-        if(nome[cursor] > 'A')
-          nome[cursor]--;
-        break;
-      case ASCII_LEFT:
-        if(cursor > 0){
-          cria_jogador_setacursor(cursor, 0);
-          cursor--;
-        }
-        break;
-      case ASCII_RIGHT:
-        if(cursor < 2){
-          cria_jogador_setacursor(cursor, 0);
-          cursor++;
-        }
-        break;
-      case ASCII_ENTER:
-        cursor_aux = cursor;
-        cursor = 3;
-        cria_jogador_setacursor(cursor_aux, 0);
-        cria_jogador_setacursor(cursor, 1);
-        tecla = getch();
-        while(tecla != ASCII_ENTER && tecla != ASCII_ESC)
-          tecla = getch();
-        if(tecla == ASCII_ENTER)
-          escolhendo = 0;
-        else if(tecla == ASCII_ESC){
-          cria_jogador_setacursor(cursor, 0);
-          cursor = cursor_aux;
-        }
-    }
+    MenuFim_ImprimeNome(nome);
+    MenuFim_CriaJogador_SetaCursor(cursor, SELECIONADO);
+    escolhendo = MenuFim_Escolhendo(&cursor, &cursor_aux, nome);
   }
   strcpy(jogador->nome, nome);
   clrscr(); /* PRECISA? */
+  return 0;
 }

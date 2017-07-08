@@ -20,11 +20,6 @@ void debug_ranking(JOGADOR ranking[]){
   printf("\n--------------------------------------------------------------------------------\n");
 }
 
-void debug_var(int nivel, int status){
-  printf("nivel: %d\nstatus: %d\n", nivel, status);
-  printf("\n--------------------------------------------------------------------------------\n");
-}
-
 /* ARQUIVOS */
 
 void debug_file_opcoes(){
@@ -55,12 +50,12 @@ void debug_file_scores(){
   printf("\n--------------------------------------------------------------------------------\n");
 }
 
-void debug(OPCOES opcoes, JOGADOR jogador, JOGADOR ranking[], int nivel, int status){
+void debug(OPCOES opcoes, JOGADOR jogador, JOGADOR ranking[]){
+  clrscr();
   printf("VARIAVEIS DO JOGO:\n\n");
   debug_mostrajogador(jogador);
   debug_mostraopcoes(opcoes);
   debug_ranking(ranking);
-  debug_var(nivel, status);
 
   printf("ARQUIVOS:\n\n");
   debug_file_opcoes();

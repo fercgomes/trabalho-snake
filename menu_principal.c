@@ -1,145 +1,169 @@
 /* MENU PRINCIPAL */
-/*
-    seta_cursor:
-    Atualiza a posicao do cursor.
-    Os limites de posicao sao informados via parametro.
 
-    ENTER: -1
-    ESC: -2
-*/
-int seta_cursor(int cursor, int op_min, int op_max){
-  int novo_cursor = cursor;
-  char tecla;
-  tecla = getch();
-  if(tecla == -32)
-    tecla = getch();
-  switch(tecla){
-    case ASCII_UP:
-      if(cursor > op_min)
-        novo_cursor--;
-        break;
-    case ASCII_DOWN:
-      if(cursor < op_max)
-        novo_cursor++;
-        break;
-    case ASCII_ENTER:
-      novo_cursor = -1;
-      break;
-    case ASCII_ESC:
-      novo_cursor = -2;
-  }
-  return novo_cursor;
-}
+/* MENU - CONSTANTES */
+#define Y_ANCHOR 5 /* pos y da primeira opcao do menu */
+#define X_ANCHOR 6 /* pos x da primeira opcao do menu */
+#define Y_OFFSET 3 /* espacamento das opcoes  do menu */
+
+#define MENUPRINCIPAL_CURSOR_NOVOJOGO 1
+#define MENUPRINCIPAL_CURSOR_HIGHSCORES 2
+#define MENUPRINCIPAL_CURSOR_OPCOES 3
+#define MENUPRINCIPAL_CURSOR_CREDITOS 4
+#define MENUPRINCIPAL_CURSOR_SAIR 5
 
 /*
-    imprime_cursor_MP:
+    MenuPrincipal_ImprimeCursor
     Imprime as opcoes do menu principal.
-      selecionado: boolean
-*/
-void imprime_cursor_MP(int cursor, int selecionado){
+    selecionado: booleano                  */
+void MenuPrincipal_ImprimeCursor(int cursor, int selecionado){
   /* 1 - novo jogo; 2 - high scores; 3 - opcoes; 4 - creditos; 0 - sair */
-  char cursor_1[] = "NOVO JOGO";
-  char cursor_2[] = "HIGH SCORES";
-  char cursor_3[] = "OPCOES";
-  char cursor_4[] = "CREDITOS";
-  char cursor_5[] = "SAIR";
+  char novojogo[] = "NOVO JOGO";
+  char highscores[] = "HIGH SCORES";
+  char opcoes[] = "OPCOES";
+  char creditos[] = "CREDITOS";
+  char sair[] = "SAIR";
   switch(cursor){
-    case 1:
+    case MENUPRINCIPAL_CURSOR_NOVOJOGO:
       if(selecionado)
-        escreve_cor(BLACK, WHITE, cursor_1, X_ANCHOR, Y_ANCHOR);
+        ImprimeCor_String(BLACK, WHITE, novojogo, X_ANCHOR, Y_ANCHOR);
       else
-        escreve_cor(WHITE, BLACK, cursor_1, X_ANCHOR, Y_ANCHOR);
+        ImprimeCor_String(WHITE, BLACK, novojogo, X_ANCHOR, Y_ANCHOR);
       break;
-    case 2:
+    case MENUPRINCIPAL_CURSOR_HIGHSCORES:
       if(selecionado)
-        escreve_cor(BLACK, WHITE, cursor_2, X_ANCHOR, Y_ANCHOR + Y_OFFSET);
+        ImprimeCor_String(BLACK, WHITE, highscores, X_ANCHOR, Y_ANCHOR + Y_OFFSET);
       else
-        escreve_cor(WHITE, BLACK, cursor_2, X_ANCHOR, Y_ANCHOR + Y_OFFSET);
+        ImprimeCor_String(WHITE, BLACK, highscores, X_ANCHOR, Y_ANCHOR + Y_OFFSET);
       break;
-    case 3:
+    case MENUPRINCIPAL_CURSOR_OPCOES:
       if(selecionado)
-        escreve_cor(BLACK, WHITE, cursor_3, X_ANCHOR, Y_ANCHOR + Y_OFFSET*2);
+        ImprimeCor_String(BLACK, WHITE, opcoes, X_ANCHOR, Y_ANCHOR + Y_OFFSET*2);
       else
-        escreve_cor(WHITE, BLACK, cursor_3, X_ANCHOR, Y_ANCHOR + Y_OFFSET*2);
+        ImprimeCor_String(WHITE, BLACK, opcoes, X_ANCHOR, Y_ANCHOR + Y_OFFSET*2);
       break;
-    case 4:
+    case MENUPRINCIPAL_CURSOR_CREDITOS:
       if(selecionado)
-        escreve_cor(BLACK, WHITE, cursor_4, X_ANCHOR, Y_ANCHOR + Y_OFFSET*3);
+        ImprimeCor_String(BLACK, WHITE, creditos, X_ANCHOR, Y_ANCHOR + Y_OFFSET*3);
       else
-        escreve_cor(WHITE, BLACK, cursor_4, X_ANCHOR, Y_ANCHOR + Y_OFFSET*3);
+        ImprimeCor_String(WHITE, BLACK, creditos, X_ANCHOR, Y_ANCHOR + Y_OFFSET*3);
       break;
-    case 5:
+    case MENUPRINCIPAL_CURSOR_SAIR:
       if(selecionado)
-        escreve_cor(BLACK, WHITE, cursor_5, X_ANCHOR, Y_ANCHOR + Y_OFFSET*4);
+        ImprimeCor_String(BLACK, WHITE, sair, X_ANCHOR, Y_ANCHOR + Y_OFFSET*4);
       else
-        escreve_cor(WHITE, BLACK, cursor_5, X_ANCHOR, Y_ANCHOR + Y_OFFSET*4);
+        ImprimeCor_String(WHITE, BLACK, sair, X_ANCHOR, Y_ANCHOR + Y_OFFSET*4);
       break;
   }
 }
 
-/*
-    menu_principal:
-    Interface do menu principal do jogo
+/*  MenuPrincipal_InicializaOpcoes
+    Imprime as cinco opcoes do Menu Principal e seleciona o cursor informado  */
+void MenuPrincipal_InicializaOpcoes(int cursor){
+  int i;
+  for(i = MENUPRINCIPAL_CURSOR_NOVOJOGO; i <= MENUPRINCIPAL_CURSOR_SAIR; i++)                 /* imprime as cinco opcoes do menu */
+    MenuPrincipal_ImprimeCursor(i, NAO_SELECIONADO);
+  MenuPrincipal_ImprimeCursor(cursor, SELECIONADO); /* seleciona a opcao salva no cursor */
+}
+/*  MenuPrincipal_Enter
+    Verifica o cursor ativo quando o usuario apertou ENTER.
+      NOVO JOGO:
+        Seta a saida da funcao Menu Principal para 1.
+        Retorna 0 para sinalizar a saida do Menu Prinicpal.
+      SAIR:
+        Seta a saida funcao Menu Prinicipal para 0.
+        Retorna 0 para sinalizar a saida do Menu Prinicipal.
+      HIGH SCORES | OPCOES:
+        Retorna 1 para sinalizar a continuacao do Menu Principal.
+        Caso a abertura dos arquivos falhe:
+          Seta a saida da funcao Menu Principal para 0.
+          Retorna 0 para sinalizar saida do Menu Principal.
+      CREDITOS:
+        Retorna 1 para sinalizar a continuacao no Menu Principal.   */
+int MenuPrincipal_Enter(OPCOES *opcoes, JOGADOR ranking[], int cursor, int *status){
+  switch(cursor){
+    case MENUPRINCIPAL_CURSOR_NOVOJOGO:                                   /* MENU -> NOVO JOGO */
+      *status = 1;                            /* sinaliza inicio de jogo */
+      return 0;                               /* sinaliza saida do Menu Principal */
+
+    case MENUPRINCIPAL_CURSOR_HIGHSCORES:                                   /* MENU -> HIGH SCORES */
+      if(!MenuHighScores(ranking))           /* chama menu de scores */
+        return 1;                             /* sinaliza para ficar no Menu Principal */
+      else{
+        *status = 0;                          /* sinaliza para terminar programa */
+        return 0;                             /* em caso de erro no menu de highscores, sinaliza para sair do Menu Principal */
+      }
+
+    case MENUPRINCIPAL_CURSOR_OPCOES:                                   /* MENU -> OPCOES */
+      if(!MenuOpcoes(opcoes))                /* chama menu de opcoes */
+        return 1;                             /* sinaliza para ficar no Menu Principal */
+      else{
+        *status = 0;                          /* sinaliza para terminar programa */
+        return 0;                             /* envia sinal para sair do Menu Prinicipal */
+      }
+
+    case MENUPRINCIPAL_CURSOR_CREDITOS:                                   /* MENU -> CREDITOS */
+      MenuCreditos();
+      return 1;                               /* sinaliza para ficar no Menu Principal */
+
+    case MENUPRINCIPAL_CURSOR_SAIR:                                   /* MENU -> SAIR */
+      *status = 0;                            /* sinaliza para terminar programa */
+      return 0;                               /* sinaliza para sair do Menu Principal */
+  }
+}
+
+/*  MenuPrincipal_Escolhe
+    Retorna:
+      1 -> continua no Menu Principal
+      0 -> sai do Menu Principal       */
+int MenuPrincipal_Escolhe(OPCOES *opcoes, JOGADOR ranking[], int *status){
+  int escolhendo = 1,
+      cursor = 1,
+      cursor_aux = 1;
+
+  MenuPrincipal_InicializaOpcoes(cursor);              /* inicializa o cursor na posicao atual */
+
+  while(escolhendo){                                   /* enquanto usuario estiver escolhendo uma opcao do menu */
+    cursor_aux = SetaCursor(cursor, 1, 5);            /* pega novo cursor */
+    if(cursor_aux != CURSOR_ENTER){          /* usuario apertou alguma seta */
+      /* cursor_aux salva a tecla apertada e cursor a anterior */
+      MenuPrincipal_ImprimeCursor(cursor, NAO_SELECIONADO);         /* de-seleciona o cursor antigo */
+      MenuPrincipal_ImprimeCursor(cursor_aux, SELECIONADO);     /* seleciona cursor atual */
+      cursor = cursor_aux;
+    }
+    else if(cursor_aux == CURSOR_ENTER)
+      escolhendo = 0;
+  }
+  /* Retorna 1 para continuar no Menu Principal, e 0 para sair */
+  return MenuPrincipal_Enter(opcoes, ranking, cursor, status);
+}
+
+/*  MenuPrincipal_Arte:
+    Limpa a tela e desenha a arte do Menu Principal */
+void MenuPrincipal_Arte(){
+  clrscr();
+  Arte_MenuPrincipal_1();
+  Arte_MenuPrincipal_2();
+  DesenhaCaixa(4, 3, 18, 19, '#', BLACK, WHITE);
+}
+
+/*  MenuPrincipal:
+    Interface do menu principal do jogo.
     Retorna:
       1 -  para indicar inicio do jogo
-      0 -  para sair do programa
-       */
-int menu_principal(OPCOES *opcoes){
-  int cursor = 1,
-      cursor_aux = 0,
-      escolhendo,
-      no_menu,
-      status = 1,
+      0 -  para sair do programa  */
+int MenuPrincipal(OPCOES *opcoes, JOGADOR ranking[]){
+  int NoMenu = 1,
+      EmJogo = 1,
       i;
+
   do{
-    clrscr();
-    arte_menuprincipal_1();
-    arte_menuprincipal_2();
-    escolhendo = 1;
-    no_menu = 1;
-    /* imprime as opcoes */
-    for(i = 1; i <= 5; i++)
-      imprime_cursor_MP(i, 0);
-    imprime_cursor_MP(cursor, 1); /* seleciona primeira opcao */
-    while(escolhendo){
-      cursor_aux = seta_cursor(cursor, 1, 5);
-      if(cursor_aux != -1 && cursor_aux != -2){ /* usuario apertou alguma seta */
-        /* cursor_aux salva a tecla apertada e cursor a anterior */
-        imprime_cursor_MP(cursor, 0);
-        imprime_cursor_MP(cursor_aux, 1);
-        cursor = cursor_aux;
-      }
-      else if(cursor_aux == -1) /* usuario apertou enter */
-        switch(cursor){
-          case 1: /* novo jogo */
-            no_menu = 0;
-            escolhendo = 0;
-            status = 1;
-            break;
-          case 2: /* high scores */
-            menu_highscores(); /* montar retorno de erro */
-            escolhendo = 0;
-            break;
-          case 3: /* opcoes */
-            if(!menu_opcoes(opcoes))
-              escolhendo = 0; /* segue programa */
-            else return 0; /* envia sinal para terminar programa para main */
-            break;
-          case 4: /* creditos */
-            menu_creditos();
-            escolhendo = 0;
-            break;
-          case 5: /* sair */
-            no_menu = 0;
-            escolhendo = 0;
-            status = 0;
-            break;
-        }
-    } /* fim do loop de escolha */
-  } /* fim do loop do menu */
-  while(no_menu);
-  /* retorna o status de jogo para o resto do programa,
-    indicando se comeca o jogo ou para o programa
-    so sai quando aperta novo jogo ou sair */
-  return status;
+    MenuPrincipal_Arte();                                       /* limpa a atela e desenha arte do jogo */
+    NoMenu = MenuPrincipal_Escolhe(opcoes, ranking, &EmJogo);  /* se usuario nao iniciar jogo ou sair, continuar no menu */
+  }
+  while(NoMenu);
+
+  /* Retorna:
+      1 -> iniciar jogo
+      0 -> terminar programa    */
+  return EmJogo;
 }

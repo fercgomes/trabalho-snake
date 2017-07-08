@@ -1,19 +1,12 @@
-/*
-    ARQUIVO principal
-
-    Padrao de retorno de funcao:
-      Funcoes que tratam arquivos:
-        Retornam 0 para indicar sucesso e não-zero para indicar erro.
-
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <windows.h>
 #include <conio2.h>
+#include "arte.c"
 #include "snake_lib.c"
+#include "tutorial.c"
 #include "menu_principal.c"
 #include "menu_highscores.c"
 #include "menu_creditos.c"
@@ -22,67 +15,60 @@
 #include "carrega-mapa.c"
 #include "verifica-jogo.c"
 #include "cria-jogador.c"
-#include "arte.c"
+#include "cobra-engine.c"
 
-int main(){
+
+
+void InicializaJogo(){
   JOGADOR jogador;                    /* Informacoes sobre jogador atual */
   JOGADOR ranking[MAX_HIGHSCORES];    /* Arranjo com os 10 High Scores que vao ser salvos no arquivo */
-  OPCOES opcoes;                       /* Opcoes de jogo */
+  OPCOES opcoes;                      /* Opcoes de jogo */
 
-  COBRA cobra;
-  TUNEL tuneis[MAX_TUNEIS];
-  ITEM itens[MAX_ITEMS];
-
-  int
-      nivel,          /* Nivel do jogo */
-      status;       /* Sinalizador de estado para o fim do jogo */
-      /*
-          0 - ESC
-          1 - GANHOU
-          2 - PERDEU
-      */
+  COBRA cobra;                        /* Cobra */
+  TUNEL tuneis[MAX_TUNEIS];           /* Arranjo contendo todos os tuneis possiveis */
+  ITEM itens[MAX_ITEMS];              /* Arranjo contendo todos os itens possiveis */
 
   /* MAPAS - 24 x 80 */
-  char                      /* Coluna extra para o \0 */
-        nivel_1[MAPA_LINHAS][MAPA_COLUNAS+1],
-        nivel_2[MAPA_LINHAS][MAPA_COLUNAS+1],
-        nivel_3[MAPA_LINHAS][MAPA_COLUNAS+1];
+  char                /* Coluna extra para o \0 */
+        nivel_1[MAPA_LINHAS][MAPA_COLUNAS+1],     /* Nivel 1 */
+        nivel_2[MAPA_LINHAS][MAPA_COLUNAS+1],     /* Nivel 2 */
+        nivel_3[MAPA_LINHAS][MAPA_COLUNAS+1];     /* Nivel 3 */
 
-  ATRIBUTOS comida, faster, slower, skip;
+  int
+      Resultado_Jogo = 1;
 
-  /* Inicializacoes iniciais */
+
 
   /* Atributos dos itens */
-  /* COMIDA */
-  comida.altera_basepontos = 2;
-  comida.altera_velocidade = 0;
-  comida.altera_nivel = 0;
-  comida.altera_tamanho = 1;
-  comida.corpo = '0';
-  /* SLOWER */
-  slower.altera_basepontos = 1;
-  slower.altera_velocidade = -1;
-  slower.altera_nivel = 0;
-  slower.altera_tamanho = 0;
-  slower.corpo = '0';
-  /* FASTER */
-  faster.altera_basepontos = 3;
-  faster.altera_velocidade = 1;
-  faster.altera_nivel = 0;
-  faster.altera_tamanho = 0;
-  faster.corpo = '0';
-  /* SKIP */
-  skip.altera_basepontos = 40;
-  skip.altera_velocidade = 0;
-  skip.altera_nivel = 1;
-  skip.altera_tamanho = 1;
-  skip.corpo = '0';
+  /* Os atributos sao unicos para cada item. */
+  ATRIBUTOS comida, faster, slower, skip;
+  InicializaAtributos(&comida, &faster, &slower, &skip);
 
-  if(!carrega_opcoes(&opcoes))        /* carrega a estrutura OPCOES salva em opcoes.bin para a variavel opcoes */
-    if(menu_principal(&opcoes)){    /* carrega o menu principal */
-      cria_jogador(&jogador);       /* insere o nome do jogador */
-      jogador.pontuacao = 0;        /* zera pontuacao */
+  if(!MenuHighScores_CarregaArquivo(ranking))
+    if(!Opcoes_CarregaArquivo(&opcoes)){
+      /* so inicia jogo se opcoes e HS foram carregados com sucesso */
+      MenuPrincipal(&opcoes, ranking);
+      Tutorial();
+      //MenuFim_VerificaJogo(Resultado_Jogo, &jogador, ranking);
     }
-  debug(opcoes, jogador, ranking, nivel, status);
+}
+
+int main(){
+  InicializaJogo();
   return 0;
 }
+
+/*
+    Engine do Jogo:
+    LOOP 0:
+      Menu principal
+
+      LOOP 1:
+          Inicializacao de nivel
+          LOOP 2:
+              Movimentacao da cobra
+              Verificacao de estado
+          ??
+      Verifica fim de jogo
+      Volta para menu?
+*/
