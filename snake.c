@@ -6,6 +6,7 @@
 #include <conio2.h>
 #include "arte.c"
 #include "snake_lib.c"
+#include "tutorial.c"
 #include "menu_principal.c"
 #include "menu_highscores.c"
 #include "menu_creditos.c"
@@ -47,7 +48,8 @@ void InicializaJogo(){
     if(!Opcoes_CarregaArquivo(&opcoes)){
       /* so inicia jogo se opcoes e HS foram carregados com sucesso */
       MenuPrincipal(&opcoes, ranking);
-      MenuFim_VerificaJogo(Resultado_Jogo, &jogador, ranking);
+      Tutorial();
+      //MenuFim_VerificaJogo(Resultado_Jogo, &jogador, ranking);
     }
 }
 
