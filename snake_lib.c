@@ -213,3 +213,8 @@ void InicializaAtributos(ATRIBUTOS *comida, ATRIBUTOS *faster, ATRIBUTOS *slower
   skip->altera_tamanho = ATRIBUTOS_SKIP_TAMANHO;
   skip->corpo = '0';
 }
+
+/* calculaPontos:  */
+int calculaPontos(int base, int velocidade, int tamanho){
+  return (base * tamanho) / (5 * velocidade);
+}

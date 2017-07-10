@@ -53,6 +53,10 @@ void InicializaJogo(){
     }
 }
 
+void TesteMovimento(){
+  
+}
+
 int main(){
   InicializaJogo();
   return 0;

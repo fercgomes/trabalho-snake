@@ -23,6 +23,7 @@ int MenuHighScores_CarregaArquivo(JOGADOR ranking[]){
   FILE *arquivo;
   char nome[MAX_NOME + 1];
   int pontos, i;
+  JOGADOR buffer;
   if(!(arquivo = fopen("scores.txt", "r"))){
     printf("Erro ao abrir o arquivo scores.txt\nPressione qualquer tecla para voltar");
     PegaTecla_Animacao(1, 3);
@@ -30,16 +31,17 @@ int MenuHighScores_CarregaArquivo(JOGADOR ranking[]){
     return 1;
   }
   else{
-    for(i = 0; i < MAX_HIGHSCORES; i++)
-      if(!(fscanf(arquivo, "%d%s", &pontos, nome))){
+    i = 0;
+    while(!feof(arquivo) && i < MAX_HIGHSCORES)
+      if(!(fscanf(arquivo, "%d%s", &buffer.pontuacao, &buffer.nome))){
         printf("Erro ao ler o arquivo scores.txt\nPressione qualquer tecla para voltar");
         PegaTecla_Animacao(1, 3);
         MenuHighScores_ResetaArquivo();
         return 1;
       }
       else{
-        ranking[i].pontuacao = pontos;
-        strcpy(ranking[i].nome, nome);
+        ranking[i] = buffer;
+        i++;
       }
   }
   fclose(arquivo);

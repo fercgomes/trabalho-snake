@@ -1,7 +1,4 @@
-/* calculaPontos:  */
-int calculaPontos(int base, int velocidade, int tamanho){
-  return (base * tamanho) / (5 * velocidade);
-}
+
 
 /* gera um numero aleatorio */
 int numeroAleatorio(int limite){
@@ -11,14 +8,6 @@ int numeroAleatorio(int limite){
     while(controle > limite)
         controle = rand();
     return controle;
-}
-
-void zeraItems(ITEM *item){
-    int i;
-    for(i = 0; i < MAX_ITEMS; i++){
-        item[i].pos.x = 0;
-        item[i].pos.y = 0;
-    }
 }
 
 /* ************************* */
