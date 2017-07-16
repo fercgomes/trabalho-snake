@@ -138,7 +138,6 @@ void ImprimeCor_Int(int cor, int fundo, int n, int x, int y){
 
 /*
     PegaTecla_Animacao:
-    Retorna a tecla apertada. //corre��o: n�o retorna a tecla, s� espera que algo seja apertado.
     Mostra animacao de barras na pos (x, y) indicada.
 */
 void PegaTecla_Animacao(int x, int y){
@@ -148,6 +147,26 @@ void PegaTecla_Animacao(int x, int y){
     if(kbhit()){
       getch();
       segue = 0;
+    }
+    else{
+      putchxy(x, y, icone[i]);
+      if(i == 3)
+        i = 0;
+      else i++;
+    }
+    Sleep(100);
+  }
+}
+
+void EsperaEnter_Animacao(int x, int y){
+  char icone[4] = {'|', '\\', '-', '/'};
+  char tecla;
+  int segue = 1, i = 0;
+  while(segue){
+    if(kbhit()){
+      tecla = getch();
+      if(tecla == ASCII_ENTER)
+        segue = 0;
     }
     else{
       putchxy(x, y, icone[i]);

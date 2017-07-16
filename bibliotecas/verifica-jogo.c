@@ -18,10 +18,10 @@ void MenuFim_Adeus(int *status){
 void MenuFim_JogadorPausou(){
   clrscr();
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
-  ImprimeCor_String(BLACK, WHITE, "PRESSIONE QUALQUER TECLA PARA", 26, 10);
+  ImprimeCor_String(BLACK, WHITE, "PRESSIONE <ENTER> PARA", 28, 10);
   ImprimeCor_String(BLACK, WHITE, "VOLTAR AO MENU...", 32, 14);
   Sleep(MENSAGEM_TEMPOESPERA);
-  PegaTecla_Animacao(68, 18);
+  EsperaEnter_Animacao(68, 18);
 }
 
 void MenuFim_JogadorGanhou(){
@@ -29,9 +29,9 @@ void MenuFim_JogadorGanhou(){
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
   ImprimeCor_String(BLACK, WHITE, "PARABENS!", 36, 10);
   ImprimeCor_String(BLACK, WHITE, "VOCE VENCEU!", 34, 12);
-  ImprimeCor_String(BLACK, WHITE, "PRESSIONE QUALQUER TECLA PARA CONTINUAR", 22, 16);
+  ImprimeCor_String(BLACK, WHITE, "PRESSIONE <ENTER> PARA CONTINUAR", 24, 16);
   Sleep(MENSAGEM_TEMPOESPERA);
-  PegaTecla_Animacao(68, 18);
+  EsperaEnter_Animacao(68, 18);
 }
 
 void MenuFim_JogadorPerdeu(){
@@ -39,9 +39,9 @@ void MenuFim_JogadorPerdeu(){
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
   ImprimeCor_String(BLACK, WHITE, "AAAAH :/", 36, 10);
   ImprimeCor_String(BLACK, WHITE, "VOCE PERDEU!", 34, 12);
-  ImprimeCor_String(BLACK, WHITE, "PRESSIONE QUALQUER TECLA PARA CONTINUAR", 22, 16);
+  ImprimeCor_String(BLACK, WHITE, "PRESSIONE ENTER PARA CONTINUAR", 24, 16);
   Sleep(MENSAGEM_TEMPOESPERA);
-  PegaTecla_Animacao(68, 18);
+  EsperaEnter_Animacao(68, 18);
 }
 
 void InsereJogador(JOGADOR jogador, JOGADOR ranking[], int i){

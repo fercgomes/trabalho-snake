@@ -116,8 +116,8 @@ void ImprimeNivelAtual(int nivel){
      ImprimeCor_String(WHITE, BLACK, "|____/ ", NIVEL_XANCHOR, NIVEL_YANCHOR + 5);
      break;
   }
-  ImprimeCor_String(BLACK, WHITE, "PRESSIONE QUALQUER TECLA PARA INICIAR", 23, 16);
+  ImprimeCor_String(BLACK, WHITE, "PRESSIONE <ENTER> PARA INICIAR", 26, 16);
   Sleep(NIVEL_TEMPOESPERA);
-  PegaTecla_Animacao(68, 18);
+  EsperaEnter_Animacao(68, 18);
   clrscr();
 }
