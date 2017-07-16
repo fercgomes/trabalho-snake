@@ -99,7 +99,7 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
             PegaItemCobra(&cobra, jogador, itens, comida, slower, faster, skip, mapa, tuneis, nivel, &ganhounivel);
 
             /* Se a cobra colide, ela morre */
-            if(checacolisoes_item(cobra, tuneis, mapa))
+            if(checacolisoes_cobra(cobra, tuneis, mapa))
                 vivo = 0;
 
             /* Quando a cobra chega no tamanho maximo definido, passa de nivel */
