@@ -12,8 +12,8 @@ void AtualizaInfo(JOGADOR jogador, int nivel, COBRA cobra, OPCOES opcoes){
 
 /* PegaTecla:
     Se o usuArio pressionar uma das setas, muda a direcao do movimento;
-    Se pressionar ESC, muda a variavel saiu para sair do jogo. */
-void PegaTecla(COBRA *cobra, int *saiu){
+    Se pressionar ESC, muda a variavel JogadorSaiu para sair do jogo. */
+void PegaTecla(COBRA *cobra, int *JogadorSaiu){
     char tecla;
     if(kbhit()){
         tecla = getch();
@@ -41,8 +41,8 @@ void PegaTecla(COBRA *cobra, int *saiu){
                 }
                 break;
 
-            case ASCII_ESC: /* Se ESC for pressionado, muda o valor de saiu. */
-                *saiu = 1;
+            case ASCII_ESC: /* Se ESC for pressionado, muda o valor de JogadorSaiu. */
+                *JogadorSaiu = 1;
         }
     }
 }
@@ -72,14 +72,38 @@ int VerificaPassagemNivel(COBRA cobra, OPCOES opcoes){
   else return 0;
 }
 
-int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MAPA_COLUNAS+1], char map2[][MAPA_COLUNAS+1], char map3[][MAPA_COLUNAS+1],
-                     TUNEL tuneis[], ITEM itens[], ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS faster, ATRIBUTOS skip, COBRA cobra){
+/* Se houve passagem de nivel, da bonus de pontos e altera variave de nivel */
+void PassagemDeNivel(int PassagemNivel, JOGADOR *jogador, int *nivel, int *JogadorGanhou){
+  if(PassagemNivel){
+      jogador->pontuacao += 1000;
+      if(*nivel < 3)
+          (*nivel)++;
+      else
+          *JogadorGanhou = 1;
+  }
+}
 
-    int i, tempo;
-    int CobraViva = 1,
+int ResultadoDeJogo(int CobraViva, int JogadorGanhou, int JogadorSaiu){
+  if(CobraViva == 0)
+      return 0;
+  if(JogadorGanhou)
+      return 1;
+  if(JogadorSaiu)
+      return 2;
+}
+
+int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MAPA_COLUNAS+1],
+                    char map2[][MAPA_COLUNAS+1], char map3[][MAPA_COLUNAS+1],
+                    TUNEL tuneis[], ITEM itens[], ATRIBUTOS comida, ATRIBUTOS slower,
+                    ATRIBUTOS faster, ATRIBUTOS skip, COBRA cobra){
+
+    int i,
+        tempo,
+        CobraViva = 1,
         JogadorGanhou = 0,
         PassaDeNivel,
-        saiu = 0;
+        JogadorSaiu = 0;
+
     char mapa[MAPA_LINHAS][MAPA_COLUNAS+1];
 
     do{ /* ===== LOOP DO NIVEL ATUAL ===== */
@@ -93,7 +117,7 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
         do{ /* === LOOP DA MOVIMENTACAO E DA INTERACAO === */
             /* Imprime os placares atualizados */
             AtualizaInfo(*jogador, *nivel, cobra, *opcoes);
-            PegaTecla(&cobra, &saiu);
+            PegaTecla(&cobra, &JogadorSaiu);
             /* Faz a movimentacao da cobra, tanto no movimento livre quanto na passagem pelos tuneis */
             Movimentacao(&cobra, tuneis);
             /* Se a cobra esta passando por um item, os efeitos dele sao aplicados sobre ela e um novo item eh gerado */
@@ -104,23 +128,9 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
             /* Quando a cobra chega no tamanho maximo definido, passa de nivel */
             PassaDeNivel = VerificaPassagemNivel(cobra, *opcoes);
             TempoDeEspera(cobra.velocidade_atual);
-        }while(CobraViva == 1 && PassaDeNivel == 0 && saiu == 0);
+        }while(CobraViva == 1 && PassaDeNivel == 0 && JogadorSaiu == 0);
+        PassagemDeNivel(PassaDeNivel, jogador, nivel, &JogadorGanhou); /* gerencia a passagem de nivel */
+    }while(CobraViva == 1 && JogadorGanhou == 0 && JogadorSaiu == 0);
 
-        if(PassaDeNivel){
-            jogador->pontuacao += 1000;
-
-            if(*nivel < 3)
-                (*nivel)++;
-            else
-                JogadorGanhou = 1;
-        }
-
-    }while(CobraViva == 1 && JogadorGanhou == 0 && saiu == 0);
-
-    if(CobraViva == 0)
-        return 0;
-    if(JogadorGanhou)
-        return 1;
-    if(saiu)
-        return 2;
+    return ResultadoDeJogo(CobraViva, JogadorGanhou, JogadorSaiu);
 }
