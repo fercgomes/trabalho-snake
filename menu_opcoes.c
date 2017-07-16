@@ -206,6 +206,10 @@ void MenuOpcoes_Editor(OPCOES *opcoes, int cursor){
           else if(tecla == ASCII_DOWN && opcoes->tamanho_maximo > TAMANHO_MAXIMO_MIN){
             (opcoes->tamanho_maximo)--;
             MenuOpcoes_ImprimeValor(*opcoes, cursor, SELECIONADO);
+
+            /* Para apagar o ultimo 0 do 100 */
+            if(opcoes->tamanho_maximo == 99)
+                printf(" ");
           }
           break;
 

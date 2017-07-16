@@ -58,6 +58,19 @@ void Mapa_Converte(char mapa[][MAPA_COLUNAS+1]){
 }
 
 /*
+    Mapa_Carrega_e_Converte:
+    Carrega um mapa de um arquivo txt para uma matriz do programa principal,
+    e já converte os '1's e '0's para 'X's e ' 's, respectivamente.
+    Retorna 1 se falhar, 0 se obtiver êxito. */
+int Mapa_Carrega_e_Converte(char mapa[][MAPA_COLUNAS+1], char nome_arq[]){
+  if(Mapa_Carrega(mapa, nome_arq) == 1) /* erro no carregamento do mapa */
+    return 1;
+  Mapa_Converte(mapa);
+  return 0;
+}
+
+
+/*
     Mapa_Imprime:
     Imprime na tela a matriz de strings que representa o mapa   */
 void Mapa_Imprime(char mapa[][MAPA_COLUNAS+1]){

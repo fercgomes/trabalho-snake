@@ -63,3 +63,13 @@ void debug(OPCOES opcoes, JOGADOR jogador, JOGADOR ranking[]){
 
   getch();
 }
+
+/* Debugger do arranjo de itens: */
+void debug_itens(ITEM itens[MAX_ITEMS]){
+  int i;
+  gotoxy(1, 10);
+  for(i = 0; i < MAX_ITEMS; i++){
+    printf("(%d, %d) \t", itens[i].pos.x, itens[i].pos.y);
+    printf("%d %d %d %d %c\n", itens[i].atributos.altera_basepontos, itens[i].atributos.altera_velocidade, itens[i].atributos.altera_nivel, itens[i].atributos.altera_tamanho, itens[i].atributos.corpo);
+  }
+}

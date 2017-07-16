@@ -22,7 +22,7 @@
 /* MAXIMOS */
 #define MAX_SEGMENTOS 200
 #define MAX_OBSTACULOS 380
-#define MAX_ITEMS 5
+#define MAX_ITEMS 10
 #define MAX_TUNEIS 5
 #define MAX_NOME 3
 #define MAX_HIGHSCORES 10
@@ -75,11 +75,12 @@ typedef struct{
 } COBRA;
 
 typedef struct{
-  COORDENADA pos;
-  int id,
-      id_saida,
-      direcao_entrada,
-      direcao_saida;
+  COORDENADA pos,
+             pos_entrada_e_saida;
+  char id,
+       id_saida;
+  int  direcao_entrada,
+       direcao_saida;
   char corpo;
 } TUNEL;
 
@@ -137,10 +138,10 @@ void ImprimeCor_Int(int cor, int fundo, int n, int x, int y){
 
 /*
     PegaTecla_Animacao:
-    Retorna a tecla apertada.
+    Retorna a tecla apertada. //correção: não retorna a tecla, só espera que algo seja apertado.
     Mostra animacao de barras na pos (x, y) indicada.
 */
-int PegaTecla_Animacao(int x, int y){
+void PegaTecla_Animacao(int x, int y){
   char icone[4] = {'|', '\\', '-', '/'};
   int segue = 1, i = 0;
   while(segue){
@@ -193,28 +194,31 @@ void InicializaAtributos(ATRIBUTOS *comida, ATRIBUTOS *faster, ATRIBUTOS *slower
   comida->altera_velocidade = ATRIBUTOS_COMIDA_VELOCIDADE;
   comida->altera_nivel = ATRIBUTOS_COMIDA_NIVEL;
   comida->altera_tamanho = ATRIBUTOS_COMIDA_TAMANHO;
-  comida->corpo = '0';
+  comida->corpo = 'C';
   /* SLOWER */
   slower->altera_basepontos = ATRIBUTOS_SLOWER_BASEPONTOS;
   slower->altera_velocidade = ATRIBUTOS_SLOWER_VELOCIDADE;
   slower->altera_nivel = ATRIBUTOS_SLOWER_NIVEL;
   slower->altera_tamanho = ATRIBUTOS_SLOWER_TAMANHO;
-  slower->corpo = '0';
+  slower->corpo = 'S';
   /* FASTER */
   faster->altera_basepontos = ATRIBUTOS_FASTER_BASEPONTOS;
   faster->altera_velocidade = ATRIBUTOS_FASTER_VELOCIDADE;
   faster->altera_nivel = ATRIBUTOS_FASTER_NIVEL;
   faster->altera_tamanho = ATRIBUTOS_FASTER_TAMANHO;
-  faster->corpo = '0';
+  faster->corpo = 'F';
   /* SKIP */
   skip->altera_basepontos = ATRIBUTOS_SKIP_BASEPONTOS;
   skip->altera_velocidade = ATRIBUTOS_SKIP_VELOCIDADE;
   skip->altera_nivel = ATRIBUTOS_SKIP_NIVEL;
   skip->altera_tamanho = ATRIBUTOS_SKIP_TAMANHO;
-  skip->corpo = '0';
+  skip->corpo = 'K';
 }
 
-/* calculaPontos:  */
-int calculaPontos(int base, int velocidade, int tamanho){
-  return (base * tamanho) / (5 * velocidade);
+/* gera um numero aleatorio
+   no intervalo fechado [minimo, maximo] */
+int numeroAleatorio(int minimo, int maximo){
+    int r;
+    r = minimo + rand()%((maximo-minimo) + 1);
+    return r;
 }

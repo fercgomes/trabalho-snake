@@ -15,8 +15,9 @@
 
 */
 
+#define JOGADOR_PERDEU 0
 #define JOGADOR_GANHOU 1
-#define JOGADOR_PERDEU 2
+#define JOGADOR_SAIU 2
 
 void MenuFim_JogadorGanhou(){
   clrscr();
@@ -75,7 +76,7 @@ void MenuFim_SetaNovoHighScore(JOGADOR jogador, JOGADOR ranking[], int indice){
 
 /*
     MenuFim_VerificaScore:
-      Verficia se um score deve entrar para o ranking.
+      Verifica se um score deve entrar para o ranking.
       Retorna:
         ??? */
 int MenuFim_VerificaScore(JOGADOR jogador, JOGADOR ranking[]){
