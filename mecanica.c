@@ -8,17 +8,17 @@ void AtualizaInfo(JOGADOR jogador, int nivel, COBRA cobra, OPCOES opcoes){
 }
 
 /* PegaTecla:
-    Se o usuário pressionar uma das setas, muda a direção do movimento;
-    Se pressionar ESC, muda a variável saiu para sair do jogo. */
+    Se o usuï¿½rio pressionar uma das setas, muda a direï¿½ï¿½o do movimento;
+    Se pressionar ESC, muda a variï¿½vel saiu para sair do jogo. */
 void PegaTecla(COBRA *cobra, int *saiu){
     char tecla;
     if(kbhit()){
         tecla = getch();
 
-        /* Os dois switches aninhados servem para evitar que a mudança de direção fosse feita somente na chamada seguinte,
-            e para permitir que pressionar ESC uma única vez faça o jogo ser encerrado. */
+        /* Os dois switches aninhados servem para evitar que a mudanï¿½a de direï¿½ï¿½o fosse feita somente na chamada seguinte,
+            e para permitir que pressionar ESC uma ï¿½nica vez faï¿½a o jogo ser encerrado. */
         switch(tecla){
-            case -32:       /* Se for pressionada uma tecla, o valor -32 é retornado e getch() é chamada outra vez. */
+            case -32:       /* Se for pressionada uma tecla, o valor -32 ï¿½ retornado e getch() ï¿½ chamada outra vez. */
                 tecla = getch();
                 switch(tecla){
                     case ASCII_UP:
@@ -83,7 +83,7 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
         InicializaItens(*opcoes, itens, comida, slower, faster, skip, mapa, tuneis, cobra);
         InicializaCobra(&cobra, *opcoes, *nivel);
 
-        do{ /* === LOOP DA MOVIMENTAÇÃO E DA INTERAÇÃO === */
+        do{ /* === LOOP DA MOVIMENTAï¿½ï¿½O E DA INTERAï¿½ï¿½O === */
 
             /* Imprime os placares atualizados */
             AtualizaInfo(*jogador, *nivel, cobra, *opcoes);
@@ -92,14 +92,14 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
 
             PegaTecla(&cobra, &saiu);
 
-            /* Faz a movimentação da cobra, tanto no movimento livre quanto na passagem pelos tuneis */
+            /* Faz a movimentaï¿½ï¿½o da cobra, tanto no movimento livre quanto na passagem pelos tuneis */
             Movimentacao(&cobra, tuneis);
 
-            /* Se a cobra está passando por um item, os efeitos dele são aplicados sobre ela e um novo item é gerado */
+            /* Se a cobra estï¿½ passando por um item, os efeitos dele sï¿½o aplicados sobre ela e um novo item ï¿½ gerado */
             PegaItemCobra(&cobra, jogador, itens, comida, slower, faster, skip, mapa, tuneis, nivel, &ganhounivel);
 
             /* Se a cobra colide, ela morre */
-            if(checacolisoes_cobra(cobra, tuneis, mapa))
+            if(checacolisoes_item(cobra, tuneis, mapa))
                 vivo = 0;
 
             /* Quando a cobra chega no tamanho maximo definido, passa de nivel */

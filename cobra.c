@@ -1,5 +1,9 @@
+/*
+    COBRA
+    MODULO DE MOVIMENTACAO
+*/
 
-/* Inicializa o arranjo de posi��es da cobra, considerando que a sua dire��o inicial � 4 (RIGHT). */
+/* Inicializa o arranjo de posicoes da cobra, considerando que a sua dire��o inicial � 4 (RIGHT). */
 void InicCobraPosicoes(COBRA *cobra, int nivel){
     int i, x_inic, y_inic;
 
@@ -29,20 +33,20 @@ void ImprimeCobra(COBRA cobra){
         putchxy(cobra.pos[i].x, cobra.pos[i].y, cobra.corpo);
 }
 
-/* Faz a inicializa��o estrutural e gr�fica da cobra */
+/* Faz a inicializacao estrutural e grafica da cobra */
 void InicializaCobra(COBRA *cobra, OPCOES opcoes, int nivel){
 
-    /* Inicializa��es dos atributos da cobra: */
-    cobra->direcao = DIRECAO_INICIAL;                       /* arbitr�ria */
-    cobra->tamanho_atual = TAMANHO_INICIAL;                 /* arbitr�rio */
-    cobra->velocidade_atual = opcoes.velocidade_inicial;    /* definido nas opc�es */
+    /* Inicializacoes dos atributos da cobra: */
+    cobra->direcao = DIRECAO_INICIAL;                       /* arbitraria */
+    cobra->tamanho_atual = TAMANHO_INICIAL;                 /* arbitrario */
+    cobra->velocidade_atual = opcoes.velocidade_inicial;    /* definido nas opcoes */
     InicCobraPosicoes(cobra, nivel);
     cobra->corpo = 'X';
 
     ImprimeCobra(*cobra);
 }
 
-/* Arrasta um �ndice � direita os elementos do arranjo de posi��es da cobra, a partir do [1]. */
+/* Arrasta um indice a direita os elementos do arranjo de posicoes da cobra, a partir do [1]. */
 void ArrastaPosCobra(COBRA *cobra){
     int i;
     for(i = cobra->tamanho_atual; i > 0; i--){
@@ -51,9 +55,9 @@ void ArrastaPosCobra(COBRA *cobra){
     }
 }
 
-/* Faz a movimenta��o da cobra, tanto estruturalmente quanto graficamente. */
+/* Faz a movimentacao da cobra, tanto estruturalmente quanto graficamente. */
 void MoveCobra(COBRA *cobra){
-    /* Apaga o �ltimo segmento do corpo da cobra */
+    /* Apaga o ultimo segmento do corpo da cobra */
     putchxy(cobra->pos[cobra->tamanho_atual - 1].x, cobra->pos[cobra->tamanho_atual - 1].y, ' ');
 
     /* Arrasta os elementos no arranjo, liberando o elemento [0] (cabe�a) para ser alterado */
@@ -80,28 +84,29 @@ void MoveCobra(COBRA *cobra){
     }
 }
 
-/* Verifica se a cabe�a da cobra est� no mesmo lugar que algum item.
-    Se est�, a cobra sofre os efeitos do item e um novo item � gerado.
-    Se n�o, nada acontece. */
+/* Aplica os efetos de um item que foi pego pelo jogador */
+void AplicaItem(ITEM item, COBRA *cobra, JOGADOR *jogador, int *nivel, int *ganhounivel){
+  SomaPontuacao(jogador, item, *cobra);
+
+  cobra->tamanho_atual += item.atributos.altera_tamanho;
+  cobra->velocidade_atual += item.atributos.altera_velocidade;
+
+  /* Se o item for do tipo skip, passa de nivel: */
+  if(item.atributos.altera_nivel){
+      *nivel++;
+      *ganhounivel = 1;
+  }
+}
+
+/* Verifica se a cabeca da cobra esta no mesmo lugar que algum item.
+    Se esta, a cobra sofre os efeitos do item e um novo item eh gerado.
+    Se nao, nada acontece. */
 void PegaItemCobra(COBRA *cobra, JOGADOR *jogador, ITEM itens[MAX_ITEMS], ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS faster, ATRIBUTOS skip, char mapa[MAPA_LINHAS][MAPA_COLUNAS+1], TUNEL tuneis[MAX_TUNEIS], int *nivel, int *ganhounivel){
     int i = 0;
-
     while(i < MAX_ITEMS){
         if(MesmaPosicao(itens[i].pos, cobra->pos[0])){
-
-            SomaPontuacao(jogador, itens[i], *cobra);
-
-            cobra->tamanho_atual += itens[i].atributos.altera_tamanho;
-            cobra->velocidade_atual += itens[i].atributos.altera_velocidade;
-
-            /* Se o item for do tipo skip, passa de nivel: */
-            if(itens[i].atributos.altera_nivel){
-                *nivel++;
-                *ganhounivel = 1;
-            }
-
-            /* Gera outro item: */
-            CriaeImprimeItem(&itens[i], comida, slower, faster, skip, mapa, tuneis, *cobra, itens);
+            AplicaItem(itens[i], cobra, jogador, nivel, ganhounivel);                               /* Aplica efeitos do item pego */
+            CriaeImprimeItem(&itens[i], comida, slower, faster, skip, mapa, tuneis, *cobra, itens); /* Gera outro item: */
         }
         i++;
     }
@@ -125,7 +130,6 @@ char VaiEntrarNoTunel(COBRA cobra, TUNEL tuneis[MAX_TUNEIS]){
     Assume que o id passado como par�metro sempre ser� v�lido (ou seja, a fun��o sempre retornar� um tunel). */
 TUNEL ProcuraTunel(TUNEL tuneis[MAX_TUNEIS], char id_procura){
     int i = 0;
-
     while(i < MAX_TUNEIS){
         if(tuneis[i].id == id_procura)
             return tuneis[i];
@@ -133,41 +137,38 @@ TUNEL ProcuraTunel(TUNEL tuneis[MAX_TUNEIS], char id_procura){
     }
 }
 
-/* Quando a cabe�a da cobra estiver na posi��o de entrada e saida de um tunel e a sua dire��o for a mesma que a dire��o
-    de entrada desse tunel, esta fun��o teleporta a cabe�a para a posi��o de entrada e saida e arrasta os outros segmentos */
+/* Quando a cabeca da cobra estiver na posicao de entrada e saida de um tunel e a sua direcao for a mesma que a direcao
+    de entrada desse tunel, esta funcao teleporta a cabeca para a posicao de entrada e saida e arrasta os outros segmentos */
 void AtravessaCabeca(COBRA *cobra, TUNEL tuneis[MAX_TUNEIS], char vai_entrar){
     TUNEL tunel_entrada, tunel_saida;
 
-    /* Instancia os tuneis nas vari�veis locais, de acordo com a id de entrada passada como par�metro (vai_entrar) */
+    /* Instancia os tuneis nas variaveis locais, de acordo com a id de entrada passada como parametro (vai_entrar) */
     tunel_entrada = ProcuraTunel(tuneis, vai_entrar);
     tunel_saida = ProcuraTunel(tuneis, tunel_entrada.id_saida);
 
-    /* Apaga o �ltimo segmento do corpo da cobra */
+    /* Apaga o ultimo segmento do corpo da cobra */
     putchxy(cobra->pos[cobra->tamanho_atual - 1].x, cobra->pos[cobra->tamanho_atual - 1].y, ' ');
 
-    /* Arrasta os elementos no arranjo, liberando o elemento [0] (cabe�a) para ser alterado */
+    /* Arrasta os elementos no arranjo, liberando o elemento [0] (cabeca) para ser alterado */
     ArrastaPosCobra(cobra);
 
-    /* Teleporta a cabe�a para a posi��o de entrada e saida do tunel_saida, e muda a dire��o do movimento */
+    /* Teleporta a cabeca para a posicao de entrada e saida do tunel_saida, e muda a direcao do movimento */
     cobra->pos[0] = tunel_saida.pos_entrada_e_saida;
     cobra->direcao = tunel_saida.direcao_saida;
     putchxy(cobra->pos[0].x, cobra->pos[0].y, cobra->corpo);
 
 }
 
-/* Faz a movimenta��o da cobra, tanto no movimento livre quanto na passagem pelos tuneis */
+/* Faz a movimentacao da cobra, tanto no movimento livre quanto na passagem pelos tuneis */
 void Movimentacao(COBRA *cobra, TUNEL tuneis[MAX_TUNEIS]){
     char vai_entrar;
 
     /* Se a cobra estiver prestes a atravessar um tunel, vai_entrar recebe o id deste tunel */
-    /* Se n�o, recebe o caractere '0' como resposta padr�o */
+    /* Se nao, recebe o caractere '0' como resposta padrao */
     vai_entrar = VaiEntrarNoTunel(*cobra, tuneis);
 
     if(vai_entrar == '0')
-        /* Faz o movimento normal */
-        MoveCobra(cobra);
-    else{
-        /* Passa a cabe�a da cobra pelo tunel e arrasta os outros segmentos */
-        AtravessaCabeca(cobra, tuneis, vai_entrar);
-    }
+      MoveCobra(cobra);                               /* Faz o movimento normal */
+    else
+      AtravessaCabeca(cobra, tuneis, vai_entrar);     /* Passa a cabeca da cobra pelo tunel e arrasta os outros segmentos */
 }

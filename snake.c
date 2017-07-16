@@ -1,16 +1,12 @@
 /*
-  ============= NaoSei Game Development - copyright 2017 =============
+  ============= NaoSei Game Development - Copyright 2017 =============
 
     Snake - versao 0.1 (Beta)
-
-    Problemas na funcionalidade:
-      - a cobra nao atravessa os tuneis;
-      - nao ha uma tela final de jogo bem definida;
 
     Membros da equipe:
       - Artur Waquil Campana
       - Fernando Correa Gomes
-
+  =====================================================================
 */
 
 #include <stdio.h>
