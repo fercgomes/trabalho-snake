@@ -108,6 +108,9 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
 
     do{ /* ===== LOOP DO NIVEL ATUAL ===== */
         PassaDeNivel = 0;
+        /* Mensagem de Nivel */
+        ImprimeNivelAtual(*nivel);
+        /* --- */
         CarregaMapa(map1, map2, map3, mapa, *nivel);
         ImprimePlacar();
         Mapa_Imprime(mapa);
@@ -131,6 +134,5 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
         }while(CobraViva == 1 && PassaDeNivel == 0 && JogadorSaiu == 0);
         PassagemDeNivel(PassaDeNivel, jogador, nivel, &JogadorGanhou); /* gerencia a passagem de nivel */
     }while(CobraViva == 1 && JogadorGanhou == 0 && JogadorSaiu == 0);
-
     return ResultadoDeJogo(CobraViva, JogadorGanhou, JogadorSaiu);
 }

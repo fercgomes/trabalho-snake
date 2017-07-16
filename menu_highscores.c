@@ -1,5 +1,4 @@
 /* HIGH SCORES */
-/* mostra os 10 maiores scores registrados em ordem decrescente */
 
 /*
   MenuHighScores_ResetaArquivo:

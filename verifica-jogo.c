@@ -1,18 +1,5 @@
 /*
-      Verificacao apos termino de jogo.
-      Jogador pode ter apertado ESC, morrido ou ganhado, em todos os casos
-      eh verificado se a pontuacao registrada deve entrar nos High Scores.
-
-      Nome do jogador eh inserido no inicio de jogo. Pontuacao comeca zerada.
-
-      Variave sinalizadora:
-        cobra_vida (main):
-      (0) EM JOGO
-
-      (1) ESC - verifica score e volta pro menu
-      (2) GANHOU - mostra mensagem, verifica score e verifica se volta pro menu ou termina
-      (3) PERDEU - mostra mensagem, veriica score e verifica se volta pro menu ou termina
-
+    Verificacao de termino de jogo
 */
 
 #define JOGADOR_PERDEU 0

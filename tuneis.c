@@ -3,8 +3,9 @@
 */
 
 /* CriaeImprimeTunel:
-    Instancia uma estrutura tunel com os parametros passados na fun��o. */
-void CriaeImprimeTunel(TUNEL *t, int um_posx, int um_posy, int x_pos_ent, int y_pos_ent, char um_id, char um_id_saida, int uma_dir_ent, int uma_dir_saida, char um_corpo){
+    Instancia uma estrutura tunel com os parametros passados na funcao. */
+void CriaeImprimeTunel(TUNEL *t, int um_posx, int um_posy, int x_pos_ent, int y_pos_ent,
+                      char um_id, char um_id_saida, int uma_dir_ent, int uma_dir_saida, char um_corpo){
     t->pos.x = um_posx;
     t->pos.y = um_posy;
     t->pos_entrada_e_saida.x = x_pos_ent;
@@ -18,8 +19,8 @@ void CriaeImprimeTunel(TUNEL *t, int um_posx, int um_posy, int x_pos_ent, int y_
 }
 
 /* InicializaTuneis:
-    De acordo com o nivel recebido como par�metro, preenche o arranjo
-    de tuneis com instancia��es arbitr�rias.
+    De acordo com o nivel recebido como parametro, preenche o arranjo
+    de tuneis com instanciacoes arbitrarias.
     Posteriormente talvez seja preenchido aleatoriamente. */
 void InicializaTuneis(int nivel, TUNEL t[MAX_TUNEIS]){
     switch(nivel){

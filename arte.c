@@ -2,6 +2,9 @@
     ARTE DO JOGO
 */
 
+#define NIVEL_XANCHOR 38
+#define NIVEL_YANCHOR 9
+
 /* Desenha uma linha horizontal de (x, y) de origem ate o x de destino */
 void DesenhaLinhaHorizontal(int x_origem, int y_origem, int x_destino, char corpo, int cor, int fundo){
   int i;
@@ -80,4 +83,38 @@ int Arte_MenuPrincipal_2(){
 
 void ImprimePlacar(){
   ImprimeCor_String(BLUE, WHITE, "Pontuacao:         Nivel:         Tamanho:        Tamanho maximo: ", 7, 1);
+}
+
+void ImprimeNivelAtual(int nivel){
+  clrscr();
+  DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
+  gotoxy(40, 10);
+  switch(nivel){
+    case 1:
+      ImprimeCor_String(WHITE, BLACK, " ____ ", NIVEL_XANCHOR, NIVEL_YANCHOR);
+      ImprimeCor_String(WHITE, BLACK, "/_   |", NIVEL_XANCHOR, NIVEL_YANCHOR + 1);
+      ImprimeCor_String(WHITE, BLACK, " |   |", NIVEL_XANCHOR, NIVEL_YANCHOR + 2);
+      ImprimeCor_String(WHITE, BLACK, " |   |", NIVEL_XANCHOR, NIVEL_YANCHOR + 3);
+      ImprimeCor_String(WHITE, BLACK, " |___|", NIVEL_XANCHOR, NIVEL_YANCHOR + 4);
+      break;
+    case 2:
+      ImprimeCor_String(WHITE, BLACK, "___    ", NIVEL_XANCHOR, NIVEL_YANCHOR);
+      ImprimeCor_String(WHITE, BLACK, "|__ \\ ", NIVEL_XANCHOR, NIVEL_YANCHOR + 1);
+      ImprimeCor_String(WHITE, BLACK, "   ) | ", NIVEL_XANCHOR, NIVEL_YANCHOR + 2);
+      ImprimeCor_String(WHITE, BLACK, "  / /  ", NIVEL_XANCHOR, NIVEL_YANCHOR + 3);
+      ImprimeCor_String(WHITE, BLACK, " / /_  ", NIVEL_XANCHOR, NIVEL_YANCHOR + 4);
+      ImprimeCor_String(WHITE, BLACK, "|____| ", NIVEL_XANCHOR, NIVEL_YANCHOR + 5);
+      break;
+    case 3:
+     ImprimeCor_String(WHITE, BLACK, " ____  ", NIVEL_XANCHOR, NIVEL_YANCHOR);
+     ImprimeCor_String(WHITE, BLACK, "|___ \\ ", NIVEL_XANCHOR, NIVEL_YANCHOR + 1);
+     ImprimeCor_String(WHITE, BLACK, "  __) |", NIVEL_XANCHOR, NIVEL_YANCHOR + 2);
+     ImprimeCor_String(WHITE, BLACK, " |__ < ", NIVEL_XANCHOR, NIVEL_YANCHOR + 3);
+     ImprimeCor_String(WHITE, BLACK, " ___) |", NIVEL_XANCHOR, NIVEL_YANCHOR + 4);
+     ImprimeCor_String(WHITE, BLACK, "|____/ ", NIVEL_XANCHOR, NIVEL_YANCHOR + 5);
+     break;
+  }
+  ImprimeCor_String(BLACK, WHITE, "PRESSIONE QUALQUER TECLA PARA INICIAR", 23, 16);
+  PegaTecla_Animacao(68, 18);
+  clrscr();
 }
