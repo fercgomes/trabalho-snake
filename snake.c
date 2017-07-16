@@ -1,4 +1,5 @@
 /*
+
   ============= NaoSei Game Development - Copyright 2017 =============
 
     Snake - versao 0.1 (Beta)
@@ -8,6 +9,7 @@
       - Fernando Correa Gomes
 
   =====================================================================
+
 */
 
 #include <stdio.h>
@@ -16,22 +18,7 @@
 #include <time.h>
 #include <windows.h>
 #include <conio2.h>
-#include "snake_lib.c"
-#include "arte.c"
-#include "tutorial.c"
-#include "menu_principal.c"
-#include "menu_highscores.c"
-#include "menu_creditos.c"
-#include "menu_opcoes.c"
-//#include "debugger.c"
-#include "carrega-mapa.c"
-#include "verifica-jogo.c"
-#include "jogador.c"
-#include "colisoes.c"
-#include "tuneis.c"
-#include "itens.c"
-#include "cobra.c"
-#include "mecanica.c"
+#include "snake-lib.h"
 
 void InicializaJogo(){
   JOGADOR jogador = {0};              /* Informacoes sobre jogador atual - inicializado com 0 para evitar lixo */
@@ -98,18 +85,3 @@ int main(){
   InicializaJogo();
   return 0;
 }
-
-/*
-    Engine do Jogo:
-    LOOP 0:
-      Menu principal
-
-      LOOP 1:
-          Inicializacao de nivel
-          LOOP 2:
-              Movimentacao da cobra
-              Verificacao de estado
-          ??
-      Verifica fim de jogo
-      Volta para menu?
-*/
