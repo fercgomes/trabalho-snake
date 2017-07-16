@@ -3,7 +3,6 @@
 int Tutorial(){
   clrscr();
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
-  gotoxy(12, 7);
   ImprimeCor_String(BLACK, WHITE, "INSTRUCOES DE JOGO:", 13, 7);
   ImprimeCor_String(WHITE, BLACK, "Utilize as setas do teclado para controlar a cobra.", 13, 9);
   ImprimeCor_String(WHITE, BLACK, "A cobra comeca parada, utilize as setas para", 13, 10);

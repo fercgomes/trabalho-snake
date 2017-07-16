@@ -1,16 +1,15 @@
 /*
   ============= NaoSei Game Development - copyright 2017 =============
 
-    Snake - versão 0.1 (Beta)
+    Snake - versao 0.1 (Beta)
 
     Problemas na funcionalidade:
-      - a cobra não atravessa os tuneis;
-      - a apresentação dos highscores não está funcionando corretamente;
-      - não há uma tela final de jogo bem definida;
+      - a cobra nao atravessa os tuneis;
+      - nao ha uma tela final de jogo bem definida;
 
     Membros da equipe:
       - Artur Waquil Campana
-      - Fernando Corrêa Gomes
+      - Fernando Correa Gomes
 
 */
 
@@ -37,14 +36,12 @@
 #include "cobra.c"
 #include "mecanica.c"
 
-
-
 void InicializaJogo(){
   JOGADOR jogador = {0};              /* Informacoes sobre jogador atual - inicializado com 0 para evitar lixo */
   JOGADOR ranking[MAX_HIGHSCORES];    /* Arranjo com os 10 High Scores que vao ser salvos no arquivo */
   OPCOES opcoes;                      /* Opcoes de jogo */
 
-  COBRA cobra = {0};                  /* Cobra - inicializada com 0 para garantir que não há lixo antes da função InicializaCobra ser chamada */
+  COBRA cobra = {0};                  /* Cobra - inicializada com 0 para garantir que nao ha lixo antes da funcao InicializaCobra ser chamada */
   TUNEL tuneis[MAX_TUNEIS];           /* Arranjo contendo todos os tuneis possiveis */
   ITEM itens[MAX_ITEMS];              /* Arranjo contendo todos os itens possiveis */
 
@@ -55,49 +52,53 @@ void InicializaJogo(){
         nivel_3[MAPA_LINHAS][MAPA_COLUNAS+1];     /* Nivel 3 */
 
   int
-      nivel_atual = 1,
-      Resultado_Jogo;
+      nivel_atual,
+      ResultadoJogo,
+      tutorial_feito = 0,
+      EmJogo,
+      teste;
 
   /* Atributos dos itens */
   /* Os atributos sao unicos para cada item. */
   ATRIBUTOS comida, faster, slower, skip;
   InicializaAtributos(&comida, &faster, &slower, &skip);
 
-  if(!MenuHighScores_CarregaArquivo(ranking))
-    if(!Opcoes_CarregaArquivo(&opcoes))
-      if(!(Mapa_Carrega_e_Converte(nivel_1, "map1.txt")) &&    /* Retorna verdadeiro se os três comandos */
-         !(Mapa_Carrega_e_Converte(nivel_2, "map2.txt")) &&    /*  forem nulos - ou seja, se os mapas    */
-         !(Mapa_Carrega_e_Converte(nivel_3, "map3.txt"))){     /*  forem carregados corretamente.        */
+  if(!MenuHighScores_CarregaArquivo(ranking))                   /* carrega arquivo de HighScores */
+    if(!Opcoes_CarregaArquivo(&opcoes))                         /* carrega arquivo de Opcoes */
+      if(!(Mapa_Carrega_e_Converte(nivel_1, "map1.txt")) &&     /* Retorna verdadeiro se os tres comandos */
+         !(Mapa_Carrega_e_Converte(nivel_2, "map2.txt")) &&     /*  forem nulos - ou seja, se os mapas    */
+         !(Mapa_Carrega_e_Converte(nivel_3, "map3.txt"))){      /*  forem carregados corretamente.        */
           /* so inicia jogo se opcoes, HS e os mapas foram carregados com sucesso */
+          /* A funcao MenuPrincipal tem dois possiveis retornos:
+              1: opcao Novo Jogo foi selecionada, inicia o jogo;
+              0: opcao Sair foi selecionada, fecha o programa. */
+          EmJogo = 1;
+          do{
+            if(MenuPrincipal(&opcoes, ranking)){                 /* carrega Menu Principal */
+              if(!tutorial_feito){                               /* carrega tutorial (apenas na primeira vez) */
+                tutorial_feito = 1;
+                Tutorial();
+              }
 
-          /* A função MenuPrincipal tem dois possíveis retornos:
-              1: opção Novo Jogo foi selecionada, inicia o jogo;
-              0: opção Sair foi selecionada, fecha o programa. */
-          if(MenuPrincipal(&opcoes, ranking)){
-            Tutorial();
-            Resultado_Jogo = InicializaNivel(&nivel_atual, &jogador, &opcoes, nivel_1, nivel_2, nivel_3, tuneis, itens, comida, slower, faster, skip, cobra);
+              /* zera nome do jogador, pontuacao e nivel */
+              ZeraJogo(&nivel_atual, &jogador);
 
-            /* A ordenação não está funcionando corretamente */
-            MenuFim_VerificaJogo(Resultado_Jogo, &jogador, ranking);
+              /* inicia o jogo, retornando o resultado para a funcao verificadora */
+              ResultadoJogo = InicializaNivel(&nivel_atual, &jogador, &opcoes, nivel_1, nivel_2, nivel_3, tuneis, itens, comida, slower, faster, skip, cobra);
 
-          }
-          else{
-            clrscr();
-            ImprimeCor_String(BLACK, WHITE, "SAINDO DO JOGO. ATE UM OUTRO DIA :)", 23, 3);
-            PegaTecla_Animacao(40, 5);
-          }
+              /* se houve problema com os arquivos de HS, retorna erro e o programa termina */
+              if(MenuFim_VerificaJogo(ResultadoJogo, &jogador, ranking))
+                EmJogo = 0; /* erro com arquivo de scores */
+            }
+            else MenuFim_Adeus(&EmJogo); /* mostra mensagem de adeus :) */
+        }
+        while(EmJogo);
       }
 }
 
-void TesteMovimento(){
-
-}
-
 int main(){
-  srand(time(NULL)); /* Semente para geração de números aleatórios. */
-
+  srand(time(NULL)); /* Semente para geracao de numeros aleatorios. */
   InicializaJogo();
-
   return 0;
 }
 

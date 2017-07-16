@@ -4,7 +4,7 @@
 #define MENUJOGADOR_CONFIRMAR 3
 
 
-/* Calcula o valor a ser ganho pela coleta de um item e o soma à pontuação atual do jogador. */
+/* Calcula o valor a ser ganho pela coleta de um item e o soma a pontuacao atual do jogador. */
 void SomaPontuacao(JOGADOR *jogador, ITEM item, COBRA cobra){
   int base = item.atributos.altera_basepontos,
       tamanho = cobra.tamanho_atual,
@@ -12,9 +12,6 @@ void SomaPontuacao(JOGADOR *jogador, ITEM item, COBRA cobra){
 
   jogador->pontuacao += (base * tamanho * velocidade)/5;
 }
-
-
-
 
 /* Imprime o cursor do menu de criar jogador */
 void MenuFim_CriaJogador_SetaCursor(int cursor, int selecionado){

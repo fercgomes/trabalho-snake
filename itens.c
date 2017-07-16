@@ -1,4 +1,5 @@
-/* Itens devem aparecer em pontos aleatórios do mapa que não estejam já ocupados por obstáculos, por túneis, pela cobra ou por outros itens. */
+/* Itens devem aparecer em pontos aleatarios do mapa que nao estejam ja ocupados
+por obstaculos, por tuneis, pela cobra ou por outros itens. */
 
 ATRIBUTOS EscolheAtributo(ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS faster, ATRIBUTOS skip){
     int a = numeroAleatorio(0, 99);
@@ -14,13 +15,13 @@ ATRIBUTOS EscolheAtributo(ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS faster, 
 }
 
 /* CriaeImprimeItem:
-    Instancia um item numa posição aleatória, sendo seu tipo determinado pela tabela de probabilidades. */
+    Instancia um item numa posicao aleataria, sendo seu tipo determinado pela tabela de probabilidades. */
 void CriaeImprimeItem(ITEM *item, ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS faster, ATRIBUTOS skip,
                       char mapa[MAPA_LINHAS][MAPA_COLUNAS+1], TUNEL tuneis[MAX_TUNEIS], COBRA cobra, ITEM itens[MAX_ITEMS]){
     do{
-        item->pos.x = numeroAleatorio(X_MIN, X_MAX-1);  // correção para não gerar
+        item->pos.x = numeroAleatorio(X_MIN, X_MAX-1);  // correcao para nao gerar
         item->pos.y = numeroAleatorio(Y_MIN, Y_MAX-1);  // itens fora do mapa
-    }while(checacolisoes_item(*item, mapa, tuneis, cobra, itens)); /* Repete o laço até que o item seja criado numa coordenada vazia. */
+    }while(checacolisoes_item(*item, mapa, tuneis, cobra, itens)); /* Repete o laco ate que o item seja criado numa coordenada vazia. */
 
     item->atributos = EscolheAtributo(comida, slower, faster, skip);
 
@@ -28,7 +29,7 @@ void CriaeImprimeItem(ITEM *item, ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS 
 }
 
 /* InicializaItens:
-    Inicializa um arranjo de itens em posições aleatórias (somente posições que estejam livres),
+    Inicializa um arranjo de itens em posicoes aleatorias (somente posicoes que estejam livres),
     com seus tipos sendo determinados pela tabela de probabilidades. */
 void InicializaItens(OPCOES opcoes, ITEM itens[], ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS faster, ATRIBUTOS skip,
                      char mapa[MAPA_LINHAS][MAPA_COLUNAS+1], TUNEL tuneis[MAX_TUNEIS], COBRA cobra){

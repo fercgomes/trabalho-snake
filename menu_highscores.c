@@ -25,7 +25,7 @@ int MenuHighScores_CarregaArquivo(JOGADOR ranking[]){
   int pontos, i;
   JOGADOR buffer;
   if(!(arquivo = fopen("scores.txt", "r"))){
-    printf("Erro ao abrir o arquivo scores.txt\nPressione qualquer tecla para voltar");
+    printf("Erro ao abrir o arquivo scores.txt\nO programa sera terminado.");
     PegaTecla_Animacao(1, 3);
     MenuHighScores_ResetaArquivo();
     return 1;
@@ -34,8 +34,9 @@ int MenuHighScores_CarregaArquivo(JOGADOR ranking[]){
     i = 0;
     while(!feof(arquivo) && i < MAX_HIGHSCORES)
       if(!(fscanf(arquivo, "%d%s", &buffer.pontuacao, &buffer.nome))){
-        printf("Erro ao ler o arquivo scores.txt\nPressione qualquer tecla para voltar");
+        printf("Erro ao ler o arquivo scores.txt\nO programa sera terminado.");
         PegaTecla_Animacao(1, 3);
+        fclose(arquivo);
         MenuHighScores_ResetaArquivo();
         return 1;
       }
@@ -52,16 +53,16 @@ int MenuHighScores_CarregaArquivo(JOGADOR ranking[]){
   x e y: posicao do primeiro elemento da lista */
 int MenuHighScores_ImprimeRanking(int x, int y, JOGADOR ranking[]){
     char nome[MAX_NOME + 1];
-    int pontos, i;
+    int i;
     gotoxy(x, y);
     for(i = 0; i < MAX_HIGHSCORES; i++){
       printf("\t%d\t%s", ranking[i].pontuacao, ranking[i].nome);
-      gotoxy(x, y + i*2);
+      gotoxy(x, y + (i+1)*2);
     }
     return 0;
 }
 
-/* Desenha os detalhes gráficos do menu */
+/* Desenha os detalhes graficos do menu */
 void MenuHighScores_Arte(){
   DesenhaCaixa(3, 1, 25, 25, '#', BLACK, WHITE); // Caixa dos HighScores
   DesenhaCaixa(40, 10, 71, 17, '#', BLACK, WHITE); // Caixa de instrucoes

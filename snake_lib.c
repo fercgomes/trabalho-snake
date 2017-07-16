@@ -138,7 +138,7 @@ void ImprimeCor_Int(int cor, int fundo, int n, int x, int y){
 
 /*
     PegaTecla_Animacao:
-    Retorna a tecla apertada. //correção: não retorna a tecla, só espera que algo seja apertado.
+    Retorna a tecla apertada. //correï¿½ï¿½o: nï¿½o retorna a tecla, sï¿½ espera que algo seja apertado.
     Mostra animacao de barras na pos (x, y) indicada.
 */
 void PegaTecla_Animacao(int x, int y){
@@ -221,4 +221,10 @@ int numeroAleatorio(int minimo, int maximo){
     int r;
     r = minimo + rand()%((maximo-minimo) + 1);
     return r;
+}
+
+void ZeraJogo(int *nivel, JOGADOR *jogador){
+  *nivel = 1;
+  strcpy(jogador->nome, "AAA");
+  jogador->pontuacao = 0;
 }

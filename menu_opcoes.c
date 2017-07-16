@@ -15,7 +15,7 @@
       Enter: salvam valor nas opcoes internas e  no arquivo
 
     Tratamento de erros:
-      Caso o arquivo não exista, um novo é criado com valores padrao. */
+      Caso o arquivo nao exista, um novo e criado com valores padrao. */
 
 #define VELOCIDADE_INICIAL_PADRAO 1
 #define TAMANHO_MAXIMO_PADRAO 10
