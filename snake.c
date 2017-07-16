@@ -16,8 +16,8 @@
 #include <time.h>
 #include <windows.h>
 #include <conio2.h>
-#include "arte.c"
 #include "snake_lib.c"
+#include "arte.c"
 #include "tutorial.c"
 #include "menu_principal.c"
 #include "menu_highscores.c"

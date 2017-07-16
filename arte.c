@@ -77,3 +77,7 @@ int Arte_MenuPrincipal_2(){
   textbackground(BLACK);
   return 0;
 }
+
+void ImprimePlacar(){
+  ImprimeCor_String(BLUE, WHITE, "Pontuacao:         Nivel:         Tamanho:        Tamanho maximo: ", 7, 1);
+}

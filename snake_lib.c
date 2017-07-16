@@ -228,3 +228,8 @@ void ZeraJogo(int *nivel, JOGADOR *jogador){
   strcpy(jogador->nome, "AAA");
   jogador->pontuacao = 0;
 }
+
+void TempoDeEspera(int velocidade){
+  int tempo = 1000/velocidade;
+  Sleep(tempo);
+}

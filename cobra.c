@@ -82,7 +82,7 @@ void MoveCobra(COBRA *cobra){
 }
 
 /* Aplica os efetos de um item que foi pego pelo jogador */
-void AplicaItem(ITEM item, COBRA *cobra, JOGADOR *jogador, int *nivel, int *ganhounivel){
+void AplicaItem(ITEM item, COBRA *cobra, JOGADOR *jogador, int *nivel, int *PassaDeNivel){
   SomaPontuacao(jogador, item, *cobra);
 
   cobra->tamanho_atual += item.atributos.altera_tamanho;
@@ -91,18 +91,18 @@ void AplicaItem(ITEM item, COBRA *cobra, JOGADOR *jogador, int *nivel, int *ganh
   /* Se o item for do tipo skip, passa de nivel: */
   if(item.atributos.altera_nivel){
       *nivel++;
-      *ganhounivel = 1;
+      *PassaDeNivel = 1;
   }
 }
 
 /* Verifica se a cabeca da cobra esta no mesmo lugar que algum item.
     Se esta, a cobra sofre os efeitos do item e um novo item eh gerado.
     Se nao, nada acontece. */
-void PegaItemCobra(COBRA *cobra, JOGADOR *jogador, ITEM itens[MAX_ITEMS], ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS faster, ATRIBUTOS skip, char mapa[MAPA_LINHAS][MAPA_COLUNAS+1], TUNEL tuneis[MAX_TUNEIS], int *nivel, int *ganhounivel){
+void PegaItemCobra(COBRA *cobra, JOGADOR *jogador, ITEM itens[MAX_ITEMS], ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS faster, ATRIBUTOS skip, char mapa[MAPA_LINHAS][MAPA_COLUNAS+1], TUNEL tuneis[MAX_TUNEIS], int *nivel, int *PassaDeNivel){
     int i = 0;
     while(i < MAX_ITEMS){
         if(MesmaPosicao(itens[i].pos, cobra->pos[0])){
-            AplicaItem(itens[i], cobra, jogador, nivel, ganhounivel);                               /* Aplica efeitos do item pego */
+            AplicaItem(itens[i], cobra, jogador, nivel, PassaDeNivel);                               /* Aplica efeitos do item pego */
             CriaeImprimeItem(&itens[i], comida, slower, faster, skip, mapa, tuneis, *cobra, itens); /* Gera outro item: */
         }
         i++;
