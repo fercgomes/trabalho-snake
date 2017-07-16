@@ -5,6 +5,8 @@
 #define NIVEL_XANCHOR 38
 #define NIVEL_YANCHOR 9
 
+#define NIVEL_TEMPOESPERA 10
+
 /* Desenha uma linha horizontal de (x, y) de origem ate o x de destino */
 void DesenhaLinhaHorizontal(int x_origem, int y_origem, int x_destino, char corpo, int cor, int fundo){
   int i;
@@ -115,6 +117,7 @@ void ImprimeNivelAtual(int nivel){
      break;
   }
   ImprimeCor_String(BLACK, WHITE, "PRESSIONE QUALQUER TECLA PARA INICIAR", 23, 16);
+  Sleep(NIVEL_TEMPOESPERA);
   PegaTecla_Animacao(68, 18);
   clrscr();
 }

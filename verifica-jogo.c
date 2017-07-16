@@ -6,6 +6,8 @@
 #define JOGADOR_GANHOU 1
 #define JOGADOR_SAIU 2
 
+#define MENSAGEM_TEMPOESPERA 300
+
 void MenuFim_Adeus(int *status){
   clrscr();
   ImprimeCor_String(BLACK, WHITE, "SAINDO DO JOGO. ATE UM OUTRO DIA :)", 23, 3);
@@ -18,6 +20,7 @@ void MenuFim_JogadorPausou(){
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
   ImprimeCor_String(BLACK, WHITE, "PRESSIONE QUALQUER TECLA PARA", 26, 10);
   ImprimeCor_String(BLACK, WHITE, "VOLTAR AO MENU...", 32, 14);
+  Sleep(MENSAGEM_TEMPOESPERA);
   PegaTecla_Animacao(68, 18);
 }
 
@@ -27,6 +30,7 @@ void MenuFim_JogadorGanhou(){
   ImprimeCor_String(BLACK, WHITE, "PARABENS!", 36, 10);
   ImprimeCor_String(BLACK, WHITE, "VOCE VENCEU!", 34, 12);
   ImprimeCor_String(BLACK, WHITE, "PRESSIONE QUALQUER TECLA PARA CONTINUAR", 22, 16);
+  Sleep(MENSAGEM_TEMPOESPERA);
   PegaTecla_Animacao(68, 18);
 }
 
@@ -36,6 +40,7 @@ void MenuFim_JogadorPerdeu(){
   ImprimeCor_String(BLACK, WHITE, "AAAAH :/", 36, 10);
   ImprimeCor_String(BLACK, WHITE, "VOCE PERDEU!", 34, 12);
   ImprimeCor_String(BLACK, WHITE, "PRESSIONE QUALQUER TECLA PARA CONTINUAR", 22, 16);
+  Sleep(MENSAGEM_TEMPOESPERA);
   PegaTecla_Animacao(68, 18);
 }
 

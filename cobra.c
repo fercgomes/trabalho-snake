@@ -98,7 +98,9 @@ void AplicaItem(ITEM item, COBRA *cobra, JOGADOR *jogador, int *nivel, int *Pass
 /* Verifica se a cabeca da cobra esta no mesmo lugar que algum item.
     Se esta, a cobra sofre os efeitos do item e um novo item eh gerado.
     Se nao, nada acontece. */
-void PegaItemCobra(COBRA *cobra, JOGADOR *jogador, ITEM itens[MAX_ITEMS], ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS faster, ATRIBUTOS skip, char mapa[MAPA_LINHAS][MAPA_COLUNAS+1], TUNEL tuneis[MAX_TUNEIS], int *nivel, int *PassaDeNivel){
+void PegaItemCobra(COBRA *cobra, JOGADOR *jogador, ITEM itens[MAX_ITEMS], ATRIBUTOS comida,
+                  ATRIBUTOS slower, ATRIBUTOS faster, ATRIBUTOS skip, char mapa[MAPA_LINHAS][MAPA_COLUNAS+1],
+                  TUNEL tuneis[MAX_TUNEIS], int *nivel, int *PassaDeNivel){
     int i = 0;
     while(i < MAX_ITEMS){
         if(MesmaPosicao(itens[i].pos, cobra->pos[0])){
