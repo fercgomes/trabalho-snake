@@ -74,7 +74,7 @@ int Colisao_Cobra(COBRA cobra, COORDENADA coord){
     Retornam 1 caso haja colisao; 0 caso nao haja. */
 
 /* Testa se um item esta na mesma COORDENADA que um mapa, que os elementos de um arranjo de tuneis ou que uma cobra. */
-int checacolisoes_item(ITEM item, char mapa[MAPA_LINHAS][MAPA_COLUNAS+1], TUNEL tuneis[MAX_TUNEIS], COBRA cobra, ITEM itens[MAX_ITEMS]){
+int PosicaoValidaItem(ITEM item, char mapa[MAPA_LINHAS][MAPA_COLUNAS+1], TUNEL tuneis[MAX_TUNEIS], COBRA cobra, ITEM itens[MAX_ITEMS]){
     int mapa_colidiu, tunel_colidiu, cobra_colidiu, itens_colidiu;
     mapa_colidiu = Colisao_Obstaculo(mapa, item.pos);
     tunel_colidiu = Colisao_Tunel(tuneis, item.pos);
@@ -111,7 +111,7 @@ int Cobra_ColidiuTunel(COBRA cobra, TUNEL tuneis[MAX_TUNEIS]){
 /*  Verifica se a posicao da cabeca da cobra se choca com algum segmento do seu proprio corpo,
     com algum tunel (na direcao errada) ou com algum obstaculo.
     Caso se choque, retorna 1; caso contrario, retorna 0. */
-int checacolisoes_cobra(COBRA cobra, TUNEL tuneis[MAX_TUNEIS], char mapa[MAPA_LINHAS][MAPA_COLUNAS+1]){
+int PosicaoValidaCobra(COBRA cobra, TUNEL tuneis[MAX_TUNEIS], char mapa[MAPA_LINHAS][MAPA_COLUNAS+1]){
     if(Cobra_AutoColidiu(cobra) || Cobra_ColidiuTunel(cobra, tuneis) || Colisao_Obstaculo(mapa, cobra.pos[0]))
       return 1;
     /* Se nenhuma situacao acima ocorrer, o movimento eh valido */

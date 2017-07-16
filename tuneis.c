@@ -1,5 +1,9 @@
+/*
+    MODULO DE TUNEIS
+*/
+
 /* CriaeImprimeTunel:
-    Instancia uma estrutura tunel com os parametros passados na função. */
+    Instancia uma estrutura tunel com os parametros passados na funï¿½ï¿½o. */
 void CriaeImprimeTunel(TUNEL *t, int um_posx, int um_posy, int x_pos_ent, int y_pos_ent, char um_id, char um_id_saida, int uma_dir_ent, int uma_dir_saida, char um_corpo){
     t->pos.x = um_posx;
     t->pos.y = um_posy;
@@ -14,8 +18,8 @@ void CriaeImprimeTunel(TUNEL *t, int um_posx, int um_posy, int x_pos_ent, int y_
 }
 
 /* InicializaTuneis:
-    De acordo com o nivel recebido como parâmetro, preenche o arranjo
-    de tuneis com instanciações arbitrárias.
+    De acordo com o nivel recebido como parï¿½metro, preenche o arranjo
+    de tuneis com instanciaï¿½ï¿½es arbitrï¿½rias.
     Posteriormente talvez seja preenchido aleatoriamente. */
 void InicializaTuneis(int nivel, TUNEL t[MAX_TUNEIS]){
     switch(nivel){

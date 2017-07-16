@@ -3,18 +3,18 @@
     MODULO DE MOVIMENTACAO
 */
 
-/* Inicializa o arranjo de posicoes da cobra, considerando que a sua dire��o inicial � 4 (RIGHT). */
+/* Inicializa o arranjo de posicoes da cobra, considerando que a sua direcao inicial eh 4 (RIGHT). */
 void InicCobraPosicoes(COBRA *cobra, int nivel){
     int i, x_inic, y_inic;
 
     x_inic = X_INICIAL;
     y_inic = Y_INICIAL;
 
-    /* Inicializa cobra mais � esquerda no nivel 2 */
+    /* Inicializa cobra mais a esquerda no nivel 2 */
     if(nivel == 2)
         x_inic -= 20;
 
-    /* Posiciona a cabe�a na coordenada de in�cio. */
+    /* Posiciona a cabeca na coordenada de inicio. */
     cobra->pos[0].x = x_inic;
     cobra->pos[0].y = y_inic;
 
@@ -28,21 +28,18 @@ void InicCobraPosicoes(COBRA *cobra, int nivel){
 /* Imprime na tela os segmentos do corpo da cobra. */
 void ImprimeCobra(COBRA cobra){
     int i;
-
     for(i = 0; i < cobra.tamanho_atual; i++)
         putchxy(cobra.pos[i].x, cobra.pos[i].y, cobra.corpo);
 }
 
 /* Faz a inicializacao estrutural e grafica da cobra */
 void InicializaCobra(COBRA *cobra, OPCOES opcoes, int nivel){
-
     /* Inicializacoes dos atributos da cobra: */
     cobra->direcao = DIRECAO_INICIAL;                       /* arbitraria */
     cobra->tamanho_atual = TAMANHO_INICIAL;                 /* arbitrario */
     cobra->velocidade_atual = opcoes.velocidade_inicial;    /* definido nas opcoes */
     InicCobraPosicoes(cobra, nivel);
     cobra->corpo = 'X';
-
     ImprimeCobra(*cobra);
 }
 
@@ -63,7 +60,7 @@ void MoveCobra(COBRA *cobra){
     /* Arrasta os elementos no arranjo, liberando o elemento [0] (cabe�a) para ser alterado */
     ArrastaPosCobra(cobra);
 
-    /* Determina a nova posi��o da cabe�a de acordo com a dire��o da cobra */
+    /* Determina a nova posicao da cabeca de acordo com a direcao da cobra */
     switch(cobra->direcao){
         case UP:
             (cobra->pos[0].y)--;
@@ -112,22 +109,20 @@ void PegaItemCobra(COBRA *cobra, JOGADOR *jogador, ITEM itens[MAX_ITEMS], ATRIBU
     }
 }
 
-/* Verifica se a cabe�a da cobra est� na posi��o de entrada e saida de um tunel e se as dire��es s�o as mesmas.
-    Se sim, retorna o id do tunel correspondente; se n�o, retorna um caractere padr�o '0'. */
+/* Verifica se a cabeca da cobra esta na posicao de entrada e saida de um tunel e se as direcoes sao as mesmas.
+    Se sim, retorna o id do tunel correspondente; se nao, retorna um caractere padrao '0'. */
 char VaiEntrarNoTunel(COBRA cobra, TUNEL tuneis[MAX_TUNEIS]){
     int i = 0;
-
     while(i < MAX_TUNEIS){
         if(MesmaPosicao(tuneis[i].pos_entrada_e_saida, cobra.pos[0]) && cobra.direcao == tuneis[i].direcao_entrada)
             return tuneis[i].id;   /* Se houver um t�nel na pr�xima posi��o, retorna seu id. */
         i++;
     }
-
-    return '0';     /* Se n�o houver tunel na pr�xima posi��o, retorna '0'. */
+    return '0';     /* Se nao houver tunel na proxima posicao, retorna '0'. */
 }
 
 /* Dado um char representando o id de um tunel, procura o tunel correspondente num arranjo de tuneis.
-    Assume que o id passado como par�metro sempre ser� v�lido (ou seja, a fun��o sempre retornar� um tunel). */
+    Assume que o id passado como parametro sempre sera valido (ou seja, a funcao sempre retornara um tunel). */
 TUNEL ProcuraTunel(TUNEL tuneis[MAX_TUNEIS], char id_procura){
     int i = 0;
     while(i < MAX_TUNEIS){

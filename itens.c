@@ -21,7 +21,7 @@ void CriaeImprimeItem(ITEM *item, ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS 
     do{
         item->pos.x = numeroAleatorio(X_MIN, X_MAX-1);  // correcao para nao gerar
         item->pos.y = numeroAleatorio(Y_MIN, Y_MAX-1);  // itens fora do mapa
-    }while(checacolisoes_item(*item, mapa, tuneis, cobra, itens)); /* Repete o laco ate que o item seja criado numa coordenada vazia. */
+    }while(PosicaoValidaItem(*item, mapa, tuneis, cobra, itens)); /* Repete o laco ate que o item seja criado numa coordenada vazia. */
 
     item->atributos = EscolheAtributo(comida, slower, faster, skip);
 

@@ -1,3 +1,6 @@
+/*
+    MODULO DE MECANICA DO JOGO
+*/
 
 void AtualizaInfo(JOGADOR jogador, int nivel, COBRA cobra, OPCOES opcoes){
     ImprimeCor_String(BLUE, WHITE, "Pontuacao:         Nivel:         Tamanho:        Tamanho maximo: ", 7, 1);
@@ -8,8 +11,8 @@ void AtualizaInfo(JOGADOR jogador, int nivel, COBRA cobra, OPCOES opcoes){
 }
 
 /* PegaTecla:
-    Se o usu�rio pressionar uma das setas, muda a dire��o do movimento;
-    Se pressionar ESC, muda a vari�vel saiu para sair do jogo. */
+    Se o usuArio pressionar uma das setas, muda a direcao do movimento;
+    Se pressionar ESC, muda a variavel saiu para sair do jogo. */
 void PegaTecla(COBRA *cobra, int *saiu){
     char tecla;
     if(kbhit()){
@@ -99,7 +102,7 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
             PegaItemCobra(&cobra, jogador, itens, comida, slower, faster, skip, mapa, tuneis, nivel, &ganhounivel);
 
             /* Se a cobra colide, ela morre */
-            if(checacolisoes_cobra(cobra, tuneis, mapa))
+            if(PosicaoValidaCobra(cobra, tuneis, mapa))
                 vivo = 0;
 
             /* Quando a cobra chega no tamanho maximo definido, passa de nivel */
