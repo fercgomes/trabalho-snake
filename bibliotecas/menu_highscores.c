@@ -6,7 +6,7 @@
 int MenuHighScores_ResetaArquivo(){
   FILE *arquivo;
   int i;
-  arquivo = fopen("scores.txt", "w");
+  arquivo = fopen("config/scores.txt", "w");
   for(i = 0; i < MAX_HIGHSCORES; i++)
     fprintf(arquivo, "%d %s\n", 0, "AAA");
   fclose(arquivo);
@@ -23,7 +23,7 @@ int MenuHighScores_CarregaArquivo(JOGADOR ranking[]){
   char nome[MAX_NOME + 1];
   int pontos, i;
   JOGADOR buffer;
-  if(!(arquivo = fopen("scores.txt", "r"))){
+  if(!(arquivo = fopen("config/scores.txt", "r"))){
     printf("Erro ao abrir o arquivo scores.txt\nO programa sera terminado.");
     PegaTecla_Animacao(1, 3);
     MenuHighScores_ResetaArquivo();

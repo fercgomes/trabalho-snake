@@ -55,7 +55,7 @@ void InsereJogador(JOGADOR jogador, JOGADOR ranking[], int i){
 int MenuFim_NovoHighScore_SalvaArquivo(JOGADOR ranking[]){
   FILE *arquivo;
   int i;
-  if(!(arquivo = fopen("scores.txt", "w"))){
+  if(!(arquivo = fopen("config/scores.txt", "w"))){
     printf("Erro ao abrir o arquivo scores.txt\nPressione qualquer tecla para voltar");
     PegaTecla_Animacao(1, 3);
     MenuHighScores_ResetaArquivo();

@@ -49,9 +49,9 @@ void InicializaJogo(){
 
   if(!MenuHighScores_CarregaArquivo(ranking))                   /* carrega arquivo de HighScores */
     if(!Opcoes_CarregaArquivo(&opcoes))                         /* carrega arquivo de Opcoes */
-      if(!(Mapa_Carrega_e_Converte(nivel_1, "map1.txt")) &&     /* Retorna verdadeiro se os tres comandos */
-         !(Mapa_Carrega_e_Converte(nivel_2, "map2.txt")) &&     /*  forem nulos - ou seja, se os mapas    */
-         !(Mapa_Carrega_e_Converte(nivel_3, "map3.txt"))){      /*  forem carregados corretamente.        */
+      if(!(Mapa_Carrega_e_Converte(nivel_1, "mapas/map1.txt")) &&     /* Retorna verdadeiro se os tres comandos */
+         !(Mapa_Carrega_e_Converte(nivel_2, "mapas/map2.txt")) &&     /*  forem nulos - ou seja, se os mapas    */
+         !(Mapa_Carrega_e_Converte(nivel_3, "mapas/map3.txt"))){      /*  forem carregados corretamente.        */
           /* so inicia jogo se opcoes, HS e os mapas foram carregados com sucesso */
           /* A funcao MenuPrincipal tem dois possiveis retornos:
               1: opcao Novo Jogo foi selecionada, inicia o jogo;
