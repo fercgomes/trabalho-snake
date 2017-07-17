@@ -25,7 +25,7 @@ int Colisao_Obstaculo(char mapa[MAPA_LINHAS][MAPA_COLUNAS+1], COORDENADA coord){
         for(c = 0; c < MAPA_COLUNAS; c++){
             coord_mapa.x = c + MAPA_XOFFSET;    /* considera a variacao entre representacao grafica e interna */
             coord_mapa.y = l + MAPA_YOFFSET;
-            if(mapa[l][c] == 'X' && MesmaPosicao(coord_mapa, coord))
+            if(mapa[l][c] == '#' && MesmaPosicao(coord_mapa, coord))
                 return 1;   /* Se encontrar uma coincidencia de coordenadas, retorna 1. */
         }
     return 0;               /* Se passar por todo o mapa e nao houver colisao, retorna 0. */
