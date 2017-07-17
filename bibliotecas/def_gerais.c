@@ -263,6 +263,7 @@ void TempoDeEspera(int velocidade){
   Sleep(tempo);
 }
 
+/* pega a direcao inicial da cobra, no inicio do jogo */ 
 int PegaDirecaoInicial(int *dir){
       char dir_inicial;
       do{
