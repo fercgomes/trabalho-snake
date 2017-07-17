@@ -6,7 +6,7 @@
 #define JOGADOR_GANHOU 1
 #define JOGADOR_SAIU 2
 
-#define MENSAGEM_TEMPOESPERA 300
+#define MENSAGEM_TEMPOESPERA 100
 
 void MenuFim_Adeus(int *status){
   clrscr();

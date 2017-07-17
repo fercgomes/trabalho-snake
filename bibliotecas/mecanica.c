@@ -66,9 +66,10 @@ void CarregaMapa(char map1[][MAPA_COLUNAS+1], char map2[][MAPA_COLUNAS+1], char 
 }
 
 /* verifica se a cobra tem o tamanho necessario para passar de nivel, retornando 1 caso sim */
-void VerificaPassagemNivel(COBRA cobra, OPCOES opcoes, int *PassaDeNivel){
+int VerificaPassagemNivel(COBRA cobra, OPCOES opcoes){
   if(cobra.tamanho_atual == opcoes.tamanho_maximo)
-    *PassaDeNivel = 1;
+    return 1;
+  else return 0;
 }
 
 /* Se houve passagem de nivel, da bonus de pontos e altera variave de nivel */
@@ -128,7 +129,7 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
             if(PosicaoValidaCobra(cobra, tuneis, mapa))
                 CobraViva = 0;
             /* Quando a cobra chega no tamanho maximo definido, passa de nivel */
-            VerificaPassagemNivel(cobra, *opcoes, &PassaDeNivel);
+            PassaDeNivel = VerificaPassagemNivel(cobra, *opcoes);
             TempoDeEspera(cobra.velocidade_atual);
         }while(CobraViva == 1 && PassaDeNivel == 0 && JogadorSaiu == 0);
         PassagemDeNivel(PassaDeNivel, jogador, nivel, &JogadorGanhou); /* gerencia a passagem de nivel */
