@@ -15,7 +15,7 @@
       Enter: salvam valor nas opcoes internas e  no arquivo
 
     Tratamento de erros:
-      Caso o arquivo não exista, um novo é criado com valores padrao. */
+      Caso o arquivo nao exista, um novo e criado com valores padrao. */
 
 #define VELOCIDADE_INICIAL_PADRAO 1
 #define TAMANHO_MAXIMO_PADRAO 10
@@ -46,7 +46,7 @@ int OpcoesReset(OPCOES *opcoes){
   buffer.velocidade_inicial = VELOCIDADE_INICIAL_PADRAO;
   buffer.tamanho_maximo = TAMANHO_MAXIMO_PADRAO;
   buffer.itens_maximos = ITENS_MAXIMOS_PADRAO;
-  arquivo = fopen("opcoes.bin", "wb");
+  arquivo = fopen("config/opcoes.bin", "wb");
   fwrite(&buffer, sizeof(OPCOES), 1, arquivo);
   *opcoes = buffer;
   fclose(arquivo);
@@ -61,7 +61,7 @@ int OpcoesReset(OPCOES *opcoes){
 int Opcoes_CarregaArquivo(OPCOES *opcoes){
   FILE *arquivo;
   OPCOES buffer;
-  if(!(arquivo = fopen("opcoes.bin", "rb"))){
+  if(!(arquivo = fopen("config/opcoes.bin", "rb"))){
     printf("Erro ao abrir o arquivo opcoes.bin\nO jogo sera fechado, pressione qualquer tecla para continuar...");
     PegaTecla_Animacao(1, 3);
     OpcoesReset(opcoes);
@@ -87,7 +87,7 @@ int Opcoes_CarregaArquivo(OPCOES *opcoes){
     Retorna 0 em caso de sucessona execucao   */
 int Opcoes_SalvaArquivo(OPCOES opcoes){
   FILE *arquivo;
-  if(!(arquivo = fopen("opcoes.bin", "wb"))){
+  if(!(arquivo = fopen("config/opcoes.bin", "wb"))){
     printf("Erro ao abrir o arquivo opcoes.bin\nO jogo sera fechado, pressione qualquer tecla para continuar...");
     PegaTecla_Animacao(1, 3);
     return 1;
@@ -206,6 +206,10 @@ void MenuOpcoes_Editor(OPCOES *opcoes, int cursor){
           else if(tecla == ASCII_DOWN && opcoes->tamanho_maximo > TAMANHO_MAXIMO_MIN){
             (opcoes->tamanho_maximo)--;
             MenuOpcoes_ImprimeValor(*opcoes, cursor, SELECIONADO);
+
+            /* Para apagar o ultimo 0 do 100 */
+            if(opcoes->tamanho_maximo == 99)
+                printf(" ");
           }
           break;
 

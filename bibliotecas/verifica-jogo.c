@@ -1,33 +1,53 @@
 /*
-      Verificacao apos termino de jogo.
-      Jogador pode ter apertado ESC, morrido ou ganhado, em todos os casos
-      eh verificado se a pontuacao registrada deve entrar nos High Scores.
-
-      Nome do jogador eh inserido no inicio de jogo. Pontuacao comeca zerada.
-
-      Variave sinalizadora:
-        cobra_vida (main):
-      (0) EM JOGO
-
-      (1) ESC - verifica score e volta pro menu
-      (2) GANHOU - mostra mensagem, verifica score e verifica se volta pro menu ou termina
-      (3) PERDEU - mostra mensagem, veriica score e verifica se volta pro menu ou termina
-
+    Verificacao de termino de jogo
 */
 
+#define JOGADOR_PERDEU 0
 #define JOGADOR_GANHOU 1
-#define JOGADOR_PERDEU 2
+#define JOGADOR_SAIU 2
 
-void MenuFim_JogadorGanhou(){
+#define MENSAGEM_TEMPOESPERA 100
+
+void MenuFim_Adeus(int *status){
   clrscr();
-  printf("Voce ganhou!\nPressione qualquer tecla para continuar...");
-  PegaTecla_Animacao(1, 3);
+  ImprimeCor_String(BLACK, WHITE, "SAINDO DO JOGO. ATE UM OUTRO DIA :)", 23, 3);
+  PegaTecla_Animacao(40, 5);
+  *status = 0;
 }
 
-void MenuFim_JogadorPerdeu(){
+void MenuFim_JogadorPausou(int score){
   clrscr();
-  printf("Voce perdeu!\nPressione qualquer tecla para continuar...");
-  PegaTecla_Animacao(1, 3);
+  DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
+  ImprimeCor_String(BLACK, WHITE, "SCORE:", 37, 8);
+  ImprimeScore(BLACK, WHITE, score, 38, 9);
+  ImprimeCor_String(BLACK, WHITE, "PRESSIONE <ENTER> PARA", 29, 12);
+  ImprimeCor_String(BLACK, WHITE, "VOLTAR AO MENU...", 32, 14);
+  Sleep(MENSAGEM_TEMPOESPERA);
+  EsperaEnter_Animacao(68, 18);
+}
+
+void MenuFim_JogadorGanhou(int score){
+  clrscr();
+  DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
+  ImprimeCor_String(BLACK, WHITE, "SCORE:", 37, 11);
+  ImprimeScore(BLACK, WHITE, score, 38, 13);
+  ImprimeCor_String(BLACK, WHITE, "PARABENS!", 36, 7);
+  ImprimeCor_String(BLACK, WHITE, "VOCE VENCEU!", 34, 8);
+  ImprimeCor_String(BLACK, WHITE, "PRESSIONE <ENTER> PARA CONTINUAR", 24, 16);
+  Sleep(MENSAGEM_TEMPOESPERA);
+  EsperaEnter_Animacao(68, 18);
+}
+
+void MenuFim_JogadorPerdeu(int score){
+  clrscr();
+  DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
+  ImprimeCor_String(BLACK, WHITE, "SCORE:", 37, 11);
+  ImprimeScore(BLACK, WHITE, score, 38, 13);
+  ImprimeCor_String(BLACK, WHITE, "AAAAH  :/", 36, 7);
+  ImprimeCor_String(BLACK, WHITE, "VOCE  PERDEU!", 34, 8);
+  ImprimeCor_String(BLACK, WHITE, "PRESSIONE ENTER PARA CONTINUAR", 25, 16);
+  Sleep(MENSAGEM_TEMPOESPERA);
+  EsperaEnter_Animacao(68, 18);
 }
 
 void InsereJogador(JOGADOR jogador, JOGADOR ranking[], int i){
@@ -41,7 +61,7 @@ void InsereJogador(JOGADOR jogador, JOGADOR ranking[], int i){
 int MenuFim_NovoHighScore_SalvaArquivo(JOGADOR ranking[]){
   FILE *arquivo;
   int i;
-  if(!(arquivo = fopen("scores.txt", "w"))){
+  if(!(arquivo = fopen("config/scores.txt", "w"))){
     printf("Erro ao abrir o arquivo scores.txt\nPressione qualquer tecla para voltar");
     PegaTecla_Animacao(1, 3);
     MenuHighScores_ResetaArquivo();
@@ -75,7 +95,7 @@ void MenuFim_SetaNovoHighScore(JOGADOR jogador, JOGADOR ranking[], int indice){
 
 /*
     MenuFim_VerificaScore:
-      Verficia se um score deve entrar para o ranking.
+      Verifica se um score deve entrar para o ranking.
       Retorna:
         ??? */
 int MenuFim_VerificaScore(JOGADOR jogador, JOGADOR ranking[]){
@@ -94,21 +114,27 @@ int MenuFim_VerificaScore(JOGADOR jogador, JOGADOR ranking[]){
         1 indicando retorno para o Menu Principal.
         0 indicando fim do programa.   */
 int MenuFim_VerificaJogo(int estado, JOGADOR *jogador, JOGADOR ranking[]){
-
   switch(estado){
     case JOGADOR_GANHOU:       /* Usuario ganhou o jogo */
-      MenuFim_JogadorGanhou();
+      MenuFim_JogadorGanhou(jogador->pontuacao);
       break;
     case JOGADOR_PERDEU:       /* Usuario perdeu o jogo */
-      MenuFim_JogadorPerdeu();
+      MenuFim_JogadorPerdeu(jogador->pontuacao);
       break;
-    default:
+    case JOGADOR_SAIU:
+      MenuFim_JogadorPausou(jogador->pontuacao);
       break;
   }
 
-  if(MenuFim_VerificaScore(*jogador, ranking) != -1){
+  if(MenuFim_VerificaScore(*jogador, ranking) != -1 && jogador->pontuacao != 0){
     MenuFim_CriaJogador(jogador);
     MenuFim_SetaNovoHighScore(*jogador, ranking, MenuFim_VerificaScore(*jogador, ranking));
-    MenuFim_NovoHighScore_SalvaArquivo(ranking);
+    if(!MenuFim_NovoHighScore_SalvaArquivo(ranking))
+      return 0; /* sucesso com arquivo */
+    else
+      return 1; /* erro ao salvar no arquivo */
   }
+  else return 0;
+
+
 }

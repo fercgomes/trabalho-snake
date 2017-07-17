@@ -1,4 +1,4 @@
-# Algoritmos e Programação - Trabalho Final
+# Algoritmos e Programacao - Trabalho Final
 
 Fernando Gomes
 Artur Campana
