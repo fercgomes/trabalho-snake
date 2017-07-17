@@ -26,14 +26,14 @@ int Mapa_Carrega(char mapa[][MAPA_COLUNAS+1], char nome_arq[]){
   FILE *arquivo;
   int i;
   if(!(arquivo = fopen(nome_arq, "r"))){
-    printf("Erro ao abrir o arquivo %s\n", nome_arq);
+    MensagemErro(nome_arq);
     return 1;
   }
   else{
     i = 0;
     while(!feof(arquivo) && i < MAPA_LINHAS){
       if(!(fgets(mapa[i], sizeof(mapa[i]), arquivo))){
-        printf("Erro ao ler o arquivo %s\n", nome_arq);     
+        MensagemErro(nome_arq);     
         return 1;
       }
       else{

@@ -62,15 +62,13 @@ int Opcoes_CarregaArquivo(OPCOES *opcoes){
   FILE *arquivo;
   OPCOES buffer;
   if(!(arquivo = fopen("config/opcoes.bin", "rb"))){
-    printf("Erro ao abrir o arquivo opcoes.bin\nO jogo sera fechado, pressione qualquer tecla para continuar...");
-    PegaTecla_Animacao(1, 3);
+    MensagemErro("config/opcoes.bin");
     OpcoesReset(opcoes);
     return 1; /* retorna erro para main */
   }
   else{
     if(!(fread(&buffer, sizeof(OPCOES), 1, arquivo))){
-      printf("Erro ao ler o arquivo opcoes.bin\nO jogo sera fechado, pressione qualquer tecla para continuar...");
-      PegaTecla_Animacao(1, 3);
+      MensagemErro("config/opcoes.bin");
       OpcoesReset(opcoes);
       return 1; /* retorna erro para main */
     }
@@ -88,14 +86,12 @@ int Opcoes_CarregaArquivo(OPCOES *opcoes){
 int Opcoes_SalvaArquivo(OPCOES opcoes){
   FILE *arquivo;
   if(!(arquivo = fopen("config/opcoes.bin", "wb"))){
-    printf("Erro ao abrir o arquivo opcoes.bin\nO jogo sera fechado, pressione qualquer tecla para continuar...");
-    PegaTecla_Animacao(1, 3);
+    MensagemErro("config/opcoes.bin");
     return 1;
   }
   else{
     if(!(fwrite(&opcoes, sizeof(OPCOES), 1, arquivo))){
-      printf("Erro ao escrever no arquivo opcoes.bin\nO jogo sera fechado, pressione qualquer tecla para continuar...");
-      PegaTecla_Animacao(1, 3);
+      MensagemErro("config/opcoes.bin");
       return 1;
     }
   }

@@ -24,8 +24,7 @@ int MenuHighScores_CarregaArquivo(JOGADOR ranking[]){
   int i;
   JOGADOR buffer;
   if(!(arquivo = fopen("config/scores.txt", "r"))){
-    printf("Erro ao abrir o arquivo scores.txt\nO programa sera terminado.");
-    PegaTecla_Animacao(1, 3);
+    MensagemErro("config/scores.txt");
     MenuHighScores_ResetaArquivo();
     return 1;
   }
@@ -33,8 +32,7 @@ int MenuHighScores_CarregaArquivo(JOGADOR ranking[]){
     i = 0;
     while(!feof(arquivo) && i < MAX_HIGHSCORES)
       if(!(fscanf(arquivo, "%d%s", &buffer.pontuacao, &buffer.nome))){
-        printf("Erro ao ler o arquivo scores.txt\nO programa sera terminado.");
-        PegaTecla_Animacao(1, 3);
+        MensagemErro("config/scores.txt");
         fclose(arquivo);
         MenuHighScores_ResetaArquivo();
         return 1;

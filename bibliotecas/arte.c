@@ -123,3 +123,12 @@ void ImprimeNivelAtual(int nivel){
   EsperaEnter_Animacao(68, 18);
   clrscr();
 }
+
+void MensagemErro(char nome_arquivo[]){
+  clrscr();
+  DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
+  ImprimeCor_String(WHITE, BLACK, "Ocorreu um erro ao abrir o arquivo", 14, 7);
+  ImprimeCor_String(WHITE, BLACK, nome_arquivo, 18, 9);
+  ImprimeCor_String(WHITE, BLACK, "Pressione qualquer tecla para sair...", 14, 13);
+  PegaTecla_Animacao(66, 17);
+}
