@@ -1,4 +1,5 @@
-# Algoritmos e Programacao - Trabalho Final
+# Algoritmos e Programacao - Trabalho Final: Snake
 
-Fernando Gomes
-Artur Campana
+## Autores:
+  * Fernando Correa Gomes 
+  * Artur Waquil Campana
