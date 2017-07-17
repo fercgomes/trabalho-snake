@@ -10,7 +10,7 @@ void SomaPontuacao(JOGADOR *jogador, ITEM item, COBRA cobra){
       tamanho = cobra.tamanho_atual,
       velocidade = cobra.velocidade_atual;
 
-  jogador->pontuacao += (base * tamanho * velocidade)/5;
+  jogador->pontuacao += (base * (tamanho / 5) * velocidade);
 }
 
 /* Imprime o cursor do menu de criar jogador */

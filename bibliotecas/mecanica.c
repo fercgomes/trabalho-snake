@@ -3,11 +3,11 @@
 */
 
 void AtualizaInfo(JOGADOR jogador, int nivel, COBRA cobra, OPCOES opcoes){
-    ImprimeCor_String(BLUE, WHITE, "Pontuacao:         Nivel:         Tamanho:        Tamanho maximo: ", 7, 1);
-    ImprimeCor_Int(BLUE, WHITE, jogador.pontuacao, 17, 1);
-    ImprimeCor_Int(BLUE, WHITE, nivel, 32, 1);
-    ImprimeCor_Int(BLUE, WHITE, cobra.tamanho_atual, 49, 1);
-    ImprimeCor_Int(BLUE, WHITE, opcoes.tamanho_maximo, 72, 1);
+    ImprimeCor_String(BLACK, WHITE, "Pontuacao:         Nivel:         Tamanho:        Tamanho maximo: ", 7, 1);
+    ImprimeCor_Int(BLACK, WHITE, jogador.pontuacao, 17, 1);
+    ImprimeCor_Int(BLACK, WHITE, nivel, 32, 1);
+    ImprimeCor_Int(BLACK, WHITE, cobra.tamanho_atual, 49, 1);
+    ImprimeCor_Int(BLACK, WHITE, opcoes.tamanho_maximo, 72, 1);
 }
 
 /* PegaTecla:
@@ -66,10 +66,9 @@ void CarregaMapa(char map1[][MAPA_COLUNAS+1], char map2[][MAPA_COLUNAS+1], char 
 }
 
 /* verifica se a cobra tem o tamanho necessario para passar de nivel, retornando 1 caso sim */
-int VerificaPassagemNivel(COBRA cobra, OPCOES opcoes){
+int VerificaPassagemNivel(COBRA cobra, OPCOES opcoes, int *PassaDeNivel){
   if(cobra.tamanho_atual == opcoes.tamanho_maximo)
-    return 1;
-  else return 0;
+    *PassaDeNivel = 1;
 }
 
 /* Se houve passagem de nivel, da bonus de pontos e altera variave de nivel */
@@ -85,11 +84,11 @@ void PassagemDeNivel(int PassagemNivel, JOGADOR *jogador, int *nivel, int *Jogad
 
 int ResultadoDeJogo(int CobraViva, int JogadorGanhou, int JogadorSaiu){
   if(CobraViva == 0)
-      return 0;
+      return JOGADOR_PERDEU;
   if(JogadorGanhou)
-      return 1;
+      return JOGADOR_GANHOU;
   if(JogadorSaiu)
-      return 2;
+      return JOGADOR_SAIU;
 }
 
 int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MAPA_COLUNAS+1],
@@ -98,7 +97,6 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
                     ATRIBUTOS faster, ATRIBUTOS skip, COBRA cobra){
 
     int i,
-        tempo,
         CobraViva = 1,
         JogadorGanhou = 0,
         PassaDeNivel,
@@ -108,15 +106,13 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
 
     do{ /* ===== LOOP DO NIVEL ATUAL ===== */
         PassaDeNivel = 0;
-        /* Mensagem de Nivel */
-        ImprimeNivelAtual(*nivel);
-        /* --- */
-        CarregaMapa(map1, map2, map3, mapa, *nivel);
-        ImprimePlacar();
-        Mapa_Imprime(mapa);
-        InicializaTuneis(*nivel, tuneis);
-        InicializaItens(*opcoes, itens, comida, slower, faster, skip, mapa, tuneis, cobra);
-        InicializaCobra(&cobra, *opcoes, *nivel);
+        ImprimeNivelAtual(*nivel);                            /* imprime mensagem de nivel */
+        CarregaMapa(map1, map2, map3, mapa, *nivel);          /* carrega os mapas para as matrizes */
+        ImprimePlacar();                                      /* imprime o placar sem valores */
+        Mapa_Imprime(mapa);                                   /* imprime o mapa */
+        InicializaTuneis(*nivel, tuneis);                     /* inicializa os tuneis */
+        InicializaItens(*opcoes, itens, comida, slower, faster, skip, mapa, tuneis, cobra);     /* inicializa os itens */
+        InicializaCobra(&cobra, *opcoes, *nivel);             /* inicializa a cobra */
         do{ /* === LOOP DA MOVIMENTACAO E DA INTERACAO === */
             /* Imprime os placares atualizados */
             AtualizaInfo(*jogador, *nivel, cobra, *opcoes);
@@ -129,7 +125,7 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
             if(PosicaoValidaCobra(cobra, tuneis, mapa))
                 CobraViva = 0;
             /* Quando a cobra chega no tamanho maximo definido, passa de nivel */
-            PassaDeNivel = VerificaPassagemNivel(cobra, *opcoes);
+            VerificaPassagemNivel(cobra, *opcoes, &PassaDeNivel);
             TempoDeEspera(cobra.velocidade_atual);
         }while(CobraViva == 1 && PassaDeNivel == 0 && JogadorSaiu == 0);
         PassagemDeNivel(PassaDeNivel, jogador, nivel, &JogadorGanhou); /* gerencia a passagem de nivel */

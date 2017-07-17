@@ -136,6 +136,16 @@ void ImprimeCor_Int(int cor, int fundo, int n, int x, int y){
   textbackground(BLACK);
 }
 
+void ImprimeScore(int cor, int fundo, int n, int x, int y){
+  textcolor(cor);
+  textbackground(fundo);
+  gotoxy(x, y);
+  printf("%.4d", n);
+  textcolor(WHITE);
+  textbackground(BLACK);
+}
+
+
 /*
     PegaTecla_Animacao:
     Mostra animacao de barras na pos (x, y) indicada.

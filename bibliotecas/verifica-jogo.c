@@ -15,31 +15,37 @@ void MenuFim_Adeus(int *status){
   *status = 0;
 }
 
-void MenuFim_JogadorPausou(){
+void MenuFim_JogadorPausou(int score){
   clrscr();
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
-  ImprimeCor_String(BLACK, WHITE, "PRESSIONE <ENTER> PARA", 28, 10);
+  ImprimeCor_String(BLACK, WHITE, "SCORE:", 37, 8);
+  ImprimeScore(BLACK, WHITE, score, 38, 9);
+  ImprimeCor_String(BLACK, WHITE, "PRESSIONE <ENTER> PARA", 29, 12);
   ImprimeCor_String(BLACK, WHITE, "VOLTAR AO MENU...", 32, 14);
   Sleep(MENSAGEM_TEMPOESPERA);
   EsperaEnter_Animacao(68, 18);
 }
 
-void MenuFim_JogadorGanhou(){
+void MenuFim_JogadorGanhou(int score){
   clrscr();
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
-  ImprimeCor_String(BLACK, WHITE, "PARABENS!", 36, 10);
-  ImprimeCor_String(BLACK, WHITE, "VOCE VENCEU!", 34, 12);
+  ImprimeCor_String(BLACK, WHITE, "SCORE:", 37, 11);
+  ImprimeScore(BLACK, WHITE, score, 38, 13);
+  ImprimeCor_String(BLACK, WHITE, "PARABENS!", 36, 7);
+  ImprimeCor_String(BLACK, WHITE, "VOCE VENCEU!", 34, 8);
   ImprimeCor_String(BLACK, WHITE, "PRESSIONE <ENTER> PARA CONTINUAR", 24, 16);
   Sleep(MENSAGEM_TEMPOESPERA);
   EsperaEnter_Animacao(68, 18);
 }
 
-void MenuFim_JogadorPerdeu(){
+void MenuFim_JogadorPerdeu(int score){
   clrscr();
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
-  ImprimeCor_String(BLACK, WHITE, "AAAAH :/", 36, 10);
-  ImprimeCor_String(BLACK, WHITE, "VOCE PERDEU!", 34, 12);
-  ImprimeCor_String(BLACK, WHITE, "PRESSIONE ENTER PARA CONTINUAR", 24, 16);
+  ImprimeCor_String(BLACK, WHITE, "SCORE:", 37, 11);
+  ImprimeScore(BLACK, WHITE, score, 38, 13);
+  ImprimeCor_String(BLACK, WHITE, "AAAAH  :/", 36, 7);
+  ImprimeCor_String(BLACK, WHITE, "VOCE  PERDEU!", 34, 8);
+  ImprimeCor_String(BLACK, WHITE, "PRESSIONE ENTER PARA CONTINUAR", 25, 16);
   Sleep(MENSAGEM_TEMPOESPERA);
   EsperaEnter_Animacao(68, 18);
 }
@@ -110,13 +116,13 @@ int MenuFim_VerificaScore(JOGADOR jogador, JOGADOR ranking[]){
 int MenuFim_VerificaJogo(int estado, JOGADOR *jogador, JOGADOR ranking[]){
   switch(estado){
     case JOGADOR_GANHOU:       /* Usuario ganhou o jogo */
-      MenuFim_JogadorGanhou();
+      MenuFim_JogadorGanhou(jogador->pontuacao);
       break;
     case JOGADOR_PERDEU:       /* Usuario perdeu o jogo */
-      MenuFim_JogadorPerdeu();
+      MenuFim_JogadorPerdeu(jogador->pontuacao);
       break;
     case JOGADOR_SAIU:
-      MenuFim_JogadorPausou();
+      MenuFim_JogadorPausou(jogador->pontuacao);
       break;
   }
 
