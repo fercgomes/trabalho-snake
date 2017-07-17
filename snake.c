@@ -2,7 +2,7 @@
 
   ============= NaoSei Game Development - Copyright 2017 =============
 
-    Snake - versao 0.1 (Beta)
+    SNAKE - versão final
 
     Membros da equipe:
       - Artur Waquil Campana
