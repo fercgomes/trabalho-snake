@@ -102,8 +102,9 @@ void PegaItemCobra(COBRA *cobra, JOGADOR *jogador, ITEM itens[MAX_ITEMS], ATRIBU
     int i = 0;
     while(i < MAX_ITEMS){
         if(MesmaPosicao(itens[i].pos, cobra->pos[0])){
-            AplicaItem(itens[i], cobra, jogador, nivel, PassaDeNivel);                               /* Aplica efeitos do item pego */
-            CriaeImprimeItem(&itens[i], comida, slower, faster, skip, mapa, tuneis, *cobra, itens); /* Gera outro item: */
+            AplicaItem(itens[i], cobra, jogador, nivel, PassaDeNivel);                                /* Aplica efeitos do item pego */
+            Beep(800, 50);
+            CriaeImprimeItem(&itens[i], comida, slower, faster, skip, mapa, tuneis, *cobra, itens);   /* Gera outro item: */
         }
         i++;
     }

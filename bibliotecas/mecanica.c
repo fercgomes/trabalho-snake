@@ -2,6 +2,7 @@
     MODULO DE MECANICA DO JOGO
 */
 
+/* imprime as informacoes do jogo */
 void AtualizaInfo(JOGADOR jogador, int nivel, COBRA cobra, OPCOES opcoes){
     ImprimeCor_String(BLACK, WHITE, "Pontuacao:         Nivel:         Tamanho:        Tamanho maximo: ", 7, 1);
     ImprimeCor_Int(BLACK, WHITE, jogador.pontuacao, 17, 1);
@@ -11,7 +12,7 @@ void AtualizaInfo(JOGADOR jogador, int nivel, COBRA cobra, OPCOES opcoes){
 }
 
 /* PegaTecla:
-    Se o usuArio pressionar uma das setas, muda a direcao do movimento;
+    Se o usuario pressionar uma das setas, muda a direcao do movimento;
     Se pressionar ESC, muda a variavel JogadorSaiu para sair do jogo. */
 void PegaTecla(COBRA *cobra, int *JogadorSaiu){
     char tecla;
@@ -38,6 +39,7 @@ void PegaTecla(COBRA *cobra, int *JogadorSaiu){
                     case ASCII_RIGHT:
                         if(cobra->direcao != LEFT)
                             cobra->direcao = RIGHT;
+                        break;
                 }
                 break;
 
@@ -82,6 +84,7 @@ void PassagemDeNivel(int PassagemNivel, JOGADOR *jogador, int *nivel, int *Jogad
   }
 }
 
+/* retorna o resultado de jogo, de acordo com os valores padroes */
 int ResultadoDeJogo(int CobraViva, int JogadorGanhou, int JogadorSaiu){
   if(CobraViva == 0)
       return JOGADOR_PERDEU;
@@ -91,6 +94,7 @@ int ResultadoDeJogo(int CobraViva, int JogadorGanhou, int JogadorSaiu){
       return JOGADOR_SAIU;
 }
 
+/* inicia o jogo no nivel informado */
 int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MAPA_COLUNAS+1],
                     char map2[][MAPA_COLUNAS+1], char map3[][MAPA_COLUNAS+1],
                     TUNEL tuneis[], ITEM itens[], ATRIBUTOS comida, ATRIBUTOS slower,
@@ -107,13 +111,13 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
     do{ /* ===== LOOP DO NIVEL ATUAL ===== */
         PassaDeNivel = 0;
         ImprimeNivelAtual(*nivel);                            /* imprime mensagem de nivel */
-        CarregaMapa(map1, map2, map3, mapa, *nivel);          /* carrega os mapas para as matrizes */
+        CarregaMapa(map1, map2, map3, mapa, *nivel);          /* carrega o mapa atual para as matrizes */
         ImprimePlacar();                                      /* imprime o placar sem valores */
         Mapa_Imprime(mapa);                                   /* imprime o mapa */
         InicializaTuneis(*nivel, tuneis);                     /* inicializa os tuneis */
         InicializaItens(*opcoes, itens, comida, slower, faster, skip, mapa, tuneis, cobra);     /* inicializa os itens */
         InicializaCobra(&cobra, *opcoes, *nivel);             /* inicializa a cobra */
-        PegaDirecaoInicial(&cobra.direcao);                 /* pega direcao inicial */
+        PegaDirecaoInicial(&cobra.direcao);                   /* pega direcao inicial */
         do{ /* === LOOP DA MOVIMENTACAO E DA INTERACAO === */
             /* Imprime os placares atualizados */
             AtualizaInfo(*jogador, *nivel, cobra, *opcoes);

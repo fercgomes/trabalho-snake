@@ -33,7 +33,7 @@ int Mapa_Carrega(char mapa[][MAPA_COLUNAS+1], char nome_arq[]){
     i = 0;
     while(!feof(arquivo) && i < MAPA_LINHAS){
       if(!(fgets(mapa[i], sizeof(mapa[i]), arquivo))){
-        printf("Erro ao ler o arquivo %s\n", nome_arq);     /* TRATAMENTO DE ERRO ? */
+        printf("Erro ao ler o arquivo %s\n", nome_arq);     
         return 1;
       }
       else{

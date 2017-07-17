@@ -1,4 +1,4 @@
-/* Itens devem aparecer em pontos aleatarios do mapa que nao estejam ja ocupados
+/* Itens devem aparecer em pontos aleatorios do mapa que nao estejam ja ocupados
 por obstaculos, por tuneis, pela cobra ou por outros itens. */
 
 ATRIBUTOS EscolheAtributo(ATRIBUTOS comida, ATRIBUTOS slower, ATRIBUTOS faster, ATRIBUTOS skip){

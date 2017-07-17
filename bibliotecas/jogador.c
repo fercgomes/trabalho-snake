@@ -74,6 +74,7 @@ void MenuFim_CriaJogador_SetaCursor(int cursor, int selecionado){
    putchxy(41, 7, nome[MENUJOGADOR_TERCEIROCHAR]);
  }
 
+/* Pergunta ao usuario se ele confirma a escolha */
 int MenuFim_ConfirmaEscolha(int *cursor, int cursor_aux){
   char tecla;
   tecla = getch();
@@ -87,7 +88,6 @@ int MenuFim_ConfirmaEscolha(int *cursor, int cursor_aux){
     return 1;
   }
 }
-
 
 /* Altera o nome a ser salvo no ranking */
 int MenuFim_Escolhendo(int *cursor, int *cursor_aux, char nome[MAX_NOME+1]){

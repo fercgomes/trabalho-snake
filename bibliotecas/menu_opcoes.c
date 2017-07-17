@@ -232,6 +232,7 @@ void MenuOpcoes_Editor(OPCOES *opcoes, int cursor){
   }
 }
 
+/* faz as impressoes da tela de opcoes */
 void MenuOpcoes_InicializaOpcoes(OPCOES opcoes, int cursor){
   int i;
   clrscr();

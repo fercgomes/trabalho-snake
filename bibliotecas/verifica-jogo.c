@@ -2,12 +2,14 @@
     Verificacao de termino de jogo
 */
 
+/* Valores padrao de resultado de jogo */
 #define JOGADOR_PERDEU 0
 #define JOGADOR_GANHOU 1
 #define JOGADOR_SAIU 2
 
 #define MENSAGEM_TEMPOESPERA 100
 
+/* mensagem de fim de jogo */
 void MenuFim_Adeus(int *status){
   clrscr();
   ImprimeCor_String(BLACK, WHITE, "SAINDO DO JOGO. ATE UM OUTRO DIA :)", 23, 3);
@@ -15,6 +17,7 @@ void MenuFim_Adeus(int *status){
   *status = 0;
 }
 
+/* mensagem de pausa de jogo */
 void MenuFim_JogadorPausou(int score){
   clrscr();
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
@@ -26,6 +29,7 @@ void MenuFim_JogadorPausou(int score){
   EsperaEnter_Animacao(68, 18);
 }
 
+/* mensagem de vitoria */
 void MenuFim_JogadorGanhou(int score){
   clrscr();
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
@@ -38,6 +42,7 @@ void MenuFim_JogadorGanhou(int score){
   EsperaEnter_Animacao(68, 18);
 }
 
+/* mensagem de derrota do jogo */
 void MenuFim_JogadorPerdeu(int score){
   clrscr();
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);
@@ -50,6 +55,7 @@ void MenuFim_JogadorPerdeu(int score){
   EsperaEnter_Animacao(68, 18);
 }
 
+/* insere um jogador em uma posicao do ranking */
 void InsereJogador(JOGADOR jogador, JOGADOR ranking[], int i){
   ranking[i].pontuacao = jogador.pontuacao;
   strcpy(ranking[i].nome, jogador.nome);
@@ -135,6 +141,4 @@ int MenuFim_VerificaJogo(int estado, JOGADOR *jogador, JOGADOR ranking[]){
       return 1; /* erro ao salvar no arquivo */
   }
   else return 0;
-
-
 }

@@ -2,6 +2,7 @@
     ARTE DO JOGO
 */
 
+/* constantes para insercao grafica */
 #define NIVEL_XANCHOR 38
 #define NIVEL_YANCHOR 9
 
@@ -87,6 +88,7 @@ void ImprimePlacar(){
   ImprimeCor_String(BLUE, WHITE, "Pontuacao:         Nivel:         Tamanho:        Tamanho maximo: ", 7, 1);
 }
 
+/* imprime numero do nivel atual */
 void ImprimeNivelAtual(int nivel){
   clrscr();
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);

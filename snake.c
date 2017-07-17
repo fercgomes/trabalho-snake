@@ -21,6 +21,7 @@
 #include "snake-lib.h"
 
 void InicializaJogo(){
+  /* Inicializacoes */
   JOGADOR jogador = {0};              /* Informacoes sobre jogador atual - inicializado com 0 para evitar lixo */
   JOGADOR ranking[MAX_HIGHSCORES];    /* Arranjo com os 10 High Scores que vao ser salvos no arquivo */
   OPCOES opcoes;                      /* Opcoes de jogo */
@@ -36,11 +37,10 @@ void InicializaJogo(){
         nivel_3[MAPA_LINHAS][MAPA_COLUNAS+1];     /* Nivel 3 */
 
   int
-      nivel_atual,
+      NivelAtual,
       ResultadoJogo,
-      tutorial_feito = 0,
-      EmJogo,
-      teste;
+      TutorialFeito = 0,
+      EmJogo;
 
   /* Atributos dos itens */
   /* Os atributos sao unicos para cada item. */
@@ -57,18 +57,18 @@ void InicializaJogo(){
               1: opcao Novo Jogo foi selecionada, inicia o jogo;
               0: opcao Sair foi selecionada, fecha o programa. */
           EmJogo = 1;
-          do{
+          do{   /* Jogo ativo, repete enquanto o jogador nao sair do jogo */
             if(MenuPrincipal(&opcoes, ranking)){                 /* carrega Menu Principal */
-              if(!tutorial_feito){                               /* carrega tutorial (apenas na primeira vez) */
-                tutorial_feito = 1;
+              if(!TutorialFeito){                               /* carrega tutorial (apenas na primeira vez) */
+                TutorialFeito = 1;
                 Tutorial();
               }
 
               /* zera nome do jogador, pontuacao e nivel */
-              ZeraJogo(&nivel_atual, &jogador);
+              ZeraJogo(&NivelAtual, &jogador);
 
               /* inicia o jogo, retornando o resultado para a funcao verificadora */
-              ResultadoJogo = InicializaNivel(&nivel_atual, &jogador, &opcoes, nivel_1, nivel_2, nivel_3, tuneis, itens, comida, slower, faster, skip, cobra);
+              ResultadoJogo = InicializaNivel(&NivelAtual, &jogador, &opcoes, nivel_1, nivel_2, nivel_3, tuneis, itens, comida, slower, faster, skip, cobra);
 
               /* se houve problema com os arquivos de HS, retorna erro e o programa termina */
               if(MenuFim_VerificaJogo(ResultadoJogo, &jogador, ranking))

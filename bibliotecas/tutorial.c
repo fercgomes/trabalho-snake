@@ -1,5 +1,5 @@
 /* tutorial */
-
+/* mostra uma caixa com instrucoes de jogo */
 int Tutorial(){
   clrscr();
   DesenhaCaixa(10, 5, 70, 20, '#',  BLACK, WHITE);

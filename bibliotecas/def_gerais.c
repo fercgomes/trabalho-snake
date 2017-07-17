@@ -217,6 +217,7 @@ int SetaCursor(int cursor, int op_min, int op_max){
   return novo_cursor;
 }
 
+/* inicializa os atributos com seus valores default */
 void InicializaAtributos(ATRIBUTOS *comida, ATRIBUTOS *faster, ATRIBUTOS *slower, ATRIBUTOS *skip){
   /* COMIDA */
   comida->altera_basepontos = ATRIBUTOS_COMIDA_BASEPONTOS;
@@ -252,18 +253,20 @@ int numeroAleatorio(int minimo, int maximo){
     return r;
 }
 
+/* seta as variaveis do jogo para valor padrao */
 void ZeraJogo(int *nivel, JOGADOR *jogador){
   *nivel = 1;
   strcpy(jogador->nome, "AAA");
   jogador->pontuacao = 0;
 }
 
+/* cria a espera entre frames */
 void TempoDeEspera(int velocidade){
   int tempo = 1000/velocidade;
   Sleep(tempo);
 }
 
-/* pega a direcao inicial da cobra, no inicio do jogo */ 
+/* pega a direcao inicial da cobra, no inicio do jogo */
 int PegaDirecaoInicial(int *dir){
       char dir_inicial;
       do{
