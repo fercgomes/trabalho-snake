@@ -6,6 +6,8 @@
 #define NIVEL_XANCHOR 38
 #define NIVEL_YANCHOR 9
 
+#define PLACAR_XANCHOR 10
+
 #define NIVEL_TEMPOESPERA 100
 
 /* Desenha uma linha horizontal de (x, y) de origem ate o x de destino */
@@ -85,7 +87,11 @@ int Arte_MenuPrincipal_2(){
 }
 
 void ImprimePlacar(){
-  ImprimeCor_String(BLUE, WHITE, "Pontuacao:         Nivel:         Tamanho:        Tamanho maximo: ", 7, 1);
+  ImprimeCor_String(BLUE, WHITE, "Pontuacao:         Nivel:         Tamanho:        Tamanho maximo: ", PLACAR_XANCHOR, 1);
+}
+
+void ImprimeNomeJogo(){
+  ImprimeCor_String(WHITE, BLACK, "SNAKE", 3, 1);
 }
 
 /* imprime numero do nivel atual */

@@ -2,13 +2,15 @@
     MODULO DE MECANICA DO JOGO
 */
 
+
+
 /* imprime as informacoes do jogo */
 void AtualizaInfo(JOGADOR jogador, int nivel, COBRA cobra, OPCOES opcoes){
-    ImprimeCor_String(BLACK, WHITE, "Pontuacao:         Nivel:         Tamanho:        Tamanho maximo: ", 7, 1);
-    ImprimeCor_Int(BLACK, WHITE, jogador.pontuacao, 17, 1);
-    ImprimeCor_Int(BLACK, WHITE, nivel, 32, 1);
-    ImprimeCor_Int(BLACK, WHITE, cobra.tamanho_atual, 49, 1);
-    ImprimeCor_Int(BLACK, WHITE, opcoes.tamanho_maximo, 72, 1);
+    ImprimeCor_String(BLACK, WHITE, "Pontuacao:         Nivel:         Tamanho:        Tamanho maximo: ", PLACAR_XANCHOR, 1);
+    ImprimeCor_Int(BLACK, WHITE, jogador.pontuacao, PLACAR_XANCHOR + 11, 1);
+    ImprimeCor_Int(BLACK, WHITE, nivel, PLACAR_XANCHOR + 25, 1);
+    ImprimeCor_Int(BLACK, WHITE, cobra.tamanho_atual, PLACAR_XANCHOR + 42, 1);
+    ImprimeCor_Int(BLACK, WHITE, opcoes.tamanho_maximo, PLACAR_XANCHOR + 65, 1);
 }
 
 /* PegaTecla:
@@ -112,11 +114,12 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
         PassaDeNivel = 0;
         ImprimeNivelAtual(*nivel);                            /* imprime mensagem de nivel */
         CarregaMapa(map1, map2, map3, mapa, *nivel);          /* carrega o mapa atual para as matrizes */
-        ImprimePlacar();                                      /* imprime o placar sem valores */
         Mapa_Imprime(mapa);                                   /* imprime o mapa */
         InicializaTuneis(*nivel, tuneis);                     /* inicializa os tuneis */
         InicializaItens(*opcoes, itens, comida, slower, faster, skip, mapa, tuneis, cobra);     /* inicializa os itens */
         InicializaCobra(&cobra, *opcoes, *nivel);             /* inicializa a cobra */
+        ImprimePlacar();                                      /* imprime o placar sem valores */
+        ImprimeNomeJogo();                                    /* imprime o nome do jogo no placar */
         PegaDirecaoInicial(&cobra.direcao);                   /* pega direcao inicial */
         do{ /* === LOOP DA MOVIMENTACAO E DA INTERACAO === */
             /* Imprime os placares atualizados */
