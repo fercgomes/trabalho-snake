@@ -53,15 +53,15 @@ void Mapa_Converte(char mapa[][MAPA_COLUNAS+1]){
   int i, j;
   for(i = 0; i < MAPA_COLUNAS+1; i++)
     for(j = 0; j < MAPA_LINHAS; j++)
-      if(mapa[j][i] == '1') mapa[j][i] = 'X';
+      if(mapa[j][i] == '1') mapa[j][i] = '#';
       else if(mapa[j][i] == '0') mapa[j][i] = ' ';
 }
 
 /*
     Mapa_Carrega_e_Converte:
     Carrega um mapa de um arquivo txt para uma matriz do programa principal,
-    e já converte os '1's e '0's para 'X's e ' 's, respectivamente.
-    Retorna 1 se falhar, 0 se obtiver êxito. */
+    e jï¿½ converte os '1's e '0's para 'X's e ' 's, respectivamente.
+    Retorna 1 se falhar, 0 se obtiver ï¿½xito. */
 int Mapa_Carrega_e_Converte(char mapa[][MAPA_COLUNAS+1], char nome_arq[]){
   if(Mapa_Carrega(mapa, nome_arq) == 1) /* erro no carregamento do mapa */
     return 1;
