@@ -113,6 +113,7 @@ int InicializaNivel(int *nivel, JOGADOR *jogador, OPCOES *opcoes, char map1[][MA
         InicializaTuneis(*nivel, tuneis);                     /* inicializa os tuneis */
         InicializaItens(*opcoes, itens, comida, slower, faster, skip, mapa, tuneis, cobra);     /* inicializa os itens */
         InicializaCobra(&cobra, *opcoes, *nivel);             /* inicializa a cobra */
+        PegaDirecaoInicial(&cobra.direcao);                 /* pega direcao inicial */
         do{ /* === LOOP DA MOVIMENTACAO E DA INTERACAO === */
             /* Imprime os placares atualizados */
             AtualizaInfo(*jogador, *nivel, cobra, *opcoes);

@@ -262,3 +262,24 @@ void TempoDeEspera(int velocidade){
   int tempo = 1000/velocidade;
   Sleep(tempo);
 }
+
+int PegaDirecaoInicial(int *dir){
+      char dir_inicial;
+      do{
+            dir_inicial = getch();
+            if(dir_inicial == -32)
+                  dir_inicial = getch();
+      }while(dir_inicial != ASCII_UP && dir_inicial != ASCII_DOWN && dir_inicial != ASCII_RIGHT);
+      switch(dir_inicial){
+            case ASCII_UP:
+                  *dir = UP;
+                  break;
+            case ASCII_DOWN:
+                  *dir = DOWN;
+                  break;
+            case ASCII_RIGHT:
+                  *dir = RIGHT;
+                  break;
+      }
+
+}
